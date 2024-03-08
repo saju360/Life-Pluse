@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/group1">
+
+        <item
+            android:id="@+id/profileId"
+            android:checkable="true"
+            android:icon="@drawable/baseline_profile"
+            android:title="@string/profile" />
+
+        <item
+            android:id="@+id/healthId"
+            android:checkable="true"
+            android:icon="@drawable/health_icon"
+            android:title="@string/health" />
+
+        <item
+            android:id="@+id/shareAppId"
+            android:checkable="true"
+            android:icon="@drawable/share_icon"
+            android:title="@string/shareapps" />
+
+        <item
+            android:id="@+id/aboutusId"
+            android:checkable="true"
+            android:icon="@drawable/about_us"
+            android:title="@string/aboutus" />
+
+        <item
+            android:id="@+id/rateBtnId"
+            android:checkable="true"
+            android:icon="@drawable/rate_us"
+            android:title="@string/rateus" />
+
+
+        <item
+            android:id="@+id/menu_custom_item"
+            android:title=""
+            app:actionLayout="@layout/custom_navigation_footer_layout" />
+
+    </group>
+
+
+</menu>

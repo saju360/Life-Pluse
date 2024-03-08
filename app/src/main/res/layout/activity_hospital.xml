@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activity.Hospital">
+
+
+    <include layout="@layout/material_toolbar_layout"/>
+
+    <include layout="@layout/custom_search_view"/>
+
+
+
+    <!-- recyclearview start frome here-->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclearViewId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <!-- recyclearview end frome here-->
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

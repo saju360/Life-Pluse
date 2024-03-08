@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".fragment.DashBoard">
+
+
+        <LinearLayout
+            android:id="@+id/marqueeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/noticeText"
+                android:layout_width="65dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/toolbar_bg_style_2"
+                android:fontFamily="@font/aclonica"
+                android:gravity="center"
+                android:text="Notice"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/marqueeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/aldrich"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="Your Marquee Text Goes Here"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_below="@id/marqueeLayout"
+            android:id="@+id/SlidercardviewLayoutId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp">
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/image_slider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:iss_auto_cycle="true"
+                app:iss_delay="0"
+                app:iss_error_image="@drawable/ic_launcher_background"
+                app:iss_period="1000"
+                app:iss_placeholder="@drawable/ic_launcher_foreground" />
+
+
+        </androidx.cardview.widget.CardView>
+
+    <GridView
+        android:id="@+id/gridviewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SlidercardviewLayoutId"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:verticalSpacing="8dp" />
+
+
+
+</RelativeLayout>

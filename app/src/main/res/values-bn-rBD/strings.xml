@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">লাইফ প্লাস</string>
+
+    <string name="profile">প্রোফাইল</string>
+    <string name="health">স্বাস্থ্য পরামর্শ</string>
+    <string name="shareapps">অ্যাপ শেয়ার</string>
+    <string name="aboutus">আমাদের সর্ম্পকে</string>
+    <string name="rateus">আপনার মতামত</string>
+    <string name="language">ভাষা</string>
+    <string name="home">হোম</string>
+
+    <string name="search">অনুসন্ধান করুন</string>
+
+
+    <string-array name="division_array">
+        <item>ঢাকা বিভাগ</item>
+        <item>চট্টগ্রাম বিভাগ</item>
+        <item>রাজশাহী বিভাগ</item>
+        <item>রংপুর বিভাগ</item>
+        <item>খুলনা বিভাগ</item>
+        <item>সিলেট বিভাগ</item>
+        <item>বরিশাল বিভাগ</item>
+        <item>ময়মনসিংহ বিভাগ</item>
+        <item>অন্যন্য</item>
+    </string-array>
+
+
+    <string-array name="division_data">
+        <item>ঢাকা বিভাগ</item>
+        <item>চট্টগ্রাম বিভাগ</item>
+        <item>রাজশাহী বিভাগ</item>
+        <item>রংপুর বিভাগ</item>
+        <item>খুলনা বিভাগ</item>
+        <item>সিলেট বিভাগ</item>
+        <item>বরিশাল বিভাগ</item>
+        <item>ময়মনসিংহ বিভাগ</item>
+    </string-array>
+
+
+    <!-- blood post input field text  -->
+
+    <string name="title">জরুরি রক্ত দরকার</string>
+    <string name="bloodType">রক্তের গ্রুপ নির্ধারণ করুন</string>
+    <string name="date">রক্ত দানের তারিখ</string>
+    <string name="quantity">রক্তের পরিমান</string>
+    <string name="hospitalname">হসপিতালের নাম ও ঠিকানা</string>
+    <string name="division">আপনার বিভাগ নির্বাচন করুন</string>
+    <string name="divisionManuall">আপনার বিভাগের নাম লিখুন</string>
+    <string name="referance">রেফারেন্স নাম</string>
+    <string name="contactnumber">মোবাইল নাম্বার</string>
+    <string name="postBtn">পোস্ট করুন</string>
+    <string name="cancelBtn">বাতিল করুন</string>
+
+
+    <!---bloodGroup-->
+
+    <string-array name="bloodGroup">
+
+        <item>O+</item>
+        <item>O-</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+
+
+    </string-array>
+
+
+
+    <string name="lifesavetext">লাইভ সেইভ</string>
+    <string name="bloodtypetxt">রক্তের গ্রুপ</string>
+    <string name="donationstatustxt">রক্ত সামর্থ</string>
+
+
+    <string name="donatenowtxt">রক্ত দান করুন</string>
+    <string name="finddonarstxt">ডোনার খুজুন</string>
+    <string name="postforbloodtxt">পোস্ট করুন</string>
+
+
+</resources>

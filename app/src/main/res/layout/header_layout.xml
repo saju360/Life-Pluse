@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/header_bg"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:padding="10dp">
+
+    <Button
+        android:id="@+id/headerlogintBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:fontFamily="@font/aclonica"
+        android:elevation="20dp"
+        android:layout_margin="5dp"
+        android:textSize="12sp"
+        android:text="LogIn" />
+
+
+    <Button
+        android:id="@+id/headercreataccountBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:fontFamily="@font/aclonica"
+        android:elevation="20dp"
+        android:layout_margin="5dp"
+        android:textSize="12sp"
+        android:text="Create Account" />
+
+
+    <LinearLayout
+        android:id="@+id/header_profile_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/avatar"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="18dp">
+
+            <TextView
+                android:id="@+id/headernameId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/aclonica"
+                android:gravity="left"
+                android:text="Saju Khan"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/headeremailTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/aclonica"
+                android:gravity="center"
+                android:text="developer.bdboy"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    android:layout_margin="5dp"
+    android:backgroundTint="@color/cardview_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ShospitalImgId"
+            android:layout_width="80dp"
+            android:scaleType="fitCenter"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/onboarding_1" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/ShoNameId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Lab Aid"
+                android:textColor="@color/text_color"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/SHpimgButton"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/arrow_sample_style"
+                android:padding="5dp"
+                android:src="@drawable/baseline_arrow_forward" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">Life Pluse</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="Drawer_Open" translatable="false">Open Drawer</string>
+    <string name="Drawer_Close" translatable="false">Close Drawer</string>
+
+
+    <string name="profile">Profile</string>
+    <string name="health">Health Tips</string>
+    <string name="shareapps">Share App</string>
+    <string name="aboutus">About Us</string>
+    <string name="rateus">Rate Us</string>
+    <string name="language">Language</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+
+
+    <!-- divison name -->
+
+
+    <string-array name="division_array">
+        <item>Dhaka Division</item>
+        <item>Chattogram Division</item>
+        <item>Rajsahi Division</item>
+        <item>Rangpur Division</item>
+        <item>Khulna Division</item>
+        <item>Sylhet Division</item>
+        <item>Barishal Division</item>
+        <item>Mymensingh Division</item>
+        <item>Other</item>
+    </string-array>
+
+
+    <string-array name="division_data">
+        <item>Dhaka Division</item>
+        <item>Chattogram Division</item>
+        <item>Rajsahi Division</item>
+        <item>Rangpur Division</item>
+        <item>Khulna Division</item>
+        <item>Sylhet Division</item>
+        <item>Barishal Division</item>
+        <item>Mymensingh Division</item>
+    </string-array>
+
+    <!-- blood post input field text  -->
+
+    <string name="title">Urgent Blood Need*</string>
+    <string name="bloodType">Select Blood Group*</string>
+    <string name="date">Blood Donation Date*</string>
+    <string name="quantity">Blood Quantity*</string>
+    <string name="hospitalname">Hospital Name &amp; Address*</string>
+    <string name="division">Select your Division*</string>
+    <string name="divisionManuall">Enter Division Manually*</string>
+    <string name="referance">Referance Name*</string>
+    <string name="contactnumber">Contact Number*</string>
+    <string name="postBtn">Post Now</string>
+    <string name="cancelBtn">Cancel</string>
+
+
+    <!---bloodGroup-->
+
+
+    <string-array name="bloodGroup">
+
+        <item>O positive</item>
+        <item>O negative</item>
+        <item>A positive</item>
+        <item>A negative</item>
+        <item>B positive</item>
+        <item>B negative</item>
+        <item>AB positive</item>
+        <item>AB negative</item>
+
+    </string-array>
+
+
+    <!---bloodHomecard-->
+
+    <string name="lifesavetext">Life Save</string>
+    <string name="bloodtypetxt">Blood Type</string>
+    <string name="donationstatustxt">D.Status</string>
+    <string name="donatenowtxt">Donate Now</string>
+    <string name="finddonarstxt">Find Donors</string>
+    <string name="postforbloodtxt">Post for Blood</string>
+
+
+</resources>

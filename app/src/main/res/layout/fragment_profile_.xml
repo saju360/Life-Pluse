@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".fragment.Profile_Fragment">
+
+    <LinearLayout
+        android:id="@+id/locationtopLayout"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/blood_splashbg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight=".5"
+            android:src="@drawable/baseline_arrow_back" />
+
+        <LinearLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="2.5"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/logout_anim_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/exit_anim" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/profile_design_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:elevation="10dp"
+            android:src="@drawable/avatar"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+
+        <TextView
+            android:id="@+id/NametvId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_horizontal"
+            android:text="Name: Md Saju islam"
+            android:textColor="@color/text_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/acc_datetvId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_horizontal"
+            android:text="Joined: 07/03/2024"
+            android:textStyle="italic"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/blood_splashbg">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1.4"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Type:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AB+"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Donation:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10 time"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last Donation:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="07/03/2024"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date of Birth:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12/10/2000"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="National ID NO:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="123456789"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Occupation:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Student"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="District:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dhaka"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1.4"
+                        android:gravity="right"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile Number:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+8801817256502"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IC Color:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yellow"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gender:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Male"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Maritial Status:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unmarried"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Address:"
+                            android:textColor="#fff"
+                            android:fontFamily="@font/aclonica"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="255/B, Ahmed Nagar"
+                            android:textColor="#fff"
+                            android:layout_gravity="right"
+                            android:maxLines="1"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blood_splashbg"
+            android:text="Delete Account"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/aclonica"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/singin_layoutforprofile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/logintBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/aclonica"
+            android:elevation="20dp"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            android:text="LogIn" />
+
+
+        <Button
+            android:id="@+id/creataccountBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/aclonica"
+            android:elevation="20dp"
+            android:layout_margin="5dp"
+            android:textSize="12sp"
+            android:text="Create Account" />
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

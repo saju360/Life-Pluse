@@ -1,0 +1,50 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LifePluse" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="colorPrimary">@color/status_bar</item>
+    </style>
+
+    <style name="Theme.LifePluse" parent="Base.Theme.LifePluse" />
+
+
+    <style name="NavigationDrawerStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:listPreferredItemHeightSmall">40dp</item>
+        <item name="listPreferredItemHeightSmall">40dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+
+        <item name="android:listPreferredItemPaddingLeft">8dp</item>
+        <item name="listPreferredItemPaddingLeft">8dp</item>
+
+
+        <item name="android:listPreferredItemPaddingRight">8dp</item>
+        <item name="listPreferredItemPaddingRight">8dp</item>
+
+
+    </style>
+
+    <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custome_corners
+        </item>
+
+    </style>
+
+    <style name="ShapeAppearanceOverlay_card_custome_corners" parent="">
+
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+
+    </style>
+
+
+
+
+</resources>

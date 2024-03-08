@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_language"
+        android:title="Language"
+        android:icon="@drawable/english_icon"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_notificaton"
+        android:icon="@drawable/notification_icon"
+        android:iconTint="@color/white"
+        android:title="Language"
+        app:showAsAction="ifRoom" />
+
+    <!-- Add more items if needed -->
+</menu>

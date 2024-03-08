@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".fragment.Blood_Home_Fragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/topbarcardview"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/blood_splashbg"
+        app:cardElevation="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/locationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animationView"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/current_location" />
+
+
+                    <TextView
+                        android:id="@+id/locationTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/location_background"
+                        android:elevation="20sp"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="Loading location..."
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+
+                <ImageButton
+                    android:id="@+id/signup_bloodBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight=".5"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/baseline_profile" />
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/bloodneedTv"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@id/locationLayout"
+                app:cardBackgroundColor="@color/white">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/BloodNeedrecyclearview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/coundownview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bloodneedTv"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                app:isHideTimeBackground="false"
+                app:isShowDay="true"
+                app:isShowHour="true"
+                app:isShowMillisecond="false"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:isTimeTextBold="true"
+                app:suffixDay="d"
+                app:suffixGravity="bottom"
+                app:suffixHour="h"
+                app:suffixMillisecond="ms"
+                app:suffixMinute="m"
+                app:suffixSecond="s"
+                app:suffixTextColor="#FFFFFF"
+                app:suffixTextSize="20sp"
+                app:timeBgColor="@color/white"
+                app:timeTextColor="@color/black"
+                app:timeTextSize="32sp" />
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topbarcardview"
+        android:layout_marginBottom="80dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/userbloodaccountstatus"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                app:cardBackgroundColor="@color/card_background_color"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/life_save_icon" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:gravity="center_horizontal"
+                            android:text="0"
+                            android:textColor="#FF0000"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center_horizontal"
+                            android:text="@string/lifesavetext"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/blood_white_icon" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:gravity="center_horizontal"
+                            android:text="AB+"
+                            android:textColor="#FF0000"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center_horizontal"
+                            android:text="@string/bloodtypetxt"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/donation_status" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:gravity="center_horizontal"
+                            android:text="Not able"
+                            android:textColor="#FF0000"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center_horizontal"
+                            android:text="@string/donationstatustxt"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/donate_now_icon" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center"
+                            android:minLines="2"
+                            android:text="@string/donatenowtxt"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/search_icon" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center"
+                            android:minLines="2"
+                            android:text="@string/finddonarstxt"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:id="@+id/postfor_blood_btn"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/addbloodpost"
+                            android:layout_width="35dp"
+                            android:layout_height="50dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/add_animition" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:fontFamily="@font/aclonica"
+                            android:gravity="center"
+                            android:minLines="2"
+                            android:text="@string/postforbloodtxt"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/selectDivisionLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@color/white"
+                        android:hint="@string/division">
+
+
+                        <AutoCompleteTextView
+                            android:id="@+id/selectdivision"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none">
+
+
+                        </AutoCompleteTextView>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/bar_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

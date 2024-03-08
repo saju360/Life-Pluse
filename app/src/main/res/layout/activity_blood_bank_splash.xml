@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blood_splashbg"
+    tools:context=".activity.BloodBank_Splash">
+
+
+    <ImageView
+        android:id="@+id/blood_bg"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/blood_icon"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <LinearLayout
+        android:layout_below="@id/blood_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:padding="5dp"
+            android:text="Donate"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="30dp"
+            android:background="#ddd"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:fontFamily="@font/aclonica"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="30dp"
+            android:background="#ddd"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Community"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:fontFamily="@font/aclonica"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
