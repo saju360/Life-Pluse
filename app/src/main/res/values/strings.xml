@@ -52,7 +52,7 @@
     <string name="hospitalname">Hospital Name &amp; Address*</string>
     <string name="division">Select your Division*</string>
     <string name="divisionManuall">Enter Division Manually*</string>
-    <string name="referance">Referance Name*</string>
+    <string name="referance">Referance Name</string>
     <string name="contactnumber">Contact Number*</string>
     <string name="postBtn">Post Now</string>
     <string name="cancelBtn">Cancel</string>

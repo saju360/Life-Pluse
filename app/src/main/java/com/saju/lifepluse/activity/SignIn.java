@@ -1,12 +1,10 @@
 package com.saju.lifepluse.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,9 +16,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +35,7 @@ public class SignIn extends AppCompatActivity {
 
     TextInputEditText emailEd, passwordEd;
 
+    ImageView phone_login_btn;
     Button loginBtn;
     ProgressBar progressBar;
     TextView createAccountBtnTextView, forgetpasswordBtn;
@@ -48,18 +51,22 @@ public class SignIn extends AppCompatActivity {
         forgetpasswordBtn = findViewById(R.id.forgetpasswordId);
         loginBtn = findViewById(R.id.login_btn);
         progressBar = findViewById(R.id.progress_bar);
+        phone_login_btn = findViewById(R.id.phone_login_btn);
         createAccountBtnTextView = findViewById(R.id.create_account_text_view_btn);
 
         statusbarcolor();
 
         loginBtn.setOnClickListener((v) -> loginUser());
         createAccountBtnTextView.setOnClickListener((v) -> startActivity(new Intent(SignIn.this, SignUp.class)));
-        forgetpasswordBtn.setOnClickListener(v ->showForgotPasswordDialog());
+        forgetpasswordBtn.setOnClickListener(v -> showForgotPasswordDialog());
+        phone_login_btn.setOnClickListener(v -> startActivity(new Intent(SignIn.this, Phonenumber_SignIn.class)));
 
     }
+
     private void showForgotPasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Forgot Password");
+        builder.setCancelable(false);
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -106,7 +113,6 @@ public class SignIn extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     void loginUser() {

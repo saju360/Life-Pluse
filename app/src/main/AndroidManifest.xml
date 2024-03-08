@@ -17,6 +17,18 @@
         android:theme="@style/Theme.LifePluse"
         tools:targetApi="31">
         <activity
+            android:name=".activity.LoginUsernameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginPhoneNumberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Phonenumber_SignIn"
+            android:exported="false" />
+        <activity
             android:name=".activity.BloodNeed_Post"
             android:exported="false" />
         <activity
