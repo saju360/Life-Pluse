@@ -156,6 +156,13 @@ public class DrawerLayout extends AppCompatActivity {
                     fragmentTransaction.commit();
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
+                } else if (item.getItemId() == R.id.logout_Id) {
+
+                    FirebaseAuth.getInstance().signOut();
+                    updateUIAfterLogout();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+
+
                 } else if (item.getItemId() == R.id.rateBtnId) {
 
                     Context context = getApplicationContext();
@@ -194,6 +201,17 @@ public class DrawerLayout extends AppCompatActivity {
 
     } //==========================================Oncreate End================================//
 
+    private void updateUIAfterLogout() {
+        header_profile_layout.setVisibility(View.GONE);
+        loginBtn.setVisibility(View.VISIBLE);
+        createBtn.setVisibility(View.VISIBLE);
+        Profile_Fragment.profile_design_layout.setVisibility(View.GONE);
+        Profile_Fragment.singin_layoutforprofile.setVisibility(View.VISIBLE);
+        Profile_Fragment.logout_anim_btn.setVisibility(View.GONE);
+
+
+    }
+
     private void headerlayout(NavigationView navigationView) {
 
         View headerview = navigationView.getHeaderView(0);
@@ -228,7 +246,7 @@ public class DrawerLayout extends AppCompatActivity {
             createBtn.setVisibility(View.GONE);
             header_profile_layout.setVisibility(View.VISIBLE);
 
-            
+
 
         }
 

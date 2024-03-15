@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -170,13 +172,36 @@ public class BloodNeed_Post extends AppCompatActivity {
             }
         });
 
-        postNowButton.setOnClickListener(v -> validateAndPost());
+        postNowButton.setOnClickListener(v -> userconfirmation());
     }
 
     private void initializeFirestore() {
         db = FirebaseFirestore.getInstance();
     }
 
+    private void userconfirmation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm Post");
+        builder.setMessage("Please check your form carefully. After submission, you won't be able to edit the post.");
+        builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User confirmed, proceed to post
+                dialog.dismiss();
+                validateAndPost();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User canceled, do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    };
     private void validateAndPost() {
         bloodNeed = bloodNeedEditText.getText().toString();
         bloodgroup = selectbloodType.getText().toString();
@@ -298,8 +323,6 @@ public class BloodNeed_Post extends AppCompatActivity {
         // Show DatePickerDialog
         dateEditText.setOnClickListener(v -> datePickerDialog.show());
     }
-
-
 
 
 

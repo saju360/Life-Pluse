@@ -49,12 +49,12 @@
 
 
     <LinearLayout
-        android:layout_below="@id/locationtopLayout"
         android:id="@+id/profile_design_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_below="@id/locationtopLayout"
+        android:orientation="vertical"
+        android:visibility="gone">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -88,9 +88,9 @@
             android:fontFamily="@font/roboto"
             android:gravity="center_horizontal"
             android:text="Joined: 07/03/2024"
-            android:textStyle="italic"
             android:textColor="@color/text_color"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textStyle="italic" />
 
 
         <com.google.android.material.card.MaterialCardView
@@ -103,140 +103,139 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="3"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1.4"
                         android:layout_height="match_parent"
+                        android:layout_weight="1.4"
                         android:orientation="vertical">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Blood Type:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="AB+"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Total Donation:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="10 time"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Last Donation:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="07/03/2024"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Date of Birth:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="12/10/2000"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="National ID NO:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="123456789"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Occupation:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Student"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="District:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Dhaka"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
-
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -244,95 +243,95 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1.4"
                         android:gravity="right"
-                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Mobile Number:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="+8801817256502"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="IC Color:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Yellow"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Gender:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Male"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Maritial Status:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
                             android:text="Unmarried"
                             android:textColor="#fff"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Address:"
                             android:textColor="#fff"
-                            android:fontFamily="@font/aclonica"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:fontFamily="@font/roboto"
+                            android:maxLines="1"
                             android:text="255/B, Ahmed Nagar"
                             android:textColor="#fff"
-                            android:layout_gravity="right"
-                            android:maxLines="1"
-                            android:fontFamily="@font/roboto"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -340,11 +339,7 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
-
-
-
 
 
         </com.google.android.material.card.MaterialCardView>
@@ -358,42 +353,40 @@
             android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/changepassword_btnId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:backgroundTint="@color/blood_splashbg"
+                android:fontFamily="@font/aclonica"
                 android:text="Change Password"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:layout_margin="8dp"
-                android:fontFamily="@font/aclonica"
-
+                android:visibility="gone"
                 />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteaccountBtn_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:backgroundTint="@color/blood_splashbg"
+                android:fontFamily="@font/aclonica"
                 android:text="Delete Account"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:layout_margin="8dp"
-                android:fontFamily="@font/aclonica"
-                />
+                android:textSize="14sp" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>
 
 
-
-
     <LinearLayout
-        android:layout_below="@id/locationtopLayout"
         android:id="@+id/singin_layoutforprofile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/locationtopLayout"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -402,32 +395,28 @@
             android:id="@+id/logintBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/red"
-            android:fontFamily="@font/aclonica"
-            android:elevation="20dp"
             android:layout_margin="5dp"
-            android:textSize="12sp"
-            android:text="LogIn" />
+            android:backgroundTint="@color/red"
+            android:elevation="20dp"
+            android:fontFamily="@font/aclonica"
+            android:text="LogIn"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/creataccountBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/red"
-            android:fontFamily="@font/aclonica"
-            android:elevation="20dp"
             android:layout_margin="5dp"
-            android:textSize="12sp"
-            android:text="Create Account" />
+            android:backgroundTint="@color/red"
+            android:elevation="20dp"
+            android:fontFamily="@font/aclonica"
+            android:text="Create Account"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
     </LinearLayout>
-
-
-
-
 
 
 </RelativeLayout>

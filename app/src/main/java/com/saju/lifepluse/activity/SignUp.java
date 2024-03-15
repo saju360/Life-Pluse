@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,9 @@ public class SignUp extends AppCompatActivity {
     TextView loginBtnTextView;
     FirebaseFirestore database;
     NormalUser user;
+    CheckBox termscondition;
+
+    ImageView phone_signup_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class SignUp extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         createAccountBtn = findViewById(R.id.create_account_btn);
         loginBtnTextView = findViewById(R.id.login_text_view_btn);
+        phone_signup_btn = findViewById(R.id.phone_signup_btn);
+        termscondition = findViewById(R.id.termconditionCheckboxId);
+
         database = FirebaseFirestore.getInstance();
 
         statusbarcolor();
@@ -54,6 +62,7 @@ public class SignUp extends AppCompatActivity {
         createAccountBtn.setOnClickListener(v -> createAccount());
         loginBtnTextView.setOnClickListener(v -> startActivity(new Intent(SignUp.this, SignIn.class)));
 
+        phone_signup_btn.setOnClickListener(v -> startActivity(new Intent(SignUp.this, Phonenumber_SignIn.class)));
 
     }
 
@@ -63,6 +72,11 @@ public class SignUp extends AppCompatActivity {
         String email = emailEd.getText().toString();
         String password = passwordEd.getText().toString();
         String confirmPassword = confirempasswordEd.getText().toString();
+
+        if (!termscondition.isChecked()) {
+            Toast.makeText(this, "Please agree to the terms and conditions", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         boolean isValidated = validateData(name, email, password, confirmPassword);
         if (!isValidated) {

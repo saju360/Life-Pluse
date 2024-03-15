@@ -22,11 +22,6 @@
             android:icon="@drawable/share_icon"
             android:title="@string/shareapps" />
 
-        <item
-            android:id="@+id/aboutusId"
-            android:checkable="true"
-            android:icon="@drawable/about_us"
-            android:title="@string/aboutus" />
 
         <item
             android:id="@+id/rateBtnId"
@@ -34,6 +29,18 @@
             android:icon="@drawable/rate_us"
             android:title="@string/rateus" />
 
+        <item
+            android:id="@+id/aboutusId"
+            android:checkable="true"
+            android:icon="@drawable/about_us"
+            android:title="@string/aboutus" />
+
+
+        <item
+            android:id="@+id/logout_Id"
+            android:checkable="true"
+            android:icon="@drawable/logout_icon"
+            android:title="@string/logouttxt" />
 
         <item
             android:id="@+id/menu_custom_item"

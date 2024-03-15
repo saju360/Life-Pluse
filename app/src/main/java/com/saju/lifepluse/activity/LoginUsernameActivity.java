@@ -1,6 +1,7 @@
 package com.saju.lifepluse.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.fragment.Profile_Fragment;
 import com.saju.lifepluse.modelclass.UserModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
@@ -37,6 +39,10 @@ public class LoginUsernameActivity extends AppCompatActivity {
         usernameInput = findViewById(R.id.login_username);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
         progressBar =findViewById(R.id.login_progress_bar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.blood_splashbg));
+        }
 
         phoneNumber = getIntent().getExtras().getString("phone");
         getUsername();

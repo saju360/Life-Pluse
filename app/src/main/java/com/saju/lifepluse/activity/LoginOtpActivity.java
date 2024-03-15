@@ -1,6 +1,7 @@
 package com.saju.lifepluse.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,6 +53,10 @@ public class LoginOtpActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.login_progress_bar);
         resendOtpTextView = findViewById(R.id.resend_otp_textview);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.blood_splashbg));
+        }
+
         phoneNumber = getIntent().getExtras().getString("phone");
 
         sendOtp(phoneNumber,false);
@@ -61,6 +66,7 @@ public class LoginOtpActivity extends AppCompatActivity {
             PhoneAuthCredential credential =  PhoneAuthProvider.getCredential(verificationCode,enteredOtp);
             signIn(credential);
         });
+
 
         resendOtpTextView.setOnClickListener((v)->{
             sendOtp(phoneNumber,true);

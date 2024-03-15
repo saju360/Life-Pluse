@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -39,6 +40,7 @@ public class SignIn extends AppCompatActivity {
     Button loginBtn;
     ProgressBar progressBar;
     TextView createAccountBtnTextView, forgetpasswordBtn;
+    CheckBox termscondition;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -53,8 +55,11 @@ public class SignIn extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         phone_login_btn = findViewById(R.id.phone_login_btn);
         createAccountBtnTextView = findViewById(R.id.create_account_text_view_btn);
+        termscondition = findViewById(R.id.termconditionCheckboxId);
 
         statusbarcolor();
+
+
 
         loginBtn.setOnClickListener((v) -> loginUser());
         createAccountBtnTextView.setOnClickListener((v) -> startActivity(new Intent(SignIn.this, SignUp.class)));
@@ -119,6 +124,11 @@ public class SignIn extends AppCompatActivity {
         String email = emailEd.getText().toString();
         String password = passwordEd.getText().toString();
 
+        // Check if terms and conditions checkbox is checked
+        if (!termscondition.isChecked()) {
+            Toast.makeText(this, "Please agree to the terms and conditions", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         boolean isValidated = validateData(email, password);
         if (!isValidated) {
@@ -126,8 +136,8 @@ public class SignIn extends AppCompatActivity {
         }
 
         loginAccountInFirebase(email, password);
-
     }
+
 
     void loginAccountInFirebase(String email, String password) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

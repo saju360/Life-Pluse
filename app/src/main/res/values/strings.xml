@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Life Pluse</string>
+    <string name="app_name">Amar Doctor</string>
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="Drawer_Open" translatable="false">Open Drawer</string>
@@ -10,6 +10,7 @@
     <string name="health">Health Tips</string>
     <string name="shareapps">Share App</string>
     <string name="aboutus">About Us</string>
+    <string name="logouttxt">Logout</string>
     <string name="rateus">Rate Us</string>
     <string name="language">Language</string>
     <string name="search">Search</string>
@@ -84,5 +85,45 @@
     <string name="finddonarstxt">Find Donors</string>
     <string name="postforbloodtxt">Post for Blood</string>
 
+    <!---terms & condition-->
+
+    <string name="checkbox_singintext">I have read and agree to the Terms &amp; Conditions</string>
+
+
+
+    <!---Doner Form title Text-->
+
+    <string name="form_title">Personal Details</string>
+
+
+    <!---Doner Form Text-->
+    <string name="name">Full Name <b>*</b></string>
+    <string name="gender">Gender <b>*</b></string>
+    <string name="dob">Date of Birth <b>*</b></string>
+    <string name="male">Male</string>
+    <string name="Female">Female</string>
+    <string name="bloodtype">Bloode Type <b>*</b></string>
+    <string name="marritial_status">Marital Status <b>*</b></string>
+    <string name="address">Address (Optional)</string>
+    <string name="identification_type">Identification Type <b>*</b></string>
+    <string name="nid">National ID</string>
+    <string name="passport">Passport</string>
+    <string name="nationality">Nationality <b>*</b></string>
+    <string name="nationality_txt">Select your Country <b>*</b></string>
+    <string name="mobile">Mobile <b>*</b></string>
+    <string name="district">District <b>*</b></string>
+    <string name="firsttimedonate">First time Donate? <b>*</b></string>
+    <string name="firsttimedonate_yes">Yes</string>
+    <string name="firsttimedonate_no">No</string>
+
+    <string name="o_positive">O positive</string>
+    <string name="o_negative">O negative</string>
+    <string name="a_positive">A positive</string>
+    <string name="a_negative">A negative</string>
+    <string name="b_positive">B positive</string>
+    <string name="b_negative">B negative</string>
+    <string name="ab_positive">AB positive</string>
+    <string name="ab_negative">AB negative</string>
+    <string name="unknow">Unknown</string>
 
 </resources>

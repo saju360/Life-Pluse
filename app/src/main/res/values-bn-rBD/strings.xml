@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">লাইফ প্লাস</string>
+    <string name="app_name">আমার ডক্টর</string>
 
     <string name="profile">প্রোফাইল</string>
     <string name="health">স্বাস্থ্য পরামর্শ</string>
@@ -9,6 +9,7 @@
     <string name="rateus">আপনার মতামত</string>
     <string name="language">ভাষা</string>
     <string name="home">হোম</string>
+    <string name="logouttxt">লগ আউট</string>
 
     <string name="search">অনুসন্ধান করুন</string>
 
@@ -70,7 +71,6 @@
     </string-array>
 
 
-
     <string name="lifesavetext">লাইভ সেইভ</string>
     <string name="bloodtypetxt">রক্তের গ্রুপ</string>
     <string name="donationstatustxt">রক্ত সামর্থ</string>
@@ -80,5 +80,46 @@
     <string name="finddonarstxt">ডোনার খুজুন</string>
     <string name="postforbloodtxt">পোস্ট করুন</string>
 
+    <!---terms & condition-->
+
+    <string name="checkbox_singintext">আমি শর্তাবলী পড়েছি এবং এতে সম্মতি প্রকাশ করতেছি</string>
+
+
+    <!---Doner Form title Text-->
+
+    <string name="form_title">ব্যাক্তিগত তথ্য</string>
+
+
+
+    <!---Doner Form  Text-->
+    <string name="name">পুরো নাম <b>*</b></string>
+    <string name="gender">লিঙ্গ <b>*</b></string>
+    <string name="dob">জন্মতারিখ <b>*</b></string>
+    <string name="male">পুরুষ</string>
+    <string name="Female">মহিলা</string>
+    <string name="bloodtype">রক্তের গ্রুপ <b>*</b></string>
+    <string name="marritial_status">বৈবাহিক অবস্থা <b>*</b></string>
+    <string name="address">আপনার ঠিকানা (ঐচ্ছিক)</string>
+    <string name="identification_type">সনাক্তকরণ পত্র <b>*</b></string>
+    <string name="nid">জাতীয় পরিচয়পত্র</string>
+    <string name="passport">Passport</string>
+    <string name="nationality">জাতীয়তা <b>*</b></string>
+    <string name="nationality_txt">আপনার দেশ নির্বাচন করুন <b>*</b></string>
+    <string name="mobile">মোবাইল <b>*</b></string>
+    <string name="district">জেলা <b>*</b></string>
+    <string name="firsttimedonate">প্রথমবার রক্ত দিচ্ছেন কি? <b>*</b></string>
+    <string name="firsttimedonate_yes">হ্যা</string>
+    <string name="firsttimedonate_no">না</string>
+
+
+    <string name="o_positive">O+</string>
+    <string name="o_negative">O-</string>
+    <string name="a_positive">A+</string>
+    <string name="a_negative">A-</string>
+    <string name="b_positive">B+</string>
+    <string name="b_negative">B-</string>
+    <string name="ab_positive">AB+</string>
+    <string name="ab_negative">AB-</string>
+    <string name="unknow">জানা নেই</string>
 
 </resources>

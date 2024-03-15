@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodNeed_Post;
+import com.saju.lifepluse.activity.Blood_Donation_Registration;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.adapter.BloodHomeAdapter;
@@ -55,7 +57,7 @@ public class Blood_Home_Fragment extends Fragment {
 
     TextView locationTextView;
     ImageButton signup_bloodBtn;
-    MaterialCardView postfor_blood_btn;
+    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus;
     String currentLocation, selecteddivision;
     RecyclerView bloodRecyclear;
     AutoCompleteTextView division;
@@ -67,6 +69,7 @@ public class Blood_Home_Fragment extends Fragment {
     Handler handler;
 
     private BarChart barChart;
+    FirebaseUser currentUser;
 
 
     @SuppressLint("MissingInflatedId")
@@ -81,6 +84,9 @@ public class Blood_Home_Fragment extends Fragment {
         barChart = myview.findViewById(R.id.bar_chart);
         signup_bloodBtn = myview.findViewById(R.id.signup_bloodBtn);
         postfor_blood_btn = myview.findViewById(R.id.postfor_blood_btn);
+        donateNowBtn = myview.findViewById(R.id.donateNowBtn);
+        userbloodaccountstatus = myview.findViewById(R.id.userbloodaccountstatus);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();
 
@@ -98,6 +104,7 @@ public class Blood_Home_Fragment extends Fragment {
         handler = new Handler(Looper.getMainLooper());
 
         barChartMethod();
+        checkuserAuth();
 
         // Display current division data by default in the chart
         if (current_division != null && !current_division.isEmpty()) {
@@ -157,7 +164,6 @@ public class Blood_Home_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (currentUser == null) {
                     startActivity(new Intent(getContext(), SignIn.class));
                 } else {
@@ -165,9 +171,31 @@ public class Blood_Home_Fragment extends Fragment {
                 }
             }
         });
+        donateNowBtn.setOnClickListener(v -> {
+
+            if (currentUser == null) {
+                Toast.makeText(getContext(), "Please SignIn First", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), SignIn.class));
+            } else {
+                startActivity(new Intent(getContext(), Blood_Donation_Registration.class));
+            }
+
+        });
 
 
         return myview;
+    }
+
+    private void checkuserAuth() {
+
+
+        if (currentUser == null) {
+            userbloodaccountstatus.setVisibility(View.GONE);
+        } else {
+            userbloodaccountstatus.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
     private void barChartMethod() {

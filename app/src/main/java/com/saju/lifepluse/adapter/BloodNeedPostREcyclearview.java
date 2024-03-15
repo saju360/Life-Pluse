@@ -33,12 +33,8 @@ import java.util.Locale;
 public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPostREcyclearview.BloodNeedHolder> {
 
     Context getcontext;
-
     ArrayList<BloodNeedPostModel> bloodpostData;
-
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     public BloodNeedPostREcyclearview(Context context, ArrayList<BloodNeedPostModel> bloodpostData) {
         this.bloodpostData = bloodpostData;
@@ -53,54 +49,7 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
 
     @Override
     public void onBindViewHolder(@NonNull BloodNeedHolder holder, int position) {
-        holder.title.setText(bloodpostData.get(position).getBloodNeed());
-        holder.dontaionDate.setText("Donation Date: " + bloodpostData.get(position).getDate());
-        holder.bloodTypeId.setText("Blood Group: " + bloodpostData.get(position).getBloodgroup());
-        holder.bloodQtyId.setText("Blood Quantity: " + bloodpostData.get(position).getBloodQty() + " Bag");
-        holder.hospitalNameId.setText("Hospital: " + bloodpostData.get(position).getHospital());
-        holder.referenceNameId.setText("Reference: " + bloodpostData.get(position).getReference());
-        String contactNumber = bloodpostData.get(position).getContact();
-
-        String postTime = bloodpostData.get(position).getCurrentTime();
-        long timeAgoMillis = getTimeDifferenceInMillis(postTime);
-        String timeAgo = getTimeAgoString(timeAgoMillis);
-        holder.postTimeTextView.setText("Posted: " + timeAgo);
-
-
-        FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentuser==null){
-            holder.callAnimationId.setVisibility(View.GONE);
-        }else {
-            holder.callAnimationId.setVisibility(View.VISIBLE);
-        }
-
-        holder.callAnimationId.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(contactNumber)) {
-                    // If contact number is not empty, initiate a phone call
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + contactNumber));
-                    getcontext.startActivity(intent);
-                } else {
-                    // If contact number is empty, display a toast indicating that the number is not available
-                    Toast.makeText(getcontext, "Contact number not available", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-        String donationDate = bloodpostData.get(position).getDate();
-        if (isDonationDateOneDayAfter(donationDate)) {
-            // Hide the item view
-            //holder.itemView.setVisibility(View.GONE);
-            deleteDataFromFirestore(position);
-            return;
-        }
-
-        // If the donation date is not one day ahead of the current date, show the item view
-        //holder.itemView.setVisibility(View.VISIBLE);
-
+        holder.bindData(position);
     }
 
     @Override
@@ -124,6 +73,48 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
             referenceNameId = itemView.findViewById(R.id.referenceNameId);
             callAnimationId = itemView.findViewById(R.id.callAnimationId);
         }
+
+        public void bindData(int position) {
+            BloodNeedPostModel model = bloodpostData.get(position);
+            title.setText(model.getBloodNeed());
+            dontaionDate.setText("Donation Date: " + model.getDate());
+            bloodTypeId.setText("Blood Group: " + model.getBloodgroup());
+            bloodQtyId.setText("Blood Quantity: " + model.getBloodQty() + " Bag");
+            hospitalNameId.setText("Hospital: " + model.getHospital());
+            referenceNameId.setText("Reference: " + model.getReference());
+
+            String postTime = model.getCurrentTime();
+            long timeAgoMillis = getTimeDifferenceInMillis(postTime);
+            String timeAgo = getTimeAgoString(timeAgoMillis);
+            postTimeTextView.setText("Posted: " + timeAgo);
+
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null) {
+                callAnimationId.setVisibility(View.GONE);
+            } else {
+                callAnimationId.setVisibility(View.VISIBLE);
+            }
+
+            String contactNumber = model.getContact();
+            callAnimationId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(contactNumber)) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + contactNumber));
+                        getcontext.startActivity(intent);
+                    } else {
+                        Toast.makeText(getcontext, "Contact number not available", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            String donationDate = model.getDate();
+            if (isDonationDateOneDayAfter(donationDate)) {
+                deleteDataFromFirestore(position);
+                return;
+            }
+        }
     }
 
     private long getTimeDifferenceInMillis(String postTime) {
@@ -138,7 +129,6 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
         return 0;
     }
 
-    // Method to format time difference as "x minutes ago", "x hours ago", etc.
     private String getTimeAgoString(long millis) {
         if (millis < 0) {
             return "Future";
@@ -160,7 +150,6 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
         }
     }
 
-    //============================auto delete data from firestore
     private boolean isDonationDateOneDayAfter(String donationDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
@@ -171,12 +160,11 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
             Date oneDayAfterDonation = cal.getTime();
             Date currentDate = new Date(); // Current date
 
-            // Convert both dates to "yyyy-MM-dd" format for proper comparison
             SimpleDateFormat sdfComparison = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             String strOneDayAfterDonation = sdfComparison.format(oneDayAfterDonation);
             String strCurrentDate = sdfComparison.format(currentDate);
 
-            return strCurrentDate.compareTo(strOneDayAfterDonation) >= 0; // Check if current date is after or equals one day after donation date
+            return strCurrentDate.compareTo(strOneDayAfterDonation) >= 0;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -193,25 +181,25 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
                         @Override
                         public void onSuccess(Void aVoid) {
                             // Document successfully deleted
-                            Toast.makeText(getcontext, "Data deleted successfully", Toast.LENGTH_SHORT).show();
                             bloodpostData.remove(position);
                             notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, bloodpostData.size());
-
+                            
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Handle any errors
-                            Toast.makeText(getcontext, "Failed to delete data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Handle deletion failure
                             Log.e("Firestore", "Error deleting document", e);
+                            if (getcontext != null) {
+                                Toast.makeText(getcontext, "Failed to delete data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
         } else {
+            // Document ID is null, handle the case gracefully
             Toast.makeText(getcontext, "Document ID is null", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

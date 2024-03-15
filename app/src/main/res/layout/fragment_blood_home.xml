@@ -281,6 +281,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    android:id="@+id/donateNowBtn"
                     android:layout_weight="1"
                     android:padding="5dp"
                     app:cardBackgroundColor="@color/white"

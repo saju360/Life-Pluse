@@ -137,11 +137,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <CheckBox
+            android:id="@+id/termconditionCheckboxId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/checkbox_singintext"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/create_account_btn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
             android:backgroundTint="@color/blood_splashbg"
             android:fontFamily="@font/aclonica"
             android:text="Create Account"
@@ -165,7 +172,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/form_layout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -185,34 +192,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/createaccount_txt"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/aclonica"
-            android:text="O"
-            android:textColor="@color/red"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/aclonica"
-            android:text="R"
-            android:textColor="@color/status_bar"
-            android:textSize="20sp" />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/socialicons"

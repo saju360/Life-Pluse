@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.Blood_Donation_Registration">
+
+    <LinearLayout
+        android:id="@+id/locationtopLayout"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/blood_splashbg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight=".5"
+            android:src="@drawable/baseline_arrow_back" />
+
+        <LinearLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="2.5"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/location_background"
+                android:elevation="20sp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Loading location..."
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/current_location" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/locationtopLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/blood_splashbg"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/alfa_slab_one"
+                        android:text="@string/form_title"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="15dp"
+
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/name"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_text_rounded_corner"
+                                    android:inputType="textPersonName"
+                                    android:padding="8dp" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/gender"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/male"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/Female"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:hint="@string/dob">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/dateTextInputLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="false"
+                                    android:inputType="date" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/bloodtype"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/o_positive"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/o_negative"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/a_positive"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/a_negative"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/b_positive"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/b_negative"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/ab_positive"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/ab_negative"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="@string/unknow"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/marritial_status"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="Single"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="Married"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="Divorced"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="8dp"
+                                            android:layout_weight="1.5"
+                                            app:cardBackgroundColor="@color/view_bg"
+                                            app:cardCornerRadius="10dp"
+                                            app:cardElevation="5dp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="5dp"
+                                                android:fontFamily="@font/alata"
+                                                android:gravity="center_horizontal"
+                                                android:text="Widowed"
+                                                android:textColor="@color/black"
+                                                android:textSize="17sp" />
+
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/address"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_text_rounded_corner"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/identification_type"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/nid"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/passport"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_text_rounded_corner"
+                                    android:inputType="text"
+                                    android:padding="8dp" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/nationality"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:hint="@string/nationality_txt">
+
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/selectcountry"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="none"></AutoCompleteTextView>
+
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/mobile"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/edit_text_rounded_corner"
+                                    android:inputType="phone"
+                                    android:padding="8dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/district"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:hint="@string/division">
+
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/selectdivision"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="none"></AutoCompleteTextView>
+
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/firsttimedonate"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/firsttimedonate_yes"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="8dp"
+                                        android:layout_weight="1.5"
+                                        app:cardBackgroundColor="@color/view_bg"
+                                        app:cardCornerRadius="10dp"
+                                        app:cardElevation="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:fontFamily="@font/alata"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/firsttimedonate_no"
+                                            android:textColor="@color/black"
+                                            android:textSize="17sp" />
+
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="25dp"
+                                android:text="Register"
+                                android:textSize="18sp" />
+
+
+                        </LinearLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
