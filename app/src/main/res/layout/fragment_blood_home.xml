@@ -84,6 +84,22 @@
                 android:layout_below="@id/locationLayout"
                 app:cardBackgroundColor="@color/white">
 
+
+
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/empty_anim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:lottie_autoPlay="true"
+                    android:layout_centerVertical="true"
+                    android:layout_below="@id/topbarLayout"
+                    android:layout_centerHorizontal="true"
+                    app:lottie_loop="true"
+                    android:visibility="gone"
+                    app:lottie_rawRes="@raw/empty_animation" />
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/BloodNeedrecyclearview"
                     android:layout_width="match_parent"
@@ -418,7 +434,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:background="@color/white"
+                        app:boxStrokeColor="@color/black"
+                        app:hintTextColor="@color/simple_grey"
                         android:hint="@string/division">
 
 
@@ -426,6 +443,7 @@
                             android:id="@+id/selectdivision"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:inputType="none">
 
 

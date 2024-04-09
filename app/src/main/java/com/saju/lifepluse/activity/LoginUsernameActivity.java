@@ -8,20 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.saju.lifepluse.R;
-import com.saju.lifepluse.fragment.Profile_Fragment;
-import com.saju.lifepluse.modelclass.UserModel;
+import com.saju.lifepluse.modelclass.PhoneAuthModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 public class LoginUsernameActivity extends AppCompatActivity {
@@ -30,7 +25,9 @@ public class LoginUsernameActivity extends AppCompatActivity {
     Button letMeInBtn;
     ProgressBar progressBar;
     String phoneNumber;
-    UserModel userModel;
+    PhoneAuthModel phoneAuthModel;
+    boolean isform_filled = false;
+    boolean isform_notfilled = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +59,13 @@ public class LoginUsernameActivity extends AppCompatActivity {
             return;
         }
         setInProgress(true);
-        if(userModel!=null){
-            userModel.setUsername(username);
+        if(phoneAuthModel !=null){
+            phoneAuthModel.setUsername(username);
         }else{
-            userModel = new UserModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId());
+            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled);
         }
 
-        FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 setInProgress(false);
@@ -89,9 +86,9 @@ public class LoginUsernameActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 setInProgress(false);
                 if(task.isSuccessful()){
-                    userModel =    task.getResult().toObject(UserModel.class);
-                    if(userModel!=null){
-                        usernameInput.setText(userModel.getUsername());
+                    phoneAuthModel =    task.getResult().toObject(PhoneAuthModel.class);
+                    if(phoneAuthModel !=null){
+                        usernameInput.setText(phoneAuthModel.getUsername());
                     }
                 }
             }

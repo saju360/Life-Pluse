@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="100"
+    android:padding="20dp"
+    android:background="@color/white"
     tools:context=".activity.LoginUsernameActivity">
 
     <LinearLayout
@@ -114,6 +115,7 @@
             android:id="@+id/login_let_me_in_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:backgroundTint="@color/blood_splashbg"
             android:text="Let me in" />
 

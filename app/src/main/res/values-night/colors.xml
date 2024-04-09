@@ -3,7 +3,7 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-
+    <color name="simple_grey">#A8A3A3</color>
     <color name="status_bar">#018E85</color>
     <color name="colorBadge">#F44336</color>
     <color name="text_color">#000</color>

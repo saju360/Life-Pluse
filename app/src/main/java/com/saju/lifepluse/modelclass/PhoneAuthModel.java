@@ -2,22 +2,27 @@ package com.saju.lifepluse.modelclass;
 
 import com.google.firebase.Timestamp;
 
-public class UserModel {
+public class PhoneAuthModel {
     private String phone;
     private String username;
     private Timestamp createdTimestamp;
     private String userId;
-    private String fcmToken;
 
-    public UserModel() {
+    boolean isform_filled = false;
+    boolean isform_notfilled = true;
+
+    public PhoneAuthModel() {
     }
 
-    public UserModel(String phone, String username, Timestamp createdTimestamp, String userId) {
+    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled) {
         this.phone = phone;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
+        this.isform_filled = isform_filled;
+        this.isform_notfilled = isform_notfilled;
     }
+
 
     public String getPhone() {
         return phone;
@@ -51,11 +56,19 @@ public class UserModel {
         this.userId = userId;
     }
 
-    public String getFcmToken() {
-        return fcmToken;
+    public boolean isIsform_filled() {
+        return isform_filled;
     }
 
-    public void setFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
+    public void setIsform_filled(boolean isform_filled) {
+        this.isform_filled = isform_filled;
+    }
+
+    public boolean isIsform_notfilled() {
+        return isform_notfilled;
+    }
+
+    public void setIsform_notfilled(boolean isform_notfilled) {
+        this.isform_notfilled = isform_notfilled;
     }
 }

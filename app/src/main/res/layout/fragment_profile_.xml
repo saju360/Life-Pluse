@@ -129,6 +129,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/bloodType_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -180,6 +181,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/dateofbirth_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -189,6 +191,7 @@
 
 
                         <TextView
+                            android:id="@+id/identification_type_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/aclonica"
@@ -197,6 +200,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/identification_number_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -230,6 +234,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/district_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"

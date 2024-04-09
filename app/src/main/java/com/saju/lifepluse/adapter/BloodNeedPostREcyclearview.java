@@ -1,8 +1,13 @@
 package com.saju.lifepluse.adapter;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -19,8 +25,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.ParseException;
@@ -34,7 +43,7 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
 
     Context getcontext;
     ArrayList<BloodNeedPostModel> bloodpostData;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     public BloodNeedPostREcyclearview(Context context, ArrayList<BloodNeedPostModel> bloodpostData) {
         this.bloodpostData = bloodpostData;
@@ -76,45 +85,48 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
 
         public void bindData(int position) {
             BloodNeedPostModel model = bloodpostData.get(position);
-            title.setText(model.getBloodNeed());
-            dontaionDate.setText("Donation Date: " + model.getDate());
-            bloodTypeId.setText("Blood Group: " + model.getBloodgroup());
-            bloodQtyId.setText("Blood Quantity: " + model.getBloodQty() + " Bag");
-            hospitalNameId.setText("Hospital: " + model.getHospital());
-            referenceNameId.setText("Reference: " + model.getReference());
-
-            String postTime = model.getCurrentTime();
-            long timeAgoMillis = getTimeDifferenceInMillis(postTime);
-            String timeAgo = getTimeAgoString(timeAgoMillis);
-            postTimeTextView.setText("Posted: " + timeAgo);
-
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser == null) {
-                callAnimationId.setVisibility(View.GONE);
-            } else {
-                callAnimationId.setVisibility(View.VISIBLE);
-            }
-
-            String contactNumber = model.getContact();
-            callAnimationId.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(contactNumber)) {
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + contactNumber));
-                        getcontext.startActivity(intent);
-                    } else {
-                        Toast.makeText(getcontext, "Contact number not available", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
             String donationDate = model.getDate();
-            if (isDonationDateOneDayAfter(donationDate)) {
-                deleteDataFromFirestore(position);
-                return;
+
+            if (isDonationDateWithinLastTwoDays(donationDate)) {
+                title.setText(model.getBloodNeed());
+                dontaionDate.setText("Donation Date: " + model.getDate());
+                bloodTypeId.setText("Blood Group: " + model.getBloodgroup());
+                bloodQtyId.setText("Blood Quantity: " + model.getBloodQty() + " Bag");
+                hospitalNameId.setText("Hospital: " + model.getHospital());
+                referenceNameId.setText("Reference: " + model.getReference());
+
+                String postTime = model.getCurrentTime();
+                long timeAgoMillis = getTimeDifferenceInMillis(postTime);
+                String timeAgo = getTimeAgoString(timeAgoMillis);
+                postTimeTextView.setText("Posted: " + timeAgo);
+
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    callAnimationId.setVisibility(View.GONE);
+                } else {
+                    callAnimationId.setVisibility(View.VISIBLE);
+                }
+
+                String contactNumber = model.getContact();
+                callAnimationId.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(contactNumber)) {
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:" + contactNumber));
+                            getcontext.startActivity(intent);
+                        } else {
+                            Toast.makeText(getcontext, "Contact number not available", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            } else {
+                // If donation date is not after the current date, hide the view
+                itemView.setVisibility(View.GONE);
+                itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
             }
         }
+
     }
 
     private long getTimeDifferenceInMillis(String postTime) {
@@ -150,56 +162,22 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
         }
     }
 
-    private boolean isDonationDateOneDayAfter(String donationDate) {
+    private boolean isDonationDateWithinLastTwoDays(String donationDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
             Date date = sdf.parse(donationDate);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DAY_OF_YEAR, 1); // Add 1 day to donation date
-            Date oneDayAfterDonation = cal.getTime();
-            Date currentDate = new Date(); // Current date
+            Calendar donationCal = Calendar.getInstance();
+            donationCal.setTime(date);
 
-            SimpleDateFormat sdfComparison = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String strOneDayAfterDonation = sdfComparison.format(oneDayAfterDonation);
-            String strCurrentDate = sdfComparison.format(currentDate);
+            Calendar twoDaysAgo = Calendar.getInstance();
+            twoDaysAgo.add(Calendar.DATE, -2); // Subtract 2 days
 
-            return strCurrentDate.compareTo(strOneDayAfterDonation) >= 0;
+            return donationCal.after(twoDaysAgo);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    private void deleteDataFromFirestore(int position) {
-        String documentId = bloodpostData.get(position).getDocumentId();
-
-        if (documentId != null) {
-            db.collection("Blood Need Post").document(documentId)
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // Document successfully deleted
-                            bloodpostData.remove(position);
-                            notifyItemRemoved(position);
-                            
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Handle deletion failure
-                            Log.e("Firestore", "Error deleting document", e);
-                            if (getcontext != null) {
-                                Toast.makeText(getcontext, "Failed to delete data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        } else {
-            // Document ID is null, handle the case gracefully
-            Toast.makeText(getcontext, "Document ID is null", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }

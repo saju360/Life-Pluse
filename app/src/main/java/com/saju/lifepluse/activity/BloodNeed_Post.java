@@ -2,15 +2,21 @@ package com.saju.lifepluse.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.modelclass.BloodDonationPostModel;
+import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -146,10 +153,10 @@ public class BloodNeed_Post extends AppCompatActivity {
     }
 
     private void setListeners() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, divisionValues);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drop_down_item, divisionValues);
         autoDivison.setAdapter(adapter);
 
-        ArrayAdapter<String> bloodGroupadapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, bloodGroup);
+        ArrayAdapter<String> bloodGroupadapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drop_down_item, bloodGroup);
         selectbloodType.setAdapter(bloodGroupadapter);
 
         autoDivison.setOnItemClickListener((parent, view, position, id) -> {
@@ -253,6 +260,8 @@ public class BloodNeed_Post extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
                             // Retrieve the ID of the newly added document
+
+
                             progressBar.setVisibility(View.GONE);
                             documentId = task.getResult().getId();
 

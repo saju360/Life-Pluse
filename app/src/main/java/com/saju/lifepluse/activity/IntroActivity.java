@@ -17,32 +17,32 @@ public class IntroActivity extends MaterialIntroActivity {
         super.onCreate(savedInstanceState);
 
         addSlide(new SlideFragmentBuilder()
-                .title("title 1")
+                .title("247 HOUR Service")
                 .description("An ambulance is a critical emergency vehicle equipped with life-saving equipment and trained personnel to provide rapid transportation and medical assistance to those in urgent need.")
                 .image(R.drawable.onboarding_1)
-                .buttonsColor(R.color.black)
-                .backgroundColor(R.color.white)
-                .build());
-
-        addSlide(new SlideFragmentBuilder()
-                .title("Blood")
-                .image(R.drawable.ic_launcher_background)
                 .buttonsColor(R.color.black)
                 .backgroundColor(R.color.red)
                 .build());
 
         addSlide(new SlideFragmentBuilder()
-                .title("title 3")
+                .title("Blood Bank")
+                .image(R.drawable.blood_white_icon)
+                .buttonsColor(R.color.black)
+                .backgroundColor(R.color.red)
+                .build());
+
+        addSlide(new SlideFragmentBuilder()
+                .title("Find Your Doctor")
                 .image(R.drawable.ic_launcher_background)
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.white)
+                .backgroundColor(R.color.colorPrimary)
                 .build());
 
         addSlide(new SlideFragmentBuilder()
                 .title("title 4")
                 .image(R.drawable.ic_launcher_background)
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.white)
+                .backgroundColor(R.color.colorPrimary)
                 .build());
 
 

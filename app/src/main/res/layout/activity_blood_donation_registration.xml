@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.Blood_Donation_Registration">
 
     <LinearLayout
@@ -72,9 +73,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <include layout="@layout/inreview_layout"/>
+
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/doner_register_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/blood_splashbg"
                 app:cardCornerRadius="2dp"
                 app:cardElevation="10dp">
@@ -126,10 +132,12 @@
                                     android:textSize="16sp" />
 
                                 <EditText
+                                    android:id="@+id/nameEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
                                     android:inputType="textPersonName"
+                                    android:hint="Saju Khan"
                                     android:padding="8dp" />
                             </LinearLayout>
 
@@ -156,6 +164,7 @@
                                     android:weightSum="3">
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/maleCardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -165,6 +174,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/maleTextview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -178,6 +188,7 @@
                                     </com.google.android.material.card.MaterialCardView>
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/femaleCardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -187,6 +198,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/femaleTextview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -212,7 +224,7 @@
                                 android:hint="@string/dob">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/dateTextInputLayout"
+                                    android:id="@+id/dateTextEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
@@ -246,6 +258,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/o_positiveCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -255,6 +268,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/o_positiveTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -268,6 +282,7 @@
                                         </com.google.android.material.card.MaterialCardView>
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/o_negativeCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -277,6 +292,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/o_negativeTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -298,6 +314,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/a_positiveCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -307,6 +324,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/a_positiveTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -320,6 +338,7 @@
                                         </com.google.android.material.card.MaterialCardView>
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/a_negativeCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -329,6 +348,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/a_negativeTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -350,6 +370,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/b_positiveCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -359,6 +380,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/b_positiveTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -372,6 +394,7 @@
                                         </com.google.android.material.card.MaterialCardView>
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/b_negativeCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -381,6 +404,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/b_negativeTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -402,6 +426,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/ab_positiveCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -411,6 +436,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/ab_positiveTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -424,6 +450,7 @@
                                         </com.google.android.material.card.MaterialCardView>
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/ab_negativeCardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -433,6 +460,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/ab_negativeTextview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -454,6 +482,7 @@
                                         android:orientation="horizontal">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/unknown_Cardview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -462,6 +491,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/unknown_textview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -509,6 +539,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/single_cardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -518,6 +549,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/single_textview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -531,6 +563,7 @@
                                         </com.google.android.material.card.MaterialCardView>
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/married_cardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -540,6 +573,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/married_textview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -562,6 +596,7 @@
                                         android:weightSum="3">
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/divorced_cardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -571,6 +606,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/divoreced_textview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -585,6 +621,7 @@
 
 
                                         <com.google.android.material.card.MaterialCardView
+                                            android:id="@+id/widowed_cardview"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="8dp"
@@ -594,6 +631,7 @@
                                             app:cardElevation="5dp">
 
                                             <TextView
+                                                android:id="@+id/widowed_textview"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_margin="5dp"
@@ -631,8 +669,10 @@
                                     android:textSize="16sp" />
 
                                 <EditText
+                                    android:id="@+id/addressEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:hint="255/B, Dhaka, Bangladesh"
                                     android:background="@drawable/edit_text_rounded_corner"
                                     android:inputType="text"
                                     android:padding="8dp" />
@@ -660,6 +700,7 @@
                                     android:weightSum="3">
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/nationalid_cardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -669,6 +710,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/nationalId_textview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -682,6 +724,7 @@
                                     </com.google.android.material.card.MaterialCardView>
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/passport_cardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -691,6 +734,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/passport_textview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -706,6 +750,7 @@
                                 </LinearLayout>
 
                                 <EditText
+                                    android:id="@+id/identityEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
@@ -764,10 +809,12 @@
                                     android:textSize="16sp" />
 
                                 <EditText
+                                    android:id="@+id/mobileEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
                                     android:inputType="phone"
+                                    android:hint="+8801817******"
                                     android:padding="8dp" />
                             </LinearLayout>
 
@@ -827,6 +874,7 @@
                                     android:weightSum="3">
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/yesCardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -836,6 +884,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/yesTextview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -849,6 +898,7 @@
                                     </com.google.android.material.card.MaterialCardView>
 
                                     <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/no_cardview"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="8dp"
@@ -858,6 +908,7 @@
                                         app:cardElevation="5dp">
 
                                         <TextView
+                                            android:id="@+id/no_textview"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_margin="5dp"
@@ -876,7 +927,17 @@
                             </LinearLayout>
 
 
+                            <ProgressBar
+                                android:id="@+id/progressbar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:indeterminateTint="@color/colorPrimary"
+                                android:visibility="gone" />
+
+
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/registerBtn"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"

@@ -96,13 +96,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/title">
+                        android:hint="@string/title"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/bloodNeedTextInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -110,14 +113,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/bloodType">
+                        android:hint="@string/bloodType"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
 
                         <AutoCompleteTextView
                             android:id="@+id/selectbloodType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none">
+                            android:inputType="none"
+                            >
 
 
                         </AutoCompleteTextView>
@@ -131,14 +137,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/date">
+                        android:hint="@string/date"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/dateTextInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:focusable="false"
-                            android:inputType="date" />
+                            android:inputType="date"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Blood Quantity -->
@@ -147,13 +156,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/quantity">
+                        android:hint="@string/quantity"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/bloodqtyId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Hospital Name & Address -->
@@ -162,13 +174,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/hospitalname">
+                        android:hint="@string/hospitalname"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/hospitalNameId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -176,15 +191,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/division">
+                        android:hint="@string/division"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
 
                         <AutoCompleteTextView
                             android:id="@+id/selectdivision"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none">
-                        </AutoCompleteTextView>
+                            android:inputType="none"
+                            android:textColor="@color/black"></AutoCompleteTextView>
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -197,13 +214,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:hint="@string/divisionManuall"
-                        android:visibility="gone">
+                        android:textColorHint="@color/simple_grey"
+                        android:visibility="gone"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/manualDivisionEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:textColor="@color/black" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -214,13 +234,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/referance">
+                        android:hint="@string/referance"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/referenceNameId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Contact Number -->
@@ -229,14 +252,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="@string/contactnumber">
+                        android:hint="@string/contactnumber"
+                        android:textColorHint="@color/simple_grey"
+                        app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/contactId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:maxLength="11" />
+                            android:maxLength="11"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 

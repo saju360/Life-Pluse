@@ -48,7 +48,6 @@ public class Phonenumber_SignIn extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.GONE);
-
         countryCodePicker.registerCarrierNumberEditText(phoneInput);
 
         sendOtpBtn.setOnClickListener((v)->{

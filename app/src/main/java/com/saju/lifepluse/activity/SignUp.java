@@ -20,11 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
-import com.saju.lifepluse.modelclass.NormalUser;
+import com.saju.lifepluse.modelclass.EmailUser;
 
 public class SignUp extends AppCompatActivity {
 
@@ -34,10 +35,16 @@ public class SignUp extends AppCompatActivity {
     ProgressBar progressBar;
     TextView loginBtnTextView;
     FirebaseFirestore database;
-    NormalUser user;
+    EmailUser user;
     CheckBox termscondition;
 
     ImageView phone_signup_btn;
+    String uid;
+    String name;
+
+    boolean isform_filled = false;
+    boolean isform_notfilled = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,7 @@ public class SignUp extends AppCompatActivity {
 
     void createAccount() {
 
-        String name = nameEd.getText().toString();
+        name = nameEd.getText().toString();
         String email = emailEd.getText().toString();
         String password = passwordEd.getText().toString();
         String confirmPassword = confirempasswordEd.getText().toString();
@@ -85,7 +92,8 @@ public class SignUp extends AppCompatActivity {
 
         createAccountInFirebase(email, password);
 
-        user = new NormalUser(name, email, password);
+
+
 
 
     }
@@ -101,10 +109,15 @@ public class SignUp extends AppCompatActivity {
                         changeInProgress(false);
                         if (task.isSuccessful()) {
 
-                            String uid = task.getResult().getUser().getUid();
-                            database.collection("Normalusers").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+
+                            uid = task.getResult().getUser().getUid();
+
+                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled);
+                            database.collection("users").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+
 
                                     if (task.isSuccessful()) {
                                         //creating acc is done

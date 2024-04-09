@@ -23,6 +23,7 @@ import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -76,44 +77,74 @@ public class BloodHomeAdapter extends RecyclerView.Adapter<BloodHomeAdapter.Bloo
     @Override
     public void onBindViewHolder(@NonNull BloodHomeViewHolder holder, int position) {
         if (currentPost != null) {
-            holder.title.setText(currentPost.getBloodNeed());
-            holder.dontaionDate.setText("Donation Date: " + currentPost.getDate());
-            holder.bloodTypeId.setText("Blood Group: " + currentPost.getBloodgroup());
-            holder.bloodQtyId.setText("Blood Quantity: " + currentPost.getBloodQty() + " Bag");
-            holder.hospitalNameId.setText("Hospital: " + currentPost.getHospital());
-            holder.referenceNameId.setText("Reference: " + currentPost.getReference());
-            String contactNumber = currentPost.getContact();
 
-            String postTime = currentPost.getCurrentTime();
-            long timeAgoMillis = getTimeDifferenceInMillis(postTime);
-            String timeAgo = getTimeAgoString(timeAgoMillis);
-            holder.postTimeTextView.setText("Posted: "+timeAgo);
+            String donationDate = currentPost.getDate();
 
-            FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentuser==null){
-                holder.callAnimationId.setVisibility(View.GONE);
+            if (isDonationDateWithinLastTwoDays(donationDate)){
+                holder.itemView.setVisibility(View.VISIBLE);
+                holder.title.setText(currentPost.getBloodNeed());
+                holder.dontaionDate.setText("Donation Date: " + currentPost.getDate());
+                holder.bloodTypeId.setText("Blood Group: " + currentPost.getBloodgroup());
+                holder.bloodQtyId.setText("Blood Quantity: " + currentPost.getBloodQty() + " Bag");
+                holder.hospitalNameId.setText("Hospital: " + currentPost.getHospital());
+                holder.referenceNameId.setText("Reference: " + currentPost.getReference());
+                String contactNumber = currentPost.getContact();
+
+                String postTime = currentPost.getCurrentTime();
+                long timeAgoMillis = getTimeDifferenceInMillis(postTime);
+                String timeAgo = getTimeAgoString(timeAgoMillis);
+                holder.postTimeTextView.setText("Posted: "+timeAgo);
+
+                FirebaseUser currentuser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentuser==null){
+                    holder.callAnimationId.setVisibility(View.GONE);
+                }else {
+                    holder.callAnimationId.setVisibility(View.VISIBLE);
+                }
+
+                holder.callAnimationId.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(contactNumber)) {
+                            // If contact number is not empty, initiate a phone call
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:" + contactNumber));
+                            context.startActivity(intent);
+                        } else {
+                            // If contact number is empty, display a toast indicating that the number is not available
+                            Toast.makeText(context, "Contact number not available", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
             }else {
-                holder.callAnimationId.setVisibility(View.VISIBLE);
+                holder.itemView.setVisibility(View.GONE);
+                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
             }
 
-            holder.callAnimationId.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(contactNumber)) {
-                        // If contact number is not empty, initiate a phone call
-                        Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:" + contactNumber));
-                        context.startActivity(intent);
-                    } else {
-                        // If contact number is empty, display a toast indicating that the number is not available
-                        Toast.makeText(context, "Contact number not available", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+
 
             // Handle contact number if needed
         }
     }
+
+    private boolean isDonationDateWithinLastTwoDays(String donationDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date date = sdf.parse(donationDate);
+            Calendar donationCal = Calendar.getInstance();
+            donationCal.setTime(date);
+
+            Calendar twoDaysAgo = Calendar.getInstance();
+            twoDaysAgo.add(Calendar.DATE, -2); // Subtract 2 days
+
+            return donationCal.after(twoDaysAgo);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     @Override
     public int getItemCount() {

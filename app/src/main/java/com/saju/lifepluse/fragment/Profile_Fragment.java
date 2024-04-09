@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,15 +21,16 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodBank;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.activity.SignUp;
+import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 
 public class Profile_Fragment extends Fragment {
@@ -42,6 +43,7 @@ public class Profile_Fragment extends Fragment {
     public static LinearLayout singin_layoutforprofile, profile_design_layout;
     private FirebaseAuth mAuth;
     FirebaseUser user;
+    TextView nameTv, acc_datetvId, bloodType_tv, dateofbirth_tv;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,8 +53,8 @@ public class Profile_Fragment extends Fragment {
 
         // Initialize UI elements and FirebaseAuth
         initmethod(profileview);
-        layoutchangebysigninprovider();
         firebasecurrentuser();
+        //profileDataRetrive();
 
         // Set click listeners
         button_back.setOnClickListener(v -> startActivity(new Intent(getActivity(), BloodBank.class)));
@@ -64,9 +66,32 @@ public class Profile_Fragment extends Fragment {
         logintBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), SignIn.class)));
         creataccountBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), SignUp.class)));
         deleteaccountBtn_id.setOnClickListener(v -> deletaccount());
-
-
+        
         return profileview;
+    }
+
+    private void profileDataRetrive() {
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()){
+
+                    BloodDonerRequestModel bloodDonerRequestModel = task.getResult().toObject(BloodDonerRequestModel.class);
+                    String name = bloodDonerRequestModel.getName();
+                    nameTv.setText(name);
+
+                }
+
+
+            }
+        });
+
+
+
+
+
     }
 
     private void updateUIAfterLogout() {
@@ -79,9 +104,7 @@ public class Profile_Fragment extends Fragment {
         startActivity(new Intent(getContext(), BloodBank.class));
     }
 
-    private void layoutchangebysigninprovider() {
 
-    }
 
 
     private void deletaccount() {
@@ -145,6 +168,10 @@ public class Profile_Fragment extends Fragment {
         button_back = profileview.findViewById(R.id.button_back);
         changepassword_btnId = profileview.findViewById(R.id.changepassword_btnId);
         deleteaccountBtn_id = profileview.findViewById(R.id.deleteaccountBtn_id);
+        nameTv = profileview.findViewById(R.id.NametvId);
+        acc_datetvId = profileview.findViewById(R.id.acc_datetvId);
+        bloodType_tv = profileview.findViewById(R.id.bloodType_tv);
+        dateofbirth_tv = profileview.findViewById(R.id.dateofbirth_tv);
         mAuth = FirebaseAuth.getInstance();
     }
 }

@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -70,6 +71,7 @@ public class Blood_Home_Fragment extends Fragment {
 
     private BarChart barChart;
     FirebaseUser currentUser;
+    private LottieAnimationView empty_anim;
 
 
     @SuppressLint("MissingInflatedId")
@@ -86,6 +88,7 @@ public class Blood_Home_Fragment extends Fragment {
         postfor_blood_btn = myview.findViewById(R.id.postfor_blood_btn);
         donateNowBtn = myview.findViewById(R.id.donateNowBtn);
         userbloodaccountstatus = myview.findViewById(R.id.userbloodaccountstatus);
+        empty_anim = myview.findViewById(R.id.empty_anim);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();
@@ -98,7 +101,7 @@ public class Blood_Home_Fragment extends Fragment {
 
         divisiondata = getResources().getStringArray(R.array.division_data);
 
-        ArrayAdapter<String> divionadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, divisiondata);
+        ArrayAdapter<String> divionadapter = new ArrayAdapter<>(getContext(), R.layout.drop_down_item, divisiondata);
         division.setAdapter(divionadapter);
 
         handler = new Handler(Looper.getMainLooper());
@@ -288,6 +291,17 @@ public class Blood_Home_Fragment extends Fragment {
                                 BloodNeedPostModel randomPost = getRandomPost(bloodpostData);
                                 adapter.updateData(randomPost);
                             }
+
+                            if (bloodpostData.isEmpty()) {
+                                empty_anim.setVisibility(View.VISIBLE);
+                            } else {
+                                empty_anim.setVisibility(View.GONE);
+                            }
+
+                        }
+                        else {
+                            // If there's no data, show empty animation
+                            empty_anim.setVisibility(View.VISIBLE);
                         }
                     }
                 });
