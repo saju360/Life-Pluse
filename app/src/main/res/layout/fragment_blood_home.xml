@@ -110,7 +110,7 @@
 
 
             <cn.iwgang.countdownview.CountdownView
-                android:id="@+id/coundownview"
+                android:id="@+id/countdownview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bloodneedTv"
@@ -134,6 +134,7 @@
                 app:suffixTextSize="20sp"
                 app:timeBgColor="@color/white"
                 app:timeTextColor="@color/black"
+                android:visibility="gone"
                 app:timeTextSize="32sp" />
 
 
@@ -159,6 +160,7 @@
                 android:id="@+id/userbloodaccountstatus"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/card_background_color"
                 android:layout_margin="10dp">
 
@@ -221,6 +223,7 @@
 
 
                         <TextView
+                            android:id="@+id/bloodtype_status_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
@@ -334,6 +337,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/findDoner_Btn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"

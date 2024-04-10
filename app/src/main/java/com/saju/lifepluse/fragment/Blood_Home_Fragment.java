@@ -34,6 +34,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,21 +46,26 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.activity.BloodDonerList;
 import com.saju.lifepluse.activity.BloodNeed_Post;
 import com.saju.lifepluse.activity.Blood_Donation_Registration;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.adapter.BloodHomeAdapter;
 import com.saju.lifepluse.modelclass.BloodNeedPostModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import cn.iwgang.countdownview.CountdownView;
+
 public class Blood_Home_Fragment extends Fragment {
 
-    TextView locationTextView;
+    TextView locationTextView, bloodtype_status_tv;
     ImageButton signup_bloodBtn;
-    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus;
+    CountdownView countdownview;
+    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn;
     String currentLocation, selecteddivision;
     RecyclerView bloodRecyclear;
     AutoCompleteTextView division;
@@ -89,6 +96,9 @@ public class Blood_Home_Fragment extends Fragment {
         donateNowBtn = myview.findViewById(R.id.donateNowBtn);
         userbloodaccountstatus = myview.findViewById(R.id.userbloodaccountstatus);
         empty_anim = myview.findViewById(R.id.empty_anim);
+        countdownview = myview.findViewById(R.id.countdownview);
+        bloodtype_status_tv = myview.findViewById(R.id.bloodtype_status_tv);
+        findDoner_Btn = myview.findViewById(R.id.findDoner_Btn);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();
@@ -118,6 +128,8 @@ public class Blood_Home_Fragment extends Fragment {
             addEntriesForDhakaDivision();
             updateChartWithData();
         }
+
+        findDoner_Btn.setOnClickListener(v -> startActivity(new Intent(getContext(), BloodDonerList.class)));
 
         division.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,11 +204,71 @@ public class Blood_Home_Fragment extends Fragment {
     private void checkuserAuth() {
 
 
-        if (currentUser == null) {
-            userbloodaccountstatus.setVisibility(View.GONE);
-        } else {
-            userbloodaccountstatus.setVisibility(View.VISIBLE);
+        if (currentUser != null) {
+            form_status();
         }
+
+    }
+
+    void form_status() {
+
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot documentSnapshot = task.getResult();
+                boolean is_form_filled = documentSnapshot.getBoolean("isform_filled");
+                boolean is_form_notfilled = documentSnapshot.getBoolean("isform_notfilled");
+
+
+                if (is_form_filled) {
+                    approval_status();
+                    Log.d("form_status", "Form  Filled Yet");
+
+                } else if (is_form_notfilled) {
+                    Log.d("form_status", "Form Not Filled Yet");
+                }
+
+
+            }
+        });
+
+    }
+
+    private void approval_status() {
+
+        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot snapshot = task.getResult();
+
+                    boolean isApproved = snapshot.getBoolean("approved");
+                    boolean isDeclined = snapshot.getBoolean("declined");
+                    String bloodtype = snapshot.getString("bloodType");
+                    if (isApproved) {
+
+                        userbloodaccountstatus.setVisibility(View.VISIBLE);
+                        bloodtype_status_tv.setText(bloodtype);
+
+
+                    } else if (isDeclined) {
+                        userbloodaccountstatus.setVisibility(View.GONE);
+
+                    } else {
+                        userbloodaccountstatus.setVisibility(View.GONE);
+
+                    }
+
+
+                }
+
+
+            }
+        });
 
 
     }
@@ -298,8 +370,7 @@ public class Blood_Home_Fragment extends Fragment {
                                 empty_anim.setVisibility(View.GONE);
                             }
 
-                        }
-                        else {
+                        } else {
                             // If there's no data, show empty animation
                             empty_anim.setVisibility(View.VISIBLE);
                         }

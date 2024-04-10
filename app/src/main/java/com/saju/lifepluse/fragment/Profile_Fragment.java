@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodBank;
+import com.saju.lifepluse.activity.Blood_Donation_Registration;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.activity.SignUp;
@@ -98,7 +99,9 @@ public class Profile_Fragment extends Fragment {
 
                 } else if (is_form_notfilled) {
                     Log.d("form_status", "Form Not Filled Yet");
-                    application_status.setVisibility(View.GONE);
+                    application_status.setText("Please Join as a Blood Doner");
+                    application_status.setVisibility(View.VISIBLE);
+                    startActivity(new Intent(getActivity(), Blood_Donation_Registration.class));
                 }
 
 
