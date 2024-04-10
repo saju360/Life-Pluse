@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.activity.SignUp;
 import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
+import com.saju.lifepluse.utils.AndroidUtil;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 
@@ -43,8 +47,10 @@ public class Profile_Fragment extends Fragment {
     public static LinearLayout singin_layoutforprofile, profile_design_layout;
     private FirebaseAuth mAuth;
     FirebaseUser user;
-    TextView nameTv, acc_datetvId, bloodType_tv, dateofbirth_tv;
+    BloodDonerRequestModel bloodDonerRequestModel;
+    TextView nameTv, acc_datetvId, bloodType_tv, dateofbirth_tv, identification_number_tv, district_tv, mobile_tv, gender_tv, marital_tv, address_tv;
 
+    TextView application_status;
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +60,9 @@ public class Profile_Fragment extends Fragment {
         // Initialize UI elements and FirebaseAuth
         initmethod(profileview);
         firebasecurrentuser();
-        //profileDataRetrive();
+
+
+
 
         // Set click listeners
         button_back.setOnClickListener(v -> startActivity(new Intent(getActivity(), BloodBank.class)));
@@ -66,21 +74,71 @@ public class Profile_Fragment extends Fragment {
         logintBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), SignIn.class)));
         creataccountBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), SignUp.class)));
         deleteaccountBtn_id.setOnClickListener(v -> deletaccount());
-        
+
         return profileview;
     }
 
-    private void profileDataRetrive() {
+
+
+    void form_status(){
+
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
+                DocumentSnapshot documentSnapshot = task.getResult();
+                boolean is_form_filled= documentSnapshot.getBoolean("isform_filled");
+                boolean is_form_notfilled= documentSnapshot.getBoolean("isform_notfilled");
 
-                if (task.isSuccessful()){
 
-                    BloodDonerRequestModel bloodDonerRequestModel = task.getResult().toObject(BloodDonerRequestModel.class);
-                    String name = bloodDonerRequestModel.getName();
-                    nameTv.setText(name);
+                if (is_form_filled){
+                    approval_status();
+                    Log.d("form_status", "Form  Filled Yet");
+                    application_status.setVisibility(View.VISIBLE);
+
+                } else if (is_form_notfilled) {
+                    Log.d("form_status", "Form Not Filled Yet");
+                    application_status.setVisibility(View.GONE);
+                }
+
+
+            }
+        });
+
+    }
+
+    private void approval_status() {
+
+        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot snapshot = task.getResult();
+
+                    boolean isApproved = snapshot.getBoolean("approved");
+                    boolean isDeclined = snapshot.getBoolean("declined");
+                    if (isApproved) {
+
+                        profiledata_retrive();
+                        application_status.setVisibility(View.GONE);
+
+
+                    } else if (isDeclined) {
+
+                        profile_design_layout.setVisibility(View.GONE);
+                        singin_layoutforprofile.setVisibility(View.GONE);
+                        application_status.setTextColor(Color.RED);
+                        application_status.setText("Application Status: Your Application is rejected by Admin");
+
+                    }else {
+                        application_status.setText("Application Status: Your Application is in Review");
+
+
+                    }
+
 
                 }
 
@@ -89,8 +147,49 @@ public class Profile_Fragment extends Fragment {
         });
 
 
+    }
+
+    private void profiledata_retrive() {
 
 
+        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+
+
+                    bloodDonerRequestModel = task.getResult().toObject(BloodDonerRequestModel.class);
+                    String name = bloodDonerRequestModel.getName();
+                    String bloodtype = bloodDonerRequestModel.getBloodType();
+                    String mobile = bloodDonerRequestModel.getMobile();
+                    String dob = bloodDonerRequestModel.getDateOfBirth();
+                    String nid = bloodDonerRequestModel.getIdentity();
+                    String district = bloodDonerRequestModel.getDistrict();
+                    String gender = bloodDonerRequestModel.getGender();
+                    String marital_txt = bloodDonerRequestModel.getMaritalStatus();
+                    String address = bloodDonerRequestModel.getAddress();
+
+                    nameTv.setText("Name: " + name);
+                    bloodType_tv.setText(bloodtype);
+                    acc_datetvId.setText("Joined: " + AndroidUtil.timestampToString(bloodDonerRequestModel.getCreatedtime()));
+                    dateofbirth_tv.setText(dob);
+                    identification_number_tv.setText(nid);
+                    mobile_tv.setText(mobile);
+                    district_tv.setText(district);
+                    gender_tv.setText(gender);
+                    marital_tv.setText(marital_txt);
+                    address_tv.setText(address);
+
+
+                    Log.d("name", name);
+
+                    profile_design_layout.setVisibility(View.VISIBLE);
+                    singin_layoutforprofile.setVisibility(View.GONE);
+                    logout_anim_btn.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
 
     }
 
@@ -101,10 +200,9 @@ public class Profile_Fragment extends Fragment {
         profile_design_layout.setVisibility(View.GONE);
         singin_layoutforprofile.setVisibility(View.VISIBLE);
         logout_anim_btn.setVisibility(View.GONE);
+        application_status.setVisibility(View.GONE);
         startActivity(new Intent(getContext(), BloodBank.class));
     }
-
-
 
 
     private void deletaccount() {
@@ -152,10 +250,12 @@ public class Profile_Fragment extends Fragment {
             profile_design_layout.setVisibility(View.GONE);
             singin_layoutforprofile.setVisibility(View.VISIBLE);
             logout_anim_btn.setVisibility(View.GONE);
+            application_status.setVisibility(View.GONE);
         } else {
-            profile_design_layout.setVisibility(View.VISIBLE);
+            //profile_design_layout.setVisibility(View.VISIBLE);
             singin_layoutforprofile.setVisibility(View.GONE);
             logout_anim_btn.setVisibility(View.VISIBLE);
+            form_status();
         }
     }
 
@@ -172,6 +272,14 @@ public class Profile_Fragment extends Fragment {
         acc_datetvId = profileview.findViewById(R.id.acc_datetvId);
         bloodType_tv = profileview.findViewById(R.id.bloodType_tv);
         dateofbirth_tv = profileview.findViewById(R.id.dateofbirth_tv);
+        identification_number_tv = profileview.findViewById(R.id.identification_number_tv);
+        district_tv = profileview.findViewById(R.id.district_tv);
+        mobile_tv = profileview.findViewById(R.id.mobile_tv);
+        gender_tv = profileview.findViewById(R.id.gender_tv);
+        marital_tv = profileview.findViewById(R.id.marital_tv);
+        address_tv = profileview.findViewById(R.id.address_tv);
+        application_status = profileview.findViewById(R.id.application_status);
         mAuth = FirebaseAuth.getInstance();
     }
+
 }

@@ -54,7 +54,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/locationtopLayout"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -66,6 +67,7 @@
             android:elevation="10dp"
             android:src="@drawable/avatar"
             app:civ_border_color="#FF000000"
+            app:tint="@color/white"
             app:civ_border_width="2dp" />
 
 
@@ -76,7 +78,7 @@
             android:layout_margin="5dp"
             android:fontFamily="@font/aclonica"
             android:gravity="center_horizontal"
-            android:text="Name: Md Saju islam"
+            android:text=""
             android:textColor="@color/text_color"
             android:textSize="18sp" />
 
@@ -262,6 +264,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/mobile_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -295,6 +298,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/gender_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -312,6 +316,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/marital_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -329,6 +334,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/address_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -422,6 +428,31 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/locationtopLayout"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/application_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:fontFamily="@font/aclonica"
+            />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>
