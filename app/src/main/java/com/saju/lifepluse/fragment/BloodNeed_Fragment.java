@@ -50,13 +50,11 @@ public class BloodNeed_Fragment extends Fragment {
     TextView locationTextView;
 
     ArrayList<BloodNeedPostModel> BloodpostData;
-    ArrayList<String> notifiedPosts = new ArrayList<>();
 
     String userDivision;
     FirebaseFirestore db;
     CollectionReference bloodPostsCollection;
 
-    private static final String PREF_NAME = "BloodPostNotifications";
     private static final String PREF_KEY_PREFIX = "notified_post_";
 
     private SharedPreferences sharedPreferences;

@@ -78,7 +78,7 @@ public class Blood_Home_Fragment extends Fragment {
 
     private BarChart barChart;
     FirebaseUser currentUser;
-    private LottieAnimationView empty_anim;
+    public static LottieAnimationView empty_anim;
 
 
     @SuppressLint("MissingInflatedId")
@@ -216,18 +216,31 @@ public class Blood_Home_Fragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                DocumentSnapshot documentSnapshot = task.getResult();
-                boolean is_form_filled = documentSnapshot.getBoolean("isform_filled");
-                boolean is_form_notfilled = documentSnapshot.getBoolean("isform_notfilled");
+                if (task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot !=null){
+                        boolean is_form_filled = documentSnapshot.getBoolean("isform_filled");
+                        boolean is_form_notfilled = documentSnapshot.getBoolean("isform_notfilled");
 
 
-                if (is_form_filled) {
-                    approval_status();
-                    Log.d("form_status", "Form  Filled Yet");
+                        if (is_form_filled) {
+                            approval_status();
+                            Log.d("form_status", "Form  Filled Yet");
 
-                } else if (is_form_notfilled) {
-                    Log.d("form_status", "Form Not Filled Yet");
+                        } else if (is_form_notfilled) {
+                            Log.d("form_status", "Form Not Filled Yet");
+                        }
+                    }else {
+                        Log.d("form_status", "DocumentSnapshot is null");
+                    }
+                }else {
+                    Log.d("form_status", "Error getting document: ", task.getException());
+
                 }
+
+
+
 
 
             }

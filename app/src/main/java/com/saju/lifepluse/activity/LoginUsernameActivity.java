@@ -62,10 +62,23 @@ public class LoginUsernameActivity extends AppCompatActivity {
         if(phoneAuthModel !=null){
             phoneAuthModel.setUsername(username);
         }else{
+
             phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled);
         }
 
-        FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+       /* FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                setInProgress(false);
+                if(task.isSuccessful()){
+                    Intent intent = new Intent(LoginUsernameActivity.this,BloodBank.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                    startActivity(intent);
+                }
+            }
+        });*/
+
+        FirebaseUtil.currentUserDetails().update("username", username).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 setInProgress(false);

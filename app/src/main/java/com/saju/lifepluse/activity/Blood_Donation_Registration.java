@@ -20,6 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +35,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.fragment.BloodNeed_Fragment;
+import com.saju.lifepluse.fragment.DashBoard;
 import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
 import com.saju.lifepluse.modelclass.EmailUser;
 import com.saju.lifepluse.modelclass.PhoneAuthModel;
@@ -150,7 +155,8 @@ public class Blood_Donation_Registration extends AppCompatActivity {
                         doner_register_form.setVisibility(View.GONE);
                         inreview_layout.setVisibility(View.GONE);
                         againRegisterBtn.setVisibility(View.GONE);
-                        startActivity(new Intent(getApplicationContext(), BloodDonerList.class));
+
+                        startActivity(new Intent(Blood_Donation_Registration.this, Blood_NeedPost_Doner_Action.class ));
                         finish();
 
                         Log.d("approval", "approve");
@@ -720,6 +726,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
             locationTextView.setText("Location not available");
         }
     }
+
 
 
 }

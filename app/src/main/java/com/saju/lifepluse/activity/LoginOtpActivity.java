@@ -3,6 +3,7 @@ package com.saju.lifepluse.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +21,16 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.modelclass.PhoneAuthModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +48,10 @@ public class LoginOtpActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView resendOtpTextView;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    PhoneAuthModel phoneAuthModel;
+    boolean isform_filled = false;
+    boolean isform_notfilled = true;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +61,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         nextBtn = findViewById(R.id.login_next_btn);
         progressBar = findViewById(R.id.login_progress_bar);
         resendOtpTextView = findViewById(R.id.resend_otp_textview);
+        db = FirebaseFirestore.getInstance();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.blood_splashbg));
@@ -127,6 +137,8 @@ public class LoginOtpActivity extends AppCompatActivity {
     void signIn(PhoneAuthCredential phoneAuthCredential){
         //login and go to next activity
         setInProgress(true);
+
+        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled);
         mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -134,6 +146,24 @@ public class LoginOtpActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Intent intent = new Intent(LoginOtpActivity.this,LoginUsernameActivity.class);
                     intent.putExtra("phone",phoneNumber);
+
+                    String uid = task.getResult().getUser().getUid();
+                    db.collection("users").document(uid).set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()){
+                                Toast.makeText(LoginOtpActivity.this, "data added succesfully", Toast.LENGTH_SHORT).show();
+
+                            }else {
+                                Log.d("data_insert", task.getException().toString());
+                            }
+
+
+                        }
+                    });
+
+
                     startActivity(intent);
                 }else{
                     Toast.makeText(LoginOtpActivity.this, "OTP verification failed", Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.BloodDonerList">
 
     <LinearLayout
@@ -30,8 +31,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_weight="2.5"
-            android:gravity="right"
+            android:gravity="center"
             android:orientation="horizontal">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doner List"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-black"
+                />
+
 
 
 
@@ -40,11 +53,24 @@
 
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/empty_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:lottie_autoPlay="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/empty_animation" />
+
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/donerlist_swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_below="@id/locationtopLayout"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/donerlistRecyclearId"

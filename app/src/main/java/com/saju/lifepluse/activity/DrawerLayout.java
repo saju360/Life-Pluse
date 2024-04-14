@@ -233,12 +233,14 @@ public class DrawerLayout extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(DrawerLayout.this, SignIn.class));
+                    Log.d("btn", "Login Button Clicked");
                 }
             });
             createBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(DrawerLayout.this, SignUp.class));
+                    Log.d("btn", "SignUp Button Clicked");
                 }
             });
 

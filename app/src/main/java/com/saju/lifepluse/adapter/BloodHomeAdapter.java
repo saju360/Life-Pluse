@@ -19,6 +19,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.fragment.Blood_Home_Fragment;
 import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.ParseException;
@@ -120,6 +121,7 @@ public class BloodHomeAdapter extends RecyclerView.Adapter<BloodHomeAdapter.Bloo
             }else {
                 holder.itemView.setVisibility(View.GONE);
                 holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                Blood_Home_Fragment.empty_anim.setVisibility(View.VISIBLE);
             }
 
 

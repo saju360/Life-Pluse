@@ -63,6 +63,7 @@
 
     </LinearLayout>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -181,7 +182,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/male"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -205,7 +206,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/Female"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -275,7 +276,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/o_positive"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -299,7 +300,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/o_negative"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -331,7 +332,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/a_positive"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -355,7 +356,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/a_negative"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -387,7 +388,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/b_positive"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -411,7 +412,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/b_negative"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -443,7 +444,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/ab_positive"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -467,7 +468,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/ab_negative"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -498,7 +499,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="@string/unknow"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -556,7 +557,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="Single"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -580,7 +581,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="Married"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -613,7 +614,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="Divorced"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -638,7 +639,7 @@
                                                 android:fontFamily="@font/alata"
                                                 android:gravity="center_horizontal"
                                                 android:text="Widowed"
-                                                android:textColor="@color/black"
+                                                android:textColor="@color/white"
                                                 android:textSize="17sp" />
 
 
@@ -717,7 +718,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/nid"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -741,7 +742,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/passport"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -891,7 +892,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/firsttimedonate_yes"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -915,7 +916,7 @@
                                             android:fontFamily="@font/alata"
                                             android:gravity="center_horizontal"
                                             android:text="@string/firsttimedonate_no"
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="17sp" />
 
 
@@ -943,6 +944,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="25dp"
                                 android:text="Register"
+                                android:textColor="@color/white"
                                 android:textSize="18sp" />
 
 
