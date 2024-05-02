@@ -49,6 +49,7 @@ import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodDonerList;
 import com.saju.lifepluse.activity.BloodNeed_Post;
 import com.saju.lifepluse.activity.Blood_Donation_Registration;
+import com.saju.lifepluse.activity.Blood_Organization_Home;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.adapter.BloodHomeAdapter;
@@ -65,7 +66,7 @@ public class Blood_Home_Fragment extends Fragment {
     TextView locationTextView, bloodtype_status_tv;
     ImageButton signup_bloodBtn;
     CountdownView countdownview;
-    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn;
+    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn, bloodorganazitionBtn, bloodbankBtn;
     String currentLocation, selecteddivision;
     RecyclerView bloodRecyclear;
     AutoCompleteTextView division;
@@ -99,6 +100,8 @@ public class Blood_Home_Fragment extends Fragment {
         countdownview = myview.findViewById(R.id.countdownview);
         bloodtype_status_tv = myview.findViewById(R.id.bloodtype_status_tv);
         findDoner_Btn = myview.findViewById(R.id.findDoner_Btn);
+        bloodorganazitionBtn = myview.findViewById(R.id.bloodorganazitionBtn);
+        bloodbankBtn = myview.findViewById(R.id.bloodbankBtn);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();
@@ -138,6 +141,10 @@ public class Blood_Home_Fragment extends Fragment {
             }
         });
 
+        bloodorganazitionBtn.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), Blood_Organization_Home.class));
+
+        });
         postfor_blood_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

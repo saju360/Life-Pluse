@@ -279,6 +279,8 @@
     <string name="bloodtypetxt">Blood Type</string>
     <string name="donationstatustxt">D.Status</string>
     <string name="donatenowtxt">Donate Now</string>
+    <string name="blooddonerorganizaitiontxt">Blood Organization</string>
+    <string name="bloodbanktxt">Find Blood Bank</string>
     <string name="finddonarstxt">Find Donors</string>
     <string name="postforbloodtxt">Post for Blood</string>
 
@@ -321,5 +323,7 @@
     <string name="ab_positive">AB positive</string>
     <string name="ab_negative">AB negative</string>
     <string name="unknow">Unknown</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

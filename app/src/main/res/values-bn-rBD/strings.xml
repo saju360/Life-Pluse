@@ -76,6 +76,8 @@
     <string name="donationstatustxt">রক্ত সামর্থ</string>
 
 
+    <string name="blooddonerorganizaitiontxt">ব্লাড অর্গানাইজেশন</string>
+    <string name="bloodbanktxt">ব্লাড ব্যাংক</string>
     <string name="donatenowtxt">রক্ত দান করুন</string>
     <string name="finddonarstxt">ডোনার খুজুন</string>
     <string name="postforbloodtxt">পোস্ট করুন</string>
