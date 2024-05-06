@@ -3,20 +3,37 @@ package com.saju.lifepluse.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 public class Blood_Organization_Post extends AppCompatActivity {
 
 
     EditText orgname_Ed, orgaddress_Ed, orgphone_Ed, orgemail_Ed, orgfb_Ed, orginsta_Ed, orgyout_Ed, orgweb_Ed;
     Button orgcancelButton, orgAddButton;
+    ProgressBar progressBar;
+    String uid;
+    LinearLayout sumbitBtnLayout;
+
+    BloodOrganizationAddModel bloodOrganizationAddModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +77,12 @@ public class Blood_Organization_Post extends AppCompatActivity {
 
         // Facebook link validation
         if (!TextUtils.isEmpty(orgfblink)) {
-            if (!(orgfblink.startsWith("https://www.facebook.com") || orgfblink.startsWith("www.facebook.com") || orgfblink.startsWith("https://facebook.com"))) {
+            if (!(orgfblink.startsWith("https://www.facebook.com") || orgfblink.startsWith("www.facebook.com") || orgfblink.startsWith("https://facebook.com") )) {
                 isValidURL = false;
                 Toast.makeText(getApplicationContext(), "Facebook link should start with 'https://www.facebook.com', 'www.facebook.com', or 'https://facebook.com'", Toast.LENGTH_SHORT).show();
             }
         }
+
 
         // Instagram link validation
         if (!TextUtils.isEmpty(orginstalink)) {
@@ -73,6 +91,7 @@ public class Blood_Organization_Post extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Instagram link should start with 'https://www.instagram.com', 'www.instagram.com', or 'https://instagram.com'", Toast.LENGTH_SHORT).show();
             }
         }
+
 
         // YouTube link validation
         if (!TextUtils.isEmpty(orgyoutlink)) {
@@ -86,9 +105,41 @@ public class Blood_Organization_Post extends AppCompatActivity {
             return;
         }
 
+        orgDataAdd(orgname, orgaddress, orgphone, orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink);
+
         // Proceed with further actions if all validations pass
     }
 
+    private void orgDataAdd(String orgname, String orgaddress, String orgphone, String orgemail, String orgfblink, String orginstalink, String orgyoutlink, String orgweblink) {
+
+
+        uid = FirebaseAuth.getInstance().getUid();
+
+
+        bloodOrganizationAddModel = new BloodOrganizationAddModel(uid, orgname, orgaddress, orgphone,orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink, Timestamp.now());
+
+        setInProgress(true);
+        FirebaseUtil.donerUserDetails("BloodOrganization").set(bloodOrganizationAddModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+                setInProgress(false);
+
+                FirebaseUtil.currentUserDetails().update("isorgadd", true);
+                FirebaseUtil.currentUserDetails().update("isorgnotadd", false);
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("orgdataadd", e.toString());
+            }
+        });
+
+
+    }
 
 
     private void initial() {
@@ -103,6 +154,9 @@ public class Blood_Organization_Post extends AppCompatActivity {
         orgweb_Ed = findViewById(R.id.orgweb_Ed);
         orgcancelButton = findViewById(R.id.org_cancelButton);
         orgAddButton = findViewById(R.id.org_AddButton);
+        progressBar = findViewById(R.id.progressbarId);
+        sumbitBtnLayout = findViewById(R.id.sumbitBtnLayout);
+
 
 
     }
@@ -111,6 +165,16 @@ public class Blood_Organization_Post extends AppCompatActivity {
     private void statusbarcolor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.blood_splashbg));
+        }
+    }
+
+    void setInProgress(boolean inProgress) {
+        if (inProgress) {
+            progressBar.setVisibility(View.VISIBLE);
+            sumbitBtnLayout.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            sumbitBtnLayout.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -18,7 +18,7 @@ public class FirebaseUtil {
     }
 
 
-    public static DocumentReference donerUserDetails() {
-        return FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection("bloodDoner").document(currentUserId());
+    public static DocumentReference donerUserDetails(String usercollection) {
+        return FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection(usercollection).document(currentUserId());
     }
 }

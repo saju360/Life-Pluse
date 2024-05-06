@@ -9,10 +9,13 @@ public class EmailUser {
     boolean isform_filled;
     boolean isform_notfilled;
 
+    boolean isorgadd ;
+    boolean isorgnotadd ;
+
     public EmailUser() {
     }
 
-    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled) {
+    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -20,6 +23,8 @@ public class EmailUser {
         this.createdTimestamp = createdTimestamp;
         this.isform_filled = isform_filled;
         this.isform_notfilled = isform_notfilled;
+        this.isorgadd = isorgadd;
+        this.isorgnotadd = isorgnotadd;
     }
 
     public String getName() {
@@ -76,5 +81,21 @@ public class EmailUser {
 
     public void setIsform_notfilled(boolean isform_notfilled) {
         this.isform_notfilled = isform_notfilled;
+    }
+
+    public boolean isIsorgadd() {
+        return isorgadd;
+    }
+
+    public void setIsorgadd(boolean isorgadd) {
+        this.isorgadd = isorgadd;
+    }
+
+    public boolean isIsorgnotadd() {
+        return isorgnotadd;
+    }
+
+    public void setIsorgnotadd(boolean isorgnotadd) {
+        this.isorgnotadd = isorgnotadd;
     }
 }

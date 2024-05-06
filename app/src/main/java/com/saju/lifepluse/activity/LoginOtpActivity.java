@@ -51,6 +51,8 @@ public class LoginOtpActivity extends AppCompatActivity {
     PhoneAuthModel phoneAuthModel;
     boolean isform_filled = false;
     boolean isform_notfilled = true;
+    boolean isorgadd = false;
+    boolean isorgnotadd = true;
     FirebaseFirestore db;
 
     @Override
@@ -138,7 +140,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         //login and go to next activity
         setInProgress(true);
 
-        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled);
+        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd );
         mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

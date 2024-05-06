@@ -257,7 +257,7 @@ public class Blood_Home_Fragment extends Fragment {
 
     private void approval_status() {
 
-        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 

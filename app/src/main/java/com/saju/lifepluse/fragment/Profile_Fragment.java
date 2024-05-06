@@ -112,7 +112,7 @@ public class Profile_Fragment extends Fragment {
 
     private void approval_status() {
 
-        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -155,7 +155,7 @@ public class Profile_Fragment extends Fragment {
     private void profiledata_retrive() {
 
 
-        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){

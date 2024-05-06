@@ -28,6 +28,8 @@ public class LoginUsernameActivity extends AppCompatActivity {
     PhoneAuthModel phoneAuthModel;
     boolean isform_filled = false;
     boolean isform_notfilled = true;
+    boolean isorgadd = false;
+    boolean isorgnotadd = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
             phoneAuthModel.setUsername(username);
         }else{
 
-            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled);
+            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd);
         }
 
        /* FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {

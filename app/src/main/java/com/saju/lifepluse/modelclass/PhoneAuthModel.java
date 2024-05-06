@@ -8,21 +8,25 @@ public class PhoneAuthModel {
     private Timestamp createdTimestamp;
     private String userId;
 
-    boolean isform_filled = false;
-    boolean isform_notfilled = true;
+    boolean isform_filled;
+    boolean isform_notfilled;
+
+    boolean isorgadd;
+    boolean isorgnotadd;
 
     public PhoneAuthModel() {
     }
 
-    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled) {
+    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd) {
         this.phone = phone;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
         this.userId = userId;
         this.isform_filled = isform_filled;
         this.isform_notfilled = isform_notfilled;
+        this.isorgadd = isorgadd;
+        this.isorgnotadd = isorgnotadd;
     }
-
 
     public String getPhone() {
         return phone;
@@ -70,5 +74,21 @@ public class PhoneAuthModel {
 
     public void setIsform_notfilled(boolean isform_notfilled) {
         this.isform_notfilled = isform_notfilled;
+    }
+
+    public boolean isIsorgadd() {
+        return isorgadd;
+    }
+
+    public void setIsorgadd(boolean isorgadd) {
+        this.isorgadd = isorgadd;
+    }
+
+    public boolean isIsorgnotadd() {
+        return isorgnotadd;
+    }
+
+    public void setIsorgnotadd(boolean isorgnotadd) {
+        this.isorgnotadd = isorgnotadd;
     }
 }

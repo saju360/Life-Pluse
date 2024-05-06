@@ -45,6 +45,9 @@ public class SignUp extends AppCompatActivity {
     boolean isform_filled = false;
     boolean isform_notfilled = true;
 
+    boolean isorgadd = false;
+    boolean isorgnotadd = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +116,7 @@ public class SignUp extends AppCompatActivity {
 
                             uid = task.getResult().getUser().getUid();
 
-                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled);
+                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd,isorgnotadd);
                             database.collection("users").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

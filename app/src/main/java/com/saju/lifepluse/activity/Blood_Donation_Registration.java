@@ -141,7 +141,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
 
     private void form_approval() {
 // Check if the user has already filled the form
-        FirebaseUtil.donerUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -678,7 +678,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
 
         setInProgress(true);
         // Add form data to Firestore with the current user's ID
-        FirebaseUtil.donerUserDetails().set(bloodDonerRequestModel)
+        FirebaseUtil.donerUserDetails("bloodDoner").set(bloodDonerRequestModel)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
