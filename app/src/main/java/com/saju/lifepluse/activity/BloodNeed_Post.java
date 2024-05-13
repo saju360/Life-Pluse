@@ -2,21 +2,13 @@ package com.saju.lifepluse.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,21 +22,30 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
-import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.modelclass.BloodDonationPostModel;
-import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class BloodNeed_Post extends AppCompatActivity {
@@ -276,6 +277,9 @@ public class BloodNeed_Post extends AppCompatActivity {
                             startActivity(new Intent(BloodNeed_Post.this, BloodBank.class));
                             finish();
 
+                            retriveuserfcmtoken(bloodPost);
+
+
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Error! Please try again later", Toast.LENGTH_SHORT).show();
@@ -284,6 +288,8 @@ public class BloodNeed_Post extends AppCompatActivity {
                     }
                 });
     }
+
+
 
     private void updateDocumentInFirestore(DocumentReference documentReference, BloodDonationPostModel bloodPost) {
         documentReference.update("documentId", bloodPost.getDocumentId())
@@ -333,6 +339,63 @@ public class BloodNeed_Post extends AppCompatActivity {
         dateEditText.setOnClickListener(v -> datePickerDialog.show());
     }
 
+    private void retriveuserfcmtoken(BloodDonationPostModel bloodPost) {
+
+
+        CollectionReference usersRef = db.collection("devices");
+
+        usersRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> tokens = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String token = document.getString("fcmToken");
+
+                        if (token != null) {
+                            tokens.add(token);
+                        }
+                    }
+
+                    // Step 2: Send tokens to PHP script via GET request using Volley
+                    if (!tokens.isEmpty()) {
+                        sendTokensToServer(tokens, bloodPost);
+                    }
+                } else {
+                    Log.d("fcmtoken", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+    }
+
+    private void sendTokensToServer(List<String> tokens, BloodDonationPostModel bloodPost) {
+        String url = "https://apps.androidcodingbd.com/Apps/android/smsbot/sendnotification.php?";
+        for (String token : tokens) {
+            url += "token[]=" + token + "&"; // Add each token to the URL query parameter
+        }
+
+        // Add the SMS message to the URL query parameter
+        url += "sms=" +bloodPost.getBloodNeed()+" Blood Group: "+ bloodPost.getBloodgroup()+" Blood Qty: " + bloodPost.getBloodQty()+" Bag, Hospital: "+bloodPost.getHospital()+", Mobile: "+bloodPost.getContact();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+
+
+                Log.d("volley", s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("volley", "Error: " + volleyError.getLocalizedMessage());
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
 
 }

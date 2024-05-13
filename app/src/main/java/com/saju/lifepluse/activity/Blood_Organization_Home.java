@@ -125,7 +125,7 @@ public class Blood_Organization_Home extends AppCompatActivity {
 
                         if (is_form_filled) {
                             Log.d("orgform_status", "OrgForm  Filled Yet");
-
+                            Toast.makeText(Blood_Organization_Home.this, "You already Added Your ORG", Toast.LENGTH_SHORT).show();
 
                         } else if (is_form_notfilled) {
                             Log.d("orgform_status", "OrgForm Not Filled Yet");

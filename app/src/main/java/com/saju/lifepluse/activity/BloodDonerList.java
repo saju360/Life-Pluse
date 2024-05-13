@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class BloodDonerList extends AppCompatActivity {
     SwipeRefreshLayout donerList_swipeRefreshLayout;
     RecyclerView donerList_Recyclearview;
 
+    ImageView button_back;
     FirebaseFirestore db;
     ArrayList<BloodDonerRequestModel> allDataList;
     DonerListAdapter adapter;
@@ -64,6 +66,16 @@ public class BloodDonerList extends AppCompatActivity {
         donerList_swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
 
 
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BloodDonerList.this, BloodBank.class));
+                finish();
+            }
+        });
+
+
+
     }
 
 
@@ -73,6 +85,7 @@ public class BloodDonerList extends AppCompatActivity {
         donerList_swipeRefreshLayout = findViewById(R.id.donerlist_swipeRefreshLayout);
         donerList_Recyclearview = findViewById(R.id.donerlistRecyclearId);
         empty_anim = findViewById(R.id.empty_anim);
+        button_back = findViewById(R.id.button_back);
 
 
 

@@ -44,6 +44,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodDonerList;
@@ -53,7 +54,9 @@ import com.saju.lifepluse.activity.Blood_Organization_Home;
 import com.saju.lifepluse.activity.DrawerLayout;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.adapter.BloodHomeAdapter;
+import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
 import com.saju.lifepluse.modelclass.BloodNeedPostModel;
+import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -80,6 +83,7 @@ public class Blood_Home_Fragment extends Fragment {
     private BarChart barChart;
     FirebaseUser currentUser;
     public static LottieAnimationView empty_anim;
+    ArrayList<BloodDonerRequestModel> allDataList;
 
 
     @SuppressLint("MissingInflatedId")
@@ -103,6 +107,7 @@ public class Blood_Home_Fragment extends Fragment {
         bloodorganazitionBtn = myview.findViewById(R.id.bloodorganazitionBtn);
         bloodbankBtn = myview.findViewById(R.id.bloodbankBtn);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        allDataList = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
 
@@ -121,6 +126,7 @@ public class Blood_Home_Fragment extends Fragment {
 
         barChartMethod();
         checkuserAuth();
+        DonerListDataRetrive();
 
         // Display current division data by default in the chart
         if (current_division != null && !current_division.isEmpty()) {
@@ -204,7 +210,6 @@ public class Blood_Home_Fragment extends Fragment {
 
         });
 
-
         return myview;
     }
 
@@ -223,10 +228,10 @@ public class Blood_Home_Fragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
 
-                    if (documentSnapshot !=null){
+                    if (documentSnapshot != null) {
                         boolean is_form_filled = documentSnapshot.getBoolean("isform_filled");
                         boolean is_form_notfilled = documentSnapshot.getBoolean("isform_notfilled");
 
@@ -238,16 +243,13 @@ public class Blood_Home_Fragment extends Fragment {
                         } else if (is_form_notfilled) {
                             Log.d("form_status", "Form Not Filled Yet");
                         }
-                    }else {
+                    } else {
                         Log.d("form_status", "DocumentSnapshot is null");
                     }
-                }else {
+                } else {
                     Log.d("form_status", "Error getting document: ", task.getException());
 
                 }
-
-
-
 
 
             }
@@ -480,6 +482,84 @@ public class Blood_Home_Fragment extends Fragment {
         fragmentTransaction.replace(R.id.framelayout, fragment);
         fragmentTransaction.commit();
     }
+
+
+    //==========================================================
+
+
+    private void DonerListDataRetrive() {
+        allDataList.clear(); // Clear previous data
+
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getId();
+                                retrieveBloodDonorRequests(userId);
+                                Log.d("userId", userId);
+                            }
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void retrieveBloodDonorRequests(String userId) {
+        db.collection("users")
+                .document(userId)
+                .collection("bloodDoner")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String district = document.getString("district");
+                                if (district != null && district.equals(selecteddivision)) {
+                                    BloodDonerRequestModel model = document.toObject(BloodDonerRequestModel.class);
+                                    if (model != null) {
+                                        allDataList.add(model);
+                                        adapter.notifyDataSetChanged();
+                                        // Log the size of the list
+                                        Log.d("DataRetrieved", "Size of allDataList: " + allDataList.size());
+                                    }
+                                } else {
+                                    Log.d("Firestore", "Document does not belong to the selected division");
+                                }
+                            } else {
+                                Log.d("Firestore", "No such document");
+                            }
+
+                            // Update UI visibility based on data availability
+                            //updateEmptyViewVisibility();
+
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting document: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    // Method to update the visibility of empty view based on data availability
+    private void updateEmptyViewVisibility() {
+        if (allDataList.isEmpty()) {
+            empty_anim.setVisibility(View.VISIBLE);
+        } else {
+            empty_anim.setVisibility(View.GONE);
+        }
+    }
+
+
+
+
 }
 
 

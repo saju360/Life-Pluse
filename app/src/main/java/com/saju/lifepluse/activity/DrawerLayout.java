@@ -48,6 +48,9 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -58,13 +61,22 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.fragment.DashBoard;
 import com.saju.lifepluse.fragment.Profile_Fragment;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 public class DrawerLayout extends AppCompatActivity {
 
@@ -94,6 +106,8 @@ public class DrawerLayout extends AppCompatActivity {
     public static String userDivision;
     private LocationCallback locationCallback;
 
+    FirebaseFirestore db;
+
 
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
@@ -108,6 +122,8 @@ public class DrawerLayout extends AppCompatActivity {
         appUpdateManager = AppUpdateManagerFactory.create(this);
         navigationView = findViewById(R.id.navigationviewId);
         setSupportActionBar(materialToolbar);
+        db = FirebaseFirestore.getInstance();
+
         materialToolbar.setTitle(getResources().getString(R.string.app_name));
 
 
@@ -115,6 +131,7 @@ public class DrawerLayout extends AppCompatActivity {
         statusbar();
         inappupdate();
         askNotificationPermission();
+        initfirebaseNotification();
 
 
         //========================Location data get=========================//
@@ -203,6 +220,7 @@ public class DrawerLayout extends AppCompatActivity {
 
 
     } //==========================================Oncreate End================================//
+
 
     private void updateUIAfterLogout() {
         header_profile_layout.setVisibility(View.GONE);
@@ -605,5 +623,69 @@ public class DrawerLayout extends AppCompatActivity {
             }
         }
     }
+
+    private void initfirebaseNotification() {
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Firebasetoken", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Log.d("Firebasetoken", token);
+
+                        sendTokentoFirebase(token);
+
+
+                    }
+                });
+    }
+
+    private void sendTokentoFirebase(String token) {
+        // Get the Firebase installation ID
+        FirebaseInstallations.getInstance().getId()
+                .addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String installationId) {
+                        // Create a reference to the Firestore collection where you want to store the token
+                        DocumentReference userRef = db.collection("devices").document(installationId);
+
+                        // Create a map with the token data
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("fcmToken", token);
+
+                        // Set the data for the document
+                        userRef.set(userData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "FCM token stored successfully for device: " + installationId);
+                                        // Handle success if needed
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "Error storing FCM token for device: " + installationId + ", Error: " + e.getMessage());
+                                        // Handle failure if needed
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error getting Firebase installation ID: " + e.getMessage());
+                        // Handle failure if needed
+                    }
+                });
+    }
+
+
 
 }
