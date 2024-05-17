@@ -40,7 +40,7 @@ import java.util.ArrayList;
 public class Blood_Organization_Home extends AppCompatActivity {
 
     TextView locationTextView;
-    LottieAnimationView addorganizationAnimationId;
+    LottieAnimationView addorganizationAnimationId, empty_anim;
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView bloodOrgRecyclearId;
     FirebaseUser currentUser;
@@ -99,6 +99,7 @@ public class Blood_Organization_Home extends AppCompatActivity {
         addorganizationAnimationId = findViewById(R.id.addorganizationAnimationId);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         bloodOrgRecyclearId = findViewById(R.id.bloodRecyclearId);
+        empty_anim = findViewById(R.id.empty_anim);
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -125,11 +126,12 @@ public class Blood_Organization_Home extends AppCompatActivity {
 
                         if (is_form_filled) {
                             Log.d("orgform_status", "OrgForm  Filled Yet");
+                            startActivity(new Intent(getApplicationContext(), Blood_Organization_Edit_Profile.class));
                             Toast.makeText(Blood_Organization_Home.this, "You already Added Your ORG", Toast.LENGTH_SHORT).show();
 
                         } else if (is_form_notfilled) {
                             Log.d("orgform_status", "OrgForm Not Filled Yet");
-                            startActivity(new Intent(getApplicationContext(), Blood_Organization_Post.class));
+                            startActivity(new Intent(Blood_Organization_Home.this, Blood_Organization_Post.class));
                         }
                     }else {
                         Log.d("orgform_status", "DocumentSnapshot is null");
@@ -213,9 +215,9 @@ public class Blood_Organization_Home extends AppCompatActivity {
                             }
 
                             if (orgallDataList.isEmpty()){
-                                //empty_anim.setVisibility(View.VISIBLE);
+                                empty_anim.setVisibility(View.VISIBLE);
                             }else {
-                                //empty_anim.setVisibility(View.GONE);
+                                empty_anim.setVisibility(View.GONE);
                             }
 
 
