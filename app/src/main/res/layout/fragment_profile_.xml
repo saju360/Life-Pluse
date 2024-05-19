@@ -54,8 +54,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/locationtopLayout"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -67,8 +66,8 @@
             android:elevation="10dp"
             android:src="@drawable/avatar"
             app:civ_border_color="#FF000000"
-            app:tint="@color/white"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="2dp"
+            app:tint="@color/white" />
 
 
         <TextView
@@ -144,6 +143,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/aclonica"
+                            android:text="Last Donation:"
+                            android:textColor="#fff"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/lastDonationtvId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="07/03/2024"
+                            android:textColor="#fff"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/aclonica"
                             android:text="Total Donation:"
                             android:textColor="#fff"
                             android:textSize="14sp" />
@@ -152,24 +168,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
-                            android:text="10 time"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/aclonica"
-                            android:text="Last Donation:"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
-                            android:text="07/03/2024"
+                            android:text="0 times"
                             android:textColor="#fff"
                             android:textSize="14sp" />
 
@@ -187,45 +186,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
-                            android:text="12/10/2000"
+                            android:text=""
                             android:textColor="#fff"
                             android:textSize="14sp" />
 
 
-                        <TextView
-                            android:id="@+id/identification_type_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/aclonica"
-                            android:text="National ID NO:"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/identification_number_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
-                            android:text="123456789"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/aclonica"
-                            android:text="Occupation:"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
-                            android:text="Student"
-                            android:textColor="#fff"
-                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -268,23 +235,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
-                            android:text="+8801817256502"
+                            android:text=""
                             android:textColor="#fff"
                             android:textSize="14sp" />
 
+
+
                         <TextView
+                            android:id="@+id/identification_type_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/aclonica"
-                            android:text="IC Color:"
+                            android:text="National ID NO:"
                             android:textColor="#fff"
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/identification_number_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
-                            android:text="Yellow"
+                            android:text=""
                             android:textColor="#fff"
                             android:textSize="14sp" />
 
@@ -339,9 +310,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:fontFamily="@font/roboto"
-                            android:maxLines="1"
+                            android:maxLines="2"
                             android:text="255/B, Ahmed Nagar"
                             android:textColor="#fff"
+                            android:gravity="right"
                             android:textSize="14sp" />
 
 
@@ -373,8 +345,7 @@
                 android:text="Change Password"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deleteaccountBtn_id"
@@ -434,25 +405,22 @@
         android:layout_height="match_parent"
         android:layout_below="@id/locationtopLayout"
         android:layout_centerVertical="true"
-        android:gravity="center"
         android:layout_margin="5dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/application_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:visibility="gone"
             android:fontFamily="@font/aclonica"
-            />
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

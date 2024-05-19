@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -31,19 +33,27 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.fragment.DashBoard;
 import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
+import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
+import com.saju.lifepluse.modelclass.DoctorListModel;
 import com.saju.lifepluse.modelclass.EmailUser;
 import com.saju.lifepluse.modelclass.PhoneAuthModel;
 import com.saju.lifepluse.utils.AndroidUtil;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class Blood_Donation_Registration extends AppCompatActivity {
@@ -53,8 +63,9 @@ public class Blood_Donation_Registration extends AppCompatActivity {
     ImageView review_icon;
     TextView timeTv, statusTv, resonTv;
     EditText nameEd, addressEd, identityEd, mobileEd;
-    TextInputEditText dateEditText;
-    AutoCompleteTextView Divison, selectCountry;
+    TextInputEditText dateEditText, manualOrgEditText, lastDonatedateTextEd;
+    TextInputLayout manualOrgTextInputLayout, lastDonateLayout;
+    AutoCompleteTextView Divison, selectCountry, selectorg;
     MaterialCardView doner_register_form;
     MaterialCardView maleCardview, femaleCardview, o_positiveCardview, o_negativeCardview, a_positiveCardview, a_negativeCardview, b_positiveCardview, b_negativeCardview, ab_positiveCardview, ab_negativeCardview, unknown_Cardview;
     MaterialCardView signle_cardview, married_cardview, divorced_cardview, widowed_cardview, nationalCardview, passportCardview, yesCardview, noCardview;
@@ -72,11 +83,16 @@ public class Blood_Donation_Registration extends AppCompatActivity {
     String firstDonate = "";
     String[] divisionValues;
     String[] countryList;
+    String selectedorg;
+    String lastdonatedate;
     PhoneAuthModel phoneAuthModel;
     EmailUser emailUser;
     String uid;
     BloodDonerRequestModel bloodDonerRequestModel;
 
+    private FirebaseFirestore db;
+    private ArrayList<BloodOrganizationAddModel> orgallDataList;
+    ArrayList <String> orglist;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,20 +116,36 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         ArrayAdapter<String> countryadapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drop_down_item, countryList);
         selectCountry.setAdapter(countryadapter);
 
-        registerBtn.setOnClickListener(v -> register());
+        ArrayAdapter<String> orgadapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drop_down_item, getOrglist());
+        selectorg.setAdapter(orgadapter);
 
-        button_back.setOnClickListener(new View.OnClickListener() {
+
+
+        registerBtn.setOnClickListener(v -> register());
+        lastDonatedateTextEd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lastdonatedatepicker();
+            }
+        });
 
-                startActivity(new Intent(Blood_Donation_Registration.this, BloodBank.class));
-                finish();
 
+        selectorg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                selectedorg = ((TextView) view).getText().toString();
+                if (selectedorg.equals("Other") || selectedorg.equals("অন্যন্য")) {
+                    manualOrgTextInputLayout.setVisibility(View.VISIBLE);
+                } else {
+                    manualOrgTextInputLayout.setVisibility(View.GONE);
+                }
             }
         });
 
 
     }
+
 
     private void chek_form_filled() {
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -132,6 +164,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
                         doner_register_form.setVisibility(View.VISIBLE);
                         inreview_layout.setVisibility(View.GONE);
                         Log.d("form_status", "form not filled");
+                        DataRetrive();
                     }
                 }
             }
@@ -167,6 +200,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
                         doner_register_form.setVisibility(View.GONE);
                         inreview_layout.setVisibility(View.VISIBLE);
                         review_icon.setImageResource(R.drawable.reject_icon);
+                        timeTv.setText("Request Submited: " + AndroidUtil.timestampToString(document.getTimestamp("createdtime")));
                         statusTv.setText("Your Blood Doner Application is rejected by Admin.");
                         resonTv.setText("Reason of Rejection: Your Application Not Match with our Criteria, Please Contact With Admin.");
                         againRegisterBtn.setVisibility(View.VISIBLE);
@@ -198,6 +232,9 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         String dateOfBirth = dateEditText.getText().toString().trim();
         String district = Divison.getText().toString().trim();
         String nationality = selectCountry.getText().toString().trim();
+        String selectedorg = selectorg.getText().toString().trim();
+        String selectedmanualorg = manualOrgEditText.getText().toString().trim();
+
 
         // Retrieve selected gender
         String gender = selectedGender;
@@ -214,18 +251,39 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         // Retrieve selected donate type
         String DonateType = firstDonate;
 
-        // Check for empty fields and show toast message if any required field is not filled
-        if (name.isEmpty() || gender.isEmpty() || dateOfBirth.isEmpty() || BloodType.isEmpty() || MaritalStatus.isEmpty() || identity.isEmpty() || mobile.isEmpty() || district.isEmpty() || nationality.isEmpty() || DonateType.isEmpty() || IdentificationType.isEmpty()) {
+
+        if (name.isEmpty() ||
+                gender.isEmpty() ||
+                dateOfBirth.isEmpty() ||
+                BloodType.isEmpty() ||
+                MaritalStatus.isEmpty() ||
+                identity.isEmpty() ||
+                mobile.isEmpty() ||
+                district.isEmpty() ||
+                nationality.isEmpty() ||
+                DonateType.isEmpty() ||
+                IdentificationType.isEmpty()) {
+
             Toast.makeText(Blood_Donation_Registration.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-        submitForm(name, address, identity, mobile, dateOfBirth, district, nationality, gender, BloodType, MaritalStatus, IdentificationType, DonateType);
+        submitForm(name, address, identity, mobile, dateOfBirth, district, nationality, gender, BloodType, MaritalStatus, IdentificationType, selectedorg, selectedmanualorg, DonateType);
 
     }
 
     private void Init() {
+
+        db = FirebaseFirestore.getInstance();
+        orglist = new ArrayList<>();
+
+        button_back = findViewById(R.id.button_back);
+        lastDonateLayout = findViewById(R.id.lastDonateLayout);
+        lastDonatedateTextEd = findViewById(R.id.lastDonatedateTextEd);
+        manualOrgTextInputLayout = findViewById(R.id.manualOrgTextInputLayout);
+        manualOrgEditText = findViewById(R.id.manualOrgEditText);
+        selectorg = findViewById(R.id.selectorg);
         maleCardview = findViewById(R.id.maleCardview);
         femaleCardview = findViewById(R.id.femaleCardview);
         maleTextview = findViewById(R.id.maleTextview);
@@ -282,6 +340,8 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         locationTextView = findViewById(R.id.locationTextView);
         button_back = findViewById(R.id.button_back);
         againRegisterBtn = findViewById(R.id.againRegisterBtn);
+        orgallDataList = new ArrayList<>();
+        
 
 
     }
@@ -427,7 +487,7 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         yesCardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstDonate = "Yes";
+                firstDonate = "First time donate";
                 setSelectedDonateType();
             }
         });
@@ -449,13 +509,17 @@ public class Blood_Donation_Registration extends AppCompatActivity {
 
 
         switch (firstDonate) {
-            case "Yes":
+            case "First time donate":
                 yesCardview.setCardBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blood_splashbg));
                 yes_textview.setTextColor(Color.WHITE);
+                lastDonateLayout.setVisibility(View.GONE);
                 break;
             case "No":
                 noCardview.setCardBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blood_splashbg));
                 no_textview.setTextColor(Color.WHITE);
+                lastDonateLayout.setVisibility(View.VISIBLE);
+                lastdonatedate = lastDonatedateTextEd.getText().toString();
+                firstDonate = lastdonatedate;
                 break;
         }
     }
@@ -634,6 +698,55 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         dateEditText.setOnClickListener(v -> datePickerDialog.show());
     }
 
+    private void lastdonatedatepicker() {
+        // Get current date
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Calculate the maximum selectable date (tomorrow)
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        int maxYear = calendar.get(Calendar.YEAR);
+        int maxMonth = calendar.get(Calendar.MONTH);
+        int maxDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Listener to handle date selection
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            // Check if the selected date is within the allowed range
+            Calendar selectedCalendar = Calendar.getInstance();
+            selectedCalendar.set(year, month, dayOfMonth);
+            Calendar currentCalendar = Calendar.getInstance();
+            currentCalendar.add(Calendar.MONTH, -6); // Move 6 months back from the current date
+            if (selectedCalendar.before(currentCalendar) || selectedCalendar.after(Calendar.getInstance())) {
+                // Show a toast indicating that the selected date is invalid
+                Toast.makeText(Blood_Donation_Registration.this, "Please select a date within the last 6 months or up to tomorrow", Toast.LENGTH_SHORT).show();
+            } else {
+                // Set the selected date in the EditText
+                lastDonatedateTextEd.setText(String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, month + 1, year));
+            }
+        };
+
+        // Initialize DatePickerDialog with current date and dateSetListener
+        DatePickerDialog datePickerDialog = new DatePickerDialog(Blood_Donation_Registration.this, dateSetListener, currentYear, currentMonth, currentDay);
+
+        // Set minimum date to 6 months ago from today
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -6);
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        // Set maximum date to tomorrow
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        // Show DatePickerDialog when EditText is clicked
+        lastDonatedateTextEd.setOnClickListener(v -> datePickerDialog.show());
+    }
+
+
+
+
 
     void getName() {
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -665,14 +778,14 @@ public class Blood_Donation_Registration extends AppCompatActivity {
     //==================================================//
 
     // Upon submission of the form, insert the data into Firestore
-    private void submitForm(String name, String address, String identity, String mobile, String dateOfBirth, String district, String nationality, String gender, String bloodType, String maritalStatus, String identificationType, String donateType) {
+    private void submitForm(String name, String address, String identity, String mobile, String dateOfBirth, String district, String nationality, String gender, String bloodType, String maritalStatus, String identificationType, String selectedorg, String selectedmanualorg, String donateType) {
 
         boolean isApproved = false;
         boolean isDeclined = false;
 
         uid = FirebaseAuth.getInstance().getUid();
 
-        bloodDonerRequestModel = new BloodDonerRequestModel(uid, name, address, identity, mobile, dateOfBirth, district, nationality, gender, bloodType, maritalStatus, identificationType, donateType, Timestamp.now(), isApproved, isDeclined);
+        bloodDonerRequestModel = new BloodDonerRequestModel(uid, name, address, identity, mobile, dateOfBirth, district, nationality, gender, bloodType, maritalStatus, identificationType, selectedorg, selectedmanualorg, donateType, Timestamp.now(), isApproved, isDeclined);
 
         // Add other form fields
 
@@ -725,6 +838,77 @@ public class Blood_Donation_Registration extends AppCompatActivity {
         } else {
             locationTextView.setText("Location not available");
         }
+    }
+
+    private void DataRetrive() {
+        orgallDataList.clear(); // Clear previous data
+        orglist.clear();
+
+        orglist.add("Other");
+
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getId();
+                                retrieveBloodDonorRequests(userId);
+                                Log.d("userId", userId);
+                            }
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void retrieveBloodDonorRequests(String userId) {
+
+
+        db.collection("users")
+                .document(userId)
+                .collection("BloodOrganization")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()){
+                                // Convert the document to BloodDonerRequestModel and add to allDataList
+                                BloodOrganizationAddModel orgmodel = document.toObject(BloodOrganizationAddModel.class);
+                                if (orgmodel != null) {
+                                    orgallDataList.add(orgmodel);
+                                    orglist.add(orgmodel.getOrgname_Ed());
+                                }
+
+
+                                // Log the size of the list
+                                Log.d("DataRetrieved", "Size of allDataList: " + orgallDataList.size());
+
+                                // Notify adapter about the data change
+                            } else {
+                                Log.d("Firestore", "No such document");
+                            }
+
+
+
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting document: ", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+    private List<String> getOrglist() {
+        return orglist;
     }
 
 

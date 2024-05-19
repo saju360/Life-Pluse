@@ -6,10 +6,11 @@
     <color name="simple_grey">#A8A3A3</color>
     <color name="status_bar">#018E85</color>
     <color name="colorBadge">#F44336</color>
+    <color name="red">#FF0000</color>
     <color name="text_color">#000</color>
     <color name="button_bg">#03A9F4</color>
     <color name="cancelBtn_bg">#F44336</color>
-    <color name="view_bg">#F44336</color>
+    <color name="view_bg">#000000</color>
     <color name="cardview_bg">#ECF6FF</color>
     <color name="header_bg">#01BEB2</color>
     <color name="arrow_bg">#0B76BE</color>

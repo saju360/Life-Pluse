@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class Blood_Organization_Post extends AppCompatActivity {
     FirebaseUser currentuser;
     boolean isEditMode = false;
 
+    ImageView button_back;
     BloodOrganizationAddModel bloodOrganizationAddModel;
 
     @Override
@@ -67,6 +69,14 @@ public class Blood_Organization_Post extends AppCompatActivity {
 
                 validatycheck();
 
+            }
+        });
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Blood_Organization_Post.this, Blood_Organization_Home.class));
+                finish();
             }
         });
 
@@ -280,6 +290,7 @@ public class Blood_Organization_Post extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbarId);
         sumbitBtnLayout = findViewById(R.id.sumbitBtnLayout);
         org_title = findViewById(R.id.org_title);
+        button_back = findViewById(R.id.button_back);
         currentuser = FirebaseAuth.getInstance().getCurrentUser();
 
 

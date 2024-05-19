@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:fontFamily="sans-serif-black"
-        android:text="Request Submited: 29/03/2024"
+        android:text="Request Submited: "
         android:textColor="#6A6868"
         android:textSize="16sp"
         android:textStyle="italic" />

@@ -80,16 +80,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/aclonica"
-                        android:text="Total Donation:"
+                        android:text="Last Donated Date:"
                         android:textColor="#000"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/totaldonation"
+                        android:id="@+id/lastdonationId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="10 time"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/aclonica"
+                        android:text="Total Donate:"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/totalDonateId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="0 Times"
                         android:textColor="#000"
                         android:textSize="14sp" />
 
@@ -111,6 +128,27 @@
                         android:textColor="#000"
                         android:textSize="14sp" />
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/aclonica"
+                        android:text="Blood Organization:"
+                        android:textColor="#000"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="14sp" />
+
+
+
+                    <TextView
+                        android:id="@+id/blood_org_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="14sp" />
 
 
                 </LinearLayout>

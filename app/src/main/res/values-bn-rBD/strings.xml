@@ -53,6 +53,8 @@
     <string name="postBtn">পোস্ট করুন</string>
     <string name="cancelBtn">বাতিল করুন</string>
 
+    <string name="lastdonationdate">সর্বশেষ রক্ত দানের তারিখ <b>*</b></string>
+
 
     <!---bloodGroup-->
 
@@ -70,6 +72,10 @@
 
     </string-array>
 
+    <string-array name="orgmanuallist">
+        <item>অন্যন্য</item>
+    </string-array>
+
 
     <string name="lifesavetext">লাইভ সেইভ</string>
     <string name="bloodtypetxt">রক্তের গ্রুপ</string>
@@ -81,6 +87,9 @@
     <string name="donatenowtxt">রক্ত দান করুন</string>
     <string name="finddonarstxt">ডোনার খুজুন</string>
     <string name="postforbloodtxt">পোস্ট করুন</string>
+    <string name="addyourorg">আপনার ব্লাড অর্গানাইজেশন নির্বাচন করুন</string>
+    <string name="addyourmanualorg">ম্যানুয়ালি ব্লাড অর্গানাইজেশন নির্বাচন করুন</string>
+    <string name="addyourorgtitle">ব্লাড অর্গানাইজেশন (অপশনাল): </string>
 
     <!---terms & condition-->
 

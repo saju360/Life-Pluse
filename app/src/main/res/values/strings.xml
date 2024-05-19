@@ -273,6 +273,12 @@
     </string-array>
 
 
+    <string-array name="orgmanuallist">
+        <item>Other</item>
+    </string-array>
+
+
+
     <!---bloodHomecard-->
 
     <string name="lifesavetext">Life Save</string>
@@ -283,6 +289,10 @@
     <string name="bloodbanktxt">Find Blood Bank</string>
     <string name="finddonarstxt">Find Donors</string>
     <string name="postforbloodtxt">Post for Blood</string>
+    <string name="addyourorg">Select Your Blood Organization</string>
+    <string name="addyourmanualorg">Select Your Blood Organization Manually</string>
+    <string name="addyourorgtitle">Blood Organization (Optional):</string>
+
 
     <!---terms & condition-->
 
@@ -313,6 +323,7 @@
     <string name="firsttimedonate">First time Donate? <b>*</b></string>
     <string name="firsttimedonate_yes">Yes</string>
     <string name="firsttimedonate_no">No</string>
+    <string name="lastdonationdate">Last Donate Date <b>*</b></string>
 
     <string name="o_positive">O positive</string>
     <string name="o_negative">O negative</string>
@@ -324,6 +335,5 @@
     <string name="ab_negative">AB negative</string>
     <string name="unknow">Unknown</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

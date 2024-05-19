@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp;
 
 public class BloodDonerRequestModel {
 
-    String  uid, name, address, identity, mobile, dateOfBirth, district, nationality, gender, bloodType, maritalStatus, identificationType, donateType;
+    String  uid, name, address, identity, mobile, dateOfBirth, district, nationality, gender, bloodType, maritalStatus, identificationType, selectedorg, selectedmanualorg, donateType;
 
     Timestamp createdtime;
     boolean isApproved;
@@ -13,7 +13,7 @@ public class BloodDonerRequestModel {
     public BloodDonerRequestModel() {
     }
 
-    public BloodDonerRequestModel(String uid, String name, String address, String identity, String mobile, String dateOfBirth, String district, String nationality, String gender, String bloodType, String maritalStatus, String identificationType, String donateType, Timestamp createdtime, boolean isApproved, boolean isDeclined) {
+    public BloodDonerRequestModel(String uid, String name, String address, String identity, String mobile, String dateOfBirth, String district, String nationality, String gender, String bloodType, String maritalStatus, String identificationType, String selectedorg, String selectedmanualorg, String donateType, Timestamp createdtime, boolean isApproved, boolean isDeclined) {
         this.uid = uid;
         this.name = name;
         this.address = address;
@@ -26,6 +26,8 @@ public class BloodDonerRequestModel {
         this.bloodType = bloodType;
         this.maritalStatus = maritalStatus;
         this.identificationType = identificationType;
+        this.selectedorg = selectedorg;
+        this.selectedmanualorg = selectedmanualorg;
         this.donateType = donateType;
         this.createdtime = createdtime;
         this.isApproved = isApproved;
@@ -126,6 +128,22 @@ public class BloodDonerRequestModel {
 
     public void setIdentificationType(String identificationType) {
         this.identificationType = identificationType;
+    }
+
+    public String getSelectedorg() {
+        return selectedorg;
+    }
+
+    public void setSelectedorg(String selectedorg) {
+        this.selectedorg = selectedorg;
+    }
+
+    public String getSelectedmanualorg() {
+        return selectedmanualorg;
+    }
+
+    public void setSelectedmanualorg(String selectedmanualorg) {
+        this.selectedmanualorg = selectedmanualorg;
     }
 
     public String getDonateType() {

@@ -59,14 +59,18 @@ import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cn.iwgang.countdownview.CountdownView;
 
 public class Blood_Home_Fragment extends Fragment {
 
-    TextView locationTextView, bloodtype_status_tv;
+    TextView locationTextView, bloodtype_status_tv, bloodDonatstatus_tv;
     ImageButton signup_bloodBtn;
     CountdownView countdownview;
     MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn, bloodorganazitionBtn, bloodbankBtn;
@@ -84,6 +88,8 @@ public class Blood_Home_Fragment extends Fragment {
     FirebaseUser currentUser;
     public static LottieAnimationView empty_anim;
     ArrayList<BloodDonerRequestModel> allDataList;
+
+    CountdownView countdownView;
 
 
     @SuppressLint("MissingInflatedId")
@@ -103,6 +109,7 @@ public class Blood_Home_Fragment extends Fragment {
         empty_anim = myview.findViewById(R.id.empty_anim);
         countdownview = myview.findViewById(R.id.countdownview);
         bloodtype_status_tv = myview.findViewById(R.id.bloodtype_status_tv);
+        bloodDonatstatus_tv = myview.findViewById(R.id.bloodDonatstatus_tv);
         findDoner_Btn = myview.findViewById(R.id.findDoner_Btn);
         bloodorganazitionBtn = myview.findViewById(R.id.bloodorganazitionBtn);
         bloodbankBtn = myview.findViewById(R.id.bloodbankBtn);
@@ -271,10 +278,39 @@ public class Blood_Home_Fragment extends Fragment {
                     boolean isApproved = snapshot.getBoolean("approved");
                     boolean isDeclined = snapshot.getBoolean("declined");
                     String bloodtype = snapshot.getString("bloodType");
+                    String lastdonateDate = snapshot.getString("donateType");
                     if (isApproved) {
 
                         userbloodaccountstatus.setVisibility(View.VISIBLE);
                         bloodtype_status_tv.setText(bloodtype);
+                        if (lastdonateDate.contains("First time donate")){
+                            bloodDonatstatus_tv.setText("Donate Now");
+                            countdownview.setVisibility(View.GONE);
+                        } else {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            try {
+                                Date lastDonate = dateFormat.parse(lastdonateDate);
+                                Date currentDate = new Date();
+                                long diffInMillis = currentDate.getTime() - lastDonate.getTime();
+                                long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+
+                                if (diffInDays > 120) {
+                                    bloodDonatstatus_tv.setText("Donate Now");
+                                } else {
+                                    long daysRemaining = 120 - diffInDays;
+                                    long daysreminingInMillis = daysRemaining * 24 * 60 * 60 * 1000;
+
+                                    countdownview.setVisibility(View.VISIBLE);
+                                    bloodDonatstatus_tv.setText("You can donate in " + daysRemaining + " days");
+                                    countdownview.start(daysreminingInMillis);
+
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                bloodDonatstatus_tv.setText("Error parsing date");
+                            }
+                        }
+
 
 
                     } else if (isDeclined) {

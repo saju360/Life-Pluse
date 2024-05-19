@@ -75,7 +75,7 @@
             android:orientation="vertical">
 
 
-            <include layout="@layout/inreview_layout"/>
+            <include layout="@layout/inreview_layout" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/doner_register_form"
@@ -137,9 +137,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
-                                    android:inputType="textPersonName"
                                     android:hint="Saju Khan"
-                                    android:padding="8dp" />
+                                    android:inputType="textPersonName"
+                                    android:padding="8dp"
+                                    android:textColorHint="@color/black"
+                                    />
                             </LinearLayout>
 
 
@@ -222,13 +224,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
-                                android:hint="@string/dob">
+                                android:hint="@string/dob"
+                                android:textColorHint="@color/black">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/dateTextEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
+                                    android:textColorHint="@color/black"
                                     android:inputType="date" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -673,10 +677,11 @@
                                     android:id="@+id/addressEd"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="255/B, Dhaka, Bangladesh"
                                     android:background="@drawable/edit_text_rounded_corner"
+                                    android:hint="255/B, Dhaka, Bangladesh"
                                     android:inputType="text"
-                                    android:padding="8dp" />
+                                    android:padding="8dp"
+                                    android:textColorHint="@color/black" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -756,6 +761,7 @@
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
                                     android:inputType="text"
+                                    android:textColorHint="@color/black"
                                     android:padding="8dp" />
                             </LinearLayout>
 
@@ -780,14 +786,17 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="5dp"
-                                    android:hint="@string/nationality_txt">
+                                    android:hint="@string/nationality_txt"
+                                    android:textColorHint="@color/black">
 
 
                                     <AutoCompleteTextView
                                         android:id="@+id/selectcountry"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:inputType="none"></AutoCompleteTextView>
+                                        android:inputType="none">
+
+                                    </AutoCompleteTextView>
 
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -814,9 +823,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edit_text_rounded_corner"
-                                    android:inputType="phone"
                                     android:hint="+8801817******"
-                                    android:padding="8dp" />
+                                    android:inputType="phone"
+                                    android:padding="8dp"
+                                    android:textColorHint="@color/black" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -839,7 +849,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="5dp"
-                                    android:hint="@string/division">
+                                    android:hint="@string/division"
+                                    android:textColorHint="@color/black">
 
 
                                     <AutoCompleteTextView
@@ -852,6 +863,67 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
                             </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:fontFamily="@font/aclonica"
+                                    android:text="@string/addyourorgtitle"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:hint="@string/addyourorg"
+                                    android:textColorHint="@color/simple_grey"
+                                    app:boxStrokeColor="@color/black">
+
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/selectorg"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="none"
+                                        android:textColor="@color/black"></AutoCompleteTextView>
+
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <!-- Add below the existing TextInputLayout for division selection -->
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/manualOrgTextInputLayout"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:hint="@string/addyourmanualorg"
+                                    android:textColorHint="@color/simple_grey"
+                                    android:visibility="gone"
+                                    app:boxStrokeColor="@color/black">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/manualOrgEditText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="text"
+                                        android:textColor="@color/black" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -923,6 +995,27 @@
                                     </com.google.android.material.card.MaterialCardView>
 
                                 </LinearLayout>
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/lastDonateLayout"
+                                    android:layout_marginBottom="5dp"
+                                    android:visibility="gone"
+                                    android:hint="@string/lastdonationdate"
+                                    android:textColorHint="@color/black">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/lastDonatedateTextEd"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:focusable="false"
+                                        android:textColorHint="@color/black"
+                                        android:inputType="date" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
 
 
                             </LinearLayout>

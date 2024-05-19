@@ -40,9 +40,8 @@ public class Blood_Organization_Edit_Profile extends AppCompatActivity {
     TextView org_name, org_acc_datetvId, orgAddress_tv;
     MaterialButton deleteorgBtn_id;
     LottieAnimationView org_callAnimationId;
-    ImageView org_edit_icon;
+    ImageView org_edit_icon, button_back;
     ImageView weblink_btn, fblink_btn, instalink_btn, youtlink_btn;
-    ArrayList<BloodOrganizationAddModel> orgallDataList;
     FirebaseFirestore db;
     FirebaseAuth auth;
     TextView locationTextView;
@@ -65,6 +64,7 @@ public class Blood_Organization_Edit_Profile extends AppCompatActivity {
         youtlink_btn = findViewById(R.id.youtlink_btn);
         locationTextView = findViewById(R.id.locationTextView);
         deleteorgBtn_id = findViewById(R.id.deleteorgBtn_id);
+        button_back = findViewById(R.id.button_back);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -83,6 +83,15 @@ public class Blood_Organization_Edit_Profile extends AppCompatActivity {
             }
         });
 
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Blood_Organization_Edit_Profile.this, Blood_Organization_Home.class));
+                finish();
+
+            }
+        });
 
 
 

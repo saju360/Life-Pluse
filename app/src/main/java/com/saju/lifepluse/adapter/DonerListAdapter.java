@@ -42,11 +42,19 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
         viewHolder.name_tv_textview.setText("Name: " + model.getName());
         viewHolder.bloodType_tv_textview.setText( model.getBloodType());
         viewHolder.acc_datetvId.setText("Joined: "+ AndroidUtil.timestampToString(model.getCreatedtime()));
-        viewHolder.totaldonation.setText(model.getDonateType());
+        viewHolder.lastdonationId.setText(model.getDonateType());
         viewHolder.dateofbirth_tv.setText(model.getDateOfBirth());
         viewHolder.gender_tv.setText(model.getGender());
         viewHolder.marital_status_tv.setText(model.getMaritalStatus());
         viewHolder.district_tv.setText(model.getDistrict());
+
+        if (model.getSelectedorg().isEmpty() || model.getSelectedorg()==null || model.getSelectedorg().contains("Other")){
+            viewHolder.blood_org_tv.setText(model.getSelectedmanualorg());
+        }else {
+            viewHolder.blood_org_tv.setText(model.getSelectedorg());
+        }
+
+
 
 
     }
@@ -58,7 +66,7 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name_tv_textview, acc_datetvId, bloodType_tv_textview, totaldonation, dateofbirth_tv, gender_tv, marital_status_tv, district_tv;
+        TextView name_tv_textview, acc_datetvId, bloodType_tv_textview, lastdonationId, dateofbirth_tv, gender_tv, marital_status_tv, district_tv, blood_org_tv, totalDonateId;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -66,11 +74,13 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
             name_tv_textview = itemView.findViewById(R.id.name_tv_textview);
             bloodType_tv_textview = itemView.findViewById(R.id.bloodType_tv_textview);
             acc_datetvId = itemView.findViewById(R.id.acc_datetvId);
-            totaldonation = itemView.findViewById(R.id.totaldonation);
+            lastdonationId = itemView.findViewById(R.id.lastdonationId);
             dateofbirth_tv = itemView.findViewById(R.id.dateofbirth_tv);
             gender_tv = itemView.findViewById(R.id.gender_tv);
             marital_status_tv = itemView.findViewById(R.id.marital_status_tv);
             district_tv = itemView.findViewById(R.id.district_tv);
+            blood_org_tv = itemView.findViewById(R.id.blood_org_tv);
+            totalDonateId = itemView.findViewById(R.id.totalDonateId);
 
 
         }

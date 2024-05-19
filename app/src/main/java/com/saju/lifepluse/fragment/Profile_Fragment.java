@@ -49,7 +49,7 @@ public class Profile_Fragment extends Fragment {
     private FirebaseAuth mAuth;
     FirebaseUser user;
     BloodDonerRequestModel bloodDonerRequestModel;
-    TextView nameTv, acc_datetvId, bloodType_tv, dateofbirth_tv, identification_number_tv, district_tv, mobile_tv, gender_tv, marital_tv, address_tv;
+    TextView nameTv, acc_datetvId, bloodType_tv, dateofbirth_tv, identification_number_tv, district_tv, mobile_tv, gender_tv, marital_tv, address_tv, lastDonationtvId;
 
     TextView application_status;
     @SuppressLint("MissingInflatedId")
@@ -171,6 +171,7 @@ public class Profile_Fragment extends Fragment {
                     String gender = bloodDonerRequestModel.getGender();
                     String marital_txt = bloodDonerRequestModel.getMaritalStatus();
                     String address = bloodDonerRequestModel.getAddress();
+                    String lastdonationdate = bloodDonerRequestModel.getDonateType();
 
                     nameTv.setText("Name: " + name);
                     bloodType_tv.setText(bloodtype);
@@ -182,6 +183,7 @@ public class Profile_Fragment extends Fragment {
                     gender_tv.setText(gender);
                     marital_tv.setText(marital_txt);
                     address_tv.setText(address);
+                    lastDonationtvId.setText(lastdonationdate);
 
 
                     Log.d("name", name);
@@ -281,6 +283,7 @@ public class Profile_Fragment extends Fragment {
         gender_tv = profileview.findViewById(R.id.gender_tv);
         marital_tv = profileview.findViewById(R.id.marital_tv);
         address_tv = profileview.findViewById(R.id.address_tv);
+        lastDonationtvId = profileview.findViewById(R.id.lastDonationtvId);
         application_status = profileview.findViewById(R.id.application_status);
         mAuth = FirebaseAuth.getInstance();
     }
