@@ -53,6 +53,9 @@ public class LoginOtpActivity extends AppCompatActivity {
     boolean isform_notfilled = true;
     boolean isorgadd = false;
     boolean isorgnotadd = true;
+    boolean isfindbbankadd = false;
+    boolean isfindbbanknotadd = true;
+
     FirebaseFirestore db;
 
     @Override
@@ -140,7 +143,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         //login and go to next activity
         setInProgress(true);
 
-        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd );
+        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd );
         mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -150,7 +153,7 @@ public class LoginOtpActivity extends AppCompatActivity {
                     intent.putExtra("phone",phoneNumber);
 
                     String uid = task.getResult().getUser().getUid();
-                    db.collection("users").document(uid).set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    /*db.collection("users").document(uid).set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
@@ -163,7 +166,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
 
                         }
-                    });
+                    });*/
 
 
                     startActivity(intent);

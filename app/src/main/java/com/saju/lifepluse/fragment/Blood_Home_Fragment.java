@@ -52,6 +52,7 @@ import com.saju.lifepluse.activity.BloodNeed_Post;
 import com.saju.lifepluse.activity.Blood_Donation_Registration;
 import com.saju.lifepluse.activity.Blood_Organization_Home;
 import com.saju.lifepluse.activity.DrawerLayout;
+import com.saju.lifepluse.activity.Find_Blood_Bank_Home;
 import com.saju.lifepluse.activity.SignIn;
 import com.saju.lifepluse.adapter.BloodHomeAdapter;
 import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
@@ -73,7 +74,7 @@ public class Blood_Home_Fragment extends Fragment {
     TextView locationTextView, bloodtype_status_tv, bloodDonatstatus_tv;
     ImageButton signup_bloodBtn;
     CountdownView countdownview;
-    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn, bloodorganazitionBtn, bloodbankBtn;
+    MaterialCardView postfor_blood_btn, donateNowBtn, userbloodaccountstatus, findDoner_Btn, bloodorganazitionBtn, findbloodbankBtn;
     String currentLocation, selecteddivision;
     RecyclerView bloodRecyclear;
     AutoCompleteTextView division;
@@ -112,7 +113,7 @@ public class Blood_Home_Fragment extends Fragment {
         bloodDonatstatus_tv = myview.findViewById(R.id.bloodDonatstatus_tv);
         findDoner_Btn = myview.findViewById(R.id.findDoner_Btn);
         bloodorganazitionBtn = myview.findViewById(R.id.bloodorganazitionBtn);
-        bloodbankBtn = myview.findViewById(R.id.bloodbankBtn);
+        findbloodbankBtn = myview.findViewById(R.id.findbloodbankBtn);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         allDataList = new ArrayList<>();
 
@@ -134,6 +135,7 @@ public class Blood_Home_Fragment extends Fragment {
         barChartMethod();
         checkuserAuth();
         DonerListDataRetrive();
+        locationData();
 
         // Display current division data by default in the chart
         if (current_division != null && !current_division.isEmpty()) {
@@ -157,6 +159,12 @@ public class Blood_Home_Fragment extends Fragment {
         bloodorganazitionBtn.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), Blood_Organization_Home.class));
 
+        });
+        findbloodbankBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Find_Blood_Bank_Home.class));
+            }
         });
         postfor_blood_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,13 +195,6 @@ public class Blood_Home_Fragment extends Fragment {
             updateChartWithData();
         });
 
-        if (DrawerLayout.locationText != null) {
-            currentLocation = DrawerLayout.locationText;
-            locationTextView.setText(currentLocation);
-        } else {
-            locationTextView.setText("Location not available");
-        }
-
 
         signup_bloodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,8 +221,19 @@ public class Blood_Home_Fragment extends Fragment {
         return myview;
     }
 
-    private void checkuserAuth() {
+    private void locationData() {
 
+
+        if (DrawerLayout.locationText != null) {
+            currentLocation = DrawerLayout.locationText;
+            locationTextView.setText(currentLocation);
+        } else {
+            locationTextView.setText("Location not available");
+        }
+
+    }
+
+    private void checkuserAuth() {
 
         if (currentUser != null) {
             form_status();
@@ -584,14 +596,6 @@ public class Blood_Home_Fragment extends Fragment {
                 });
     }
 
-    // Method to update the visibility of empty view based on data availability
-    private void updateEmptyViewVisibility() {
-        if (allDataList.isEmpty()) {
-            empty_anim.setVisibility(View.VISIBLE);
-        } else {
-            empty_anim.setVisibility(View.GONE);
-        }
-    }
 
 
 

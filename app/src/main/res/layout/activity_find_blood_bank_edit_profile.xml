@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/doner_list_border_sample"
+    tools:context=".activity.Find_Blood_Bank_Edit_Profile">
+
+    <LinearLayout
+        android:id="@+id/locationtopLayout"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/blood_splashbg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight=".5"
+            android:src="@drawable/baseline_arrow_back" />
+
+        <LinearLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="2.5"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/location_background"
+                android:elevation="20sp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Loading location..."
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/current_location" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locationtopLayout"
+        app:contentPadding="10dp"
+        android:id="@+id/cardview_layout"
+        app:cardBackgroundColor="@color/white">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/org_name_tv_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aclonica"
+                    android:gravity="left"
+                    android:text="Saju Blood Donation Org"
+                    android:textColor="#000"
+                    android:layout_weight="3.5"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/org_edit_icon"
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit_icon"
+
+                    />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/org_acc_datetvId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_horizontal"
+                android:text="Joined: 07/03/2024"
+                android:textColor="#D32F2F"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.2"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/aclonica"
+                        android:text="Address:"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/orgAddress_tv_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="255/B, Ahmed Nagar, Mirpur -1, Dhaka-1216."
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/weblink_btn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/icon_website"
+                            />
+
+
+                        <ImageView
+                            android:id="@+id/fblink_btn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_fb"
+                            android:layout_margin="8dp"
+                            />
+
+                        <ImageView
+                            android:id="@+id/instalink_btn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_insta"
+                            android:layout_margin="8dp"
+                            />
+
+                        <ImageView
+                            android:id="@+id/youtlink_btn"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/icon_youtube"
+                            android:layout_margin="8dp"
+                            />
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".8"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/org_callAnimationId"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        app:lottie_rawRes="@raw/call_us_animation"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        android:layout_gravity="center" />
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteorgBtn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/blood_splashbg"
+        android:fontFamily="@font/aclonica"
+        android:text="Delete Your Blood Bank"
+        android:layout_below="@id/cardview_layout"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+
+
+
+</RelativeLayout>

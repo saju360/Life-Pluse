@@ -11,11 +11,13 @@ public class EmailUser {
 
     boolean isorgadd ;
     boolean isorgnotadd ;
+    boolean isfindbbankadd;
+    boolean isfindbbanknotadd;
 
-    public EmailUser() {
-    }
 
-    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd) {
+
+
+    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -25,6 +27,11 @@ public class EmailUser {
         this.isform_notfilled = isform_notfilled;
         this.isorgadd = isorgadd;
         this.isorgnotadd = isorgnotadd;
+        this.isfindbbankadd = isfindbbankadd;
+        this.isfindbbanknotadd = isfindbbanknotadd;
+    }
+
+    public EmailUser() {
     }
 
     public String getName() {
@@ -97,5 +104,21 @@ public class EmailUser {
 
     public void setIsorgnotadd(boolean isorgnotadd) {
         this.isorgnotadd = isorgnotadd;
+    }
+
+    public boolean isIsfindbbankadd() {
+        return isfindbbankadd;
+    }
+
+    public void setIsfindbbankadd(boolean isfindbbankadd) {
+        this.isfindbbankadd = isfindbbankadd;
+    }
+
+    public boolean isIsfindbbanknotadd() {
+        return isfindbbanknotadd;
+    }
+
+    public void setIsfindbbanknotadd(boolean isfindbbanknotadd) {
+        this.isfindbbanknotadd = isfindbbanknotadd;
     }
 }

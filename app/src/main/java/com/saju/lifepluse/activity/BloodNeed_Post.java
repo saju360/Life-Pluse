@@ -180,37 +180,19 @@ public class BloodNeed_Post extends AppCompatActivity {
             }
         });
 
-        postNowButton.setOnClickListener(v -> userconfirmation());
+        postNowButton.setOnClickListener(v -> {
+            if (validateData()) {
+                showUserConfirmationDialog();
+            }
+        });
     }
 
     private void initializeFirestore() {
         db = FirebaseFirestore.getInstance();
     }
 
-    private void userconfirmation(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirm Post");
-        builder.setMessage("Please check your form carefully. After submission, you won't be able to edit the post.");
-        builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // User confirmed, proceed to post
-                dialog.dismiss();
-                validateAndPost();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // User canceled, do nothing
-                dialog.dismiss();
-            }
-        });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    };
-    private void validateAndPost() {
+    private boolean validateData() {
         bloodNeed = bloodNeedEditText.getText().toString();
         bloodgroup = selectbloodType.getText().toString();
         date = dateEditText.getText().toString();
@@ -223,16 +205,40 @@ public class BloodNeed_Post extends AppCompatActivity {
 
         if (TextUtils.isEmpty(bloodNeed) || TextUtils.isEmpty(bloodgroup) || TextUtils.isEmpty(date) ||
                 TextUtils.isEmpty(bloodQty) || TextUtils.isEmpty(hospital) || TextUtils.isEmpty(division) ||
-                (selectedItem != null && (selectedItem.equals("Other") || selectedItem.equals("অন্যন্য")) && TextUtils.isEmpty(manualDivision)) ||
+                (selectedItem != null && ("Other".equals(selectedItem) || "অন্যন্য".equals(selectedItem)) && TextUtils.isEmpty(manualDivision)) ||
                 TextUtils.isEmpty(contact)) {
-
-
-
             Toast.makeText(getApplicationContext(), "Please fill in all the required fields", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
+        return true;
+    }
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    private void showUserConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm Post");
+        builder.setMessage("Please check your form carefully. After submission, you won't be able to edit the post.");
+        builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                postBloodNeed();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void postBloodNeed(){
+
+
+    SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_BLOOD_NEED, bloodNeed);
         editor.putString(KEY_BLOOD_QTY, bloodQty);
         editor.putString(KEY_HOSPITAL, hospital);

@@ -30,6 +30,9 @@ public class LoginUsernameActivity extends AppCompatActivity {
     boolean isform_notfilled = true;
     boolean isorgadd = false;
     boolean isorgnotadd = true;
+    boolean isfindbbankadd = false;
+    boolean isfindbbanknotadd = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +68,10 @@ public class LoginUsernameActivity extends AppCompatActivity {
             phoneAuthModel.setUsername(username);
         }else{
 
-            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd);
+            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd);
         }
 
-       /* FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 setInProgress(false);
@@ -78,7 +81,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });*/
+        });
 
         FirebaseUtil.currentUserDetails().update("username", username).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

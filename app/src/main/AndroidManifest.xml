@@ -23,6 +23,18 @@
         android:theme="@style/Theme.LifePluse"
         tools:targetApi="31">
         <activity
+            android:name=".activity.Find_Blood_Bank_Edit_Profile"
+            android:exported="false" />
+        <activity
+            android:name=".adapter.Find_Blood_Bank_Adapter"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Find_Blood_Bank_Post"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Find_Blood_Bank_Home"
+            android:exported="false" />
+        <activity
             android:name=".activity.Blood_Organization_Edit_Profile"
             android:exported="false" />
         <activity

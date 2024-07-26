@@ -13,11 +13,12 @@ public class PhoneAuthModel {
 
     boolean isorgadd;
     boolean isorgnotadd;
+    boolean isfindbbankadd ;
+    boolean isfindbbanknotadd ;
 
-    public PhoneAuthModel() {
-    }
 
-    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd) {
+
+    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd) {
         this.phone = phone;
         this.username = username;
         this.createdTimestamp = createdTimestamp;
@@ -26,6 +27,11 @@ public class PhoneAuthModel {
         this.isform_notfilled = isform_notfilled;
         this.isorgadd = isorgadd;
         this.isorgnotadd = isorgnotadd;
+        this.isfindbbankadd = isfindbbankadd;
+        this.isfindbbanknotadd = isfindbbanknotadd;
+    }
+
+    public PhoneAuthModel() {
     }
 
     public String getPhone() {
@@ -90,5 +96,21 @@ public class PhoneAuthModel {
 
     public void setIsorgnotadd(boolean isorgnotadd) {
         this.isorgnotadd = isorgnotadd;
+    }
+
+    public boolean isIsfindbbankadd() {
+        return isfindbbankadd;
+    }
+
+    public void setIsfindbbankadd(boolean isfindbbankadd) {
+        this.isfindbbankadd = isfindbbankadd;
+    }
+
+    public boolean isIsfindbbanknotadd() {
+        return isfindbbanknotadd;
+    }
+
+    public void setIsfindbbanknotadd(boolean isfindbbanknotadd) {
+        this.isfindbbanknotadd = isfindbbanknotadd;
     }
 }

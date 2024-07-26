@@ -1,0 +1,231 @@
+package com.saju.lifepluse.activity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.saju.lifepluse.R;
+import com.saju.lifepluse.adapter.Blood_Organization_Adapter;
+import com.saju.lifepluse.adapter.Find_Blood_Bank_Adapter;
+import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
+import com.saju.lifepluse.modelclass.FindBloodBankAddModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
+
+import java.util.ArrayList;
+
+public class Find_Blood_Bank_Home extends AppCompatActivity {
+
+    TextView locationTextView;
+    LottieAnimationView addorganizationAnimationId, empty_anim;
+    SwipeRefreshLayout swipeRefreshLayout;
+    RecyclerView bloodOrgRecyclearId;
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
+    Find_Blood_Bank_Adapter adapter;
+    ArrayList<FindBloodBankAddModel> orgallDataList;
+
+
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_blood_bank_home);
+        init();
+        locationRetrive();
+        statusbarcolor();
+        DataRetrive();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                DataRetrive();
+                // Call your data retrieval method here
+                swipeRefreshLayout.setRefreshing(false); // Call this when the refresh is complete
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
+
+
+
+
+        addorganizationAnimationId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (currentUser == null) {
+                    Toast.makeText(getApplicationContext(), "Please SignIn First", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), SignIn.class));
+                } else {
+                    form_status();
+                }
+
+
+            }
+        });
+
+
+    }
+
+
+
+    void init(){
+        locationTextView = findViewById(R.id.locationTextView);
+        addorganizationAnimationId = findViewById(R.id.addorganizationAnimationId);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        bloodOrgRecyclearId = findViewById(R.id.bloodRecyclearId);
+        empty_anim = findViewById(R.id.empty_anim);
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        bloodOrgRecyclearId.setLayoutManager(new LinearLayoutManager(this));
+        orgallDataList = new ArrayList<>();
+        adapter = new Find_Blood_Bank_Adapter(Find_Blood_Bank_Home.this, orgallDataList);
+        bloodOrgRecyclearId.setAdapter(adapter);
+
+    }
+
+    void form_status() {
+
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot !=null){
+                        boolean is_form_filled = documentSnapshot.getBoolean("isfindbbankadd");
+                        boolean is_form_notfilled = documentSnapshot.getBoolean("isfindbbanknotadd");
+
+
+                        if (is_form_filled) {
+                            Log.d("orgform_status", "OrgForm  Filled Yet");
+                            startActivity(new Intent(getApplicationContext(), Find_Blood_Bank_Edit_Profile.class));
+                            Toast.makeText(Find_Blood_Bank_Home.this, "You already Added Your ORG", Toast.LENGTH_SHORT).show();
+
+                        } else if (is_form_notfilled) {
+                            Log.d("orgform_status", "OrgForm Not Filled Yet");
+                            startActivity(new Intent(Find_Blood_Bank_Home.this, Find_Blood_Bank_Post.class));
+                        }
+                    }else {
+                        Log.d("orgform_status", "DocumentSnapshot is null");
+                    }
+                }else {
+                    Log.d("orgform_status", "Error getting document: ", task.getException());
+
+                }
+
+
+
+
+
+            }
+        });
+
+    }
+
+
+    public void locationRetrive(){
+        if (DrawerLayout.locationText != null) {
+            locationTextView.setText(DrawerLayout.locationText);
+        } else {
+            locationTextView.setText("Location not available");
+            // Handle the case where locationText is null
+        }
+    }
+
+    private void statusbarcolor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.blood_splashbg));
+        }
+    }
+
+
+    private void DataRetrive() {
+        orgallDataList.clear(); // Clear previous data
+
+        db.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getId();
+                                retrieveBloodDonorRequests(userId);
+                                Log.d("userId", userId);
+                            }
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void retrieveBloodDonorRequests(String userId) {
+        db.collection("users")
+                .document(userId)
+                .collection("FindBloodBank")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()){
+                                // Convert the document to BloodDonerRequestModel and add to allDataList
+                                FindBloodBankAddModel orgmodel = document.toObject(FindBloodBankAddModel.class);
+                                orgallDataList.add(orgmodel);
+
+                                // Log the size of the list
+                                Log.d("DataRetrieved", "Size of allDataList: " + orgallDataList.size());
+
+                                // Notify adapter about the data change
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Log.d("Firestore", "No such document");
+                            }
+
+                            if (orgallDataList.isEmpty()){
+                                empty_anim.setVisibility(View.VISIBLE);
+                            }else {
+                                empty_anim.setVisibility(View.GONE);
+                            }
+
+
+                        } else {
+                            // Handle task unsuccessful
+                            Log.e("Firestore", "Error getting document: ", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+
+}

@@ -468,7 +468,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/bloodbankBtn"
+                    android:id="@+id/findbloodbankBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"

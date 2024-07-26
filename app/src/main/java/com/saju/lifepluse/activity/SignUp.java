@@ -47,6 +47,9 @@ public class SignUp extends AppCompatActivity {
 
     boolean isorgadd = false;
     boolean isorgnotadd = true;
+    boolean isfindbbankadd = false;
+    boolean isfindbbanknotadd = true;
+
 
 
     @Override
@@ -116,7 +119,7 @@ public class SignUp extends AppCompatActivity {
 
                             uid = task.getResult().getUser().getUid();
 
-                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd,isorgnotadd);
+                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd,isorgnotadd, isfindbbankadd, isfindbbanknotadd);
                             database.collection("users").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
