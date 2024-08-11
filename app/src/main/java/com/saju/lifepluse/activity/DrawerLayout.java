@@ -70,6 +70,7 @@ import com.saju.lifepluse.R;
 import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.fragment.DashBoard;
 import com.saju.lifepluse.fragment.Profile_Fragment;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -178,9 +179,16 @@ public class DrawerLayout extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == R.id.logout_Id) {
 
-                    FirebaseAuth.getInstance().signOut();
-                    updateUIAfterLogout();
-                    drawerLayout.closeDrawer(GravityCompat.START);
+                    if (FirebaseUtil.currentuser()!=null){
+                        FirebaseAuth.getInstance().signOut();
+                        updateUIAfterLogout();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }else {
+                        Toast.makeText(DrawerLayout.this, "Please SignIn First", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DrawerLayout.this, SignIn.class ));
+                    }
+
+
 
 
                 } else if (item.getItemId() == R.id.rateBtnId) {

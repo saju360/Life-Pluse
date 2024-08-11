@@ -3,6 +3,7 @@ package com.saju.lifepluse.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,5 +21,9 @@ public class FirebaseUtil {
 
     public static DocumentReference donerUserDetails(String usercollection) {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId()).collection(usercollection).document(currentUserId());
+    }
+
+    public static FirebaseUser currentuser (){
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 }
