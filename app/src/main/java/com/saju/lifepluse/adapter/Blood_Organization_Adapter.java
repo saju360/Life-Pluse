@@ -22,6 +22,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.Blood_Organization_Post;
 import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
+import com.saju.lifepluse.modelclass.HospitalModel;
 import com.saju.lifepluse.utils.AndroidUtil;
 
 import java.util.ArrayList;
@@ -31,12 +32,18 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
 
     Context context;
     ArrayList<BloodOrganizationAddModel> orgallDataList;
+    private ArrayList<BloodOrganizationAddModel> originalDataList;
 
     public Blood_Organization_Adapter(Context context, ArrayList<BloodOrganizationAddModel> orgallDataList) {
         this.context = context;
         this.orgallDataList = orgallDataList;
+        this.originalDataList = new ArrayList<>(orgallDataList);
     }
 
+    public void filterList(ArrayList<BloodOrganizationAddModel> filteredList) {
+        orgallDataList = filteredList;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

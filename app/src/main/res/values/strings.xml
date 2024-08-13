@@ -261,14 +261,14 @@
 
     <string-array name="bloodGroup">
 
-        <item>O positive</item>
-        <item>O negative</item>
-        <item>A positive</item>
-        <item>A negative</item>
-        <item>B positive</item>
-        <item>B negative</item>
-        <item>AB positive</item>
-        <item>AB negative</item>
+        <item>O Positive</item>
+        <item>O Negative</item>
+        <item>A Positive</item>
+        <item>A Negative</item>
+        <item>B Positive</item>
+        <item>B Negative</item>
+        <item>AB Positive</item>
+        <item>AB Negative</item>
 
     </string-array>
 
@@ -333,6 +333,8 @@
     <string name="ab_positive">AB positive</string>
     <string name="ab_negative">AB negative</string>
     <string name="unknow">Unknown</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

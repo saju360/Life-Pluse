@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.modelclass.DoctorSpecialityModel;
 import com.saju.lifepluse.modelclass.HospitalModel;
 
 import java.util.ArrayList;
@@ -23,11 +24,18 @@ public class HPRecyclearAdapter extends RecyclerView.Adapter <HPRecyclearAdapter
 
     Context  applicationContext;
     ArrayList<HospitalModel> hpitalListData;
+    private ArrayList<HospitalModel> originalDataList;
 
     public HPRecyclearAdapter(Context applicationContext, ArrayList<HospitalModel> hpitalListData) {
 
         this.applicationContext = applicationContext;
         this.hpitalListData = hpitalListData;
+        this.originalDataList = new ArrayList<>(hpitalListData);
+    }
+
+    public void filterList(ArrayList<HospitalModel> filteredList) {
+        hpitalListData = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

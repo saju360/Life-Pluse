@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".fragment.BloodNeed_Fragment">
 
     <LinearLayout
@@ -69,29 +69,68 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/search_filter_layout"
+        android:layout_below="@id/topbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/blooddonate_motivation"
+            android:layout_width="0dp"
+            android:layout_weight="3.5"
+            android:layout_height="wrap_content"
+            android:text="Be a Lifesaver, Donate Blood! Blood Donors: Silent Heroes Saving Lives"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alata"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_gravity="left"
+            />
+
+
+        <ImageView
+            android:id="@+id/filterIcon"
+            android:layout_width="0dp"
+            android:layout_weight=".5"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:contentDescription="Filter Icon"
+            android:focusable="true"
+            android:src="@drawable/filter_ic" />
+    </LinearLayout>
+
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/empty_anim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:lottie_autoPlay="true"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/topbarLayout"
+        android:layout_below="@id/search_filter_layout"
         android:layout_centerHorizontal="true"
-        app:lottie_loop="true"
+        android:layout_centerVertical="true"
         android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:lottie_rawRes="@raw/empty_animation" />
-
-
-
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_below="@id/search_filter_layout"
+        android:layout_marginBottom="40dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bloodRecyclearId"

@@ -73,13 +73,24 @@
 
 
 
+
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topbarLayout"
+        android:orientation="horizontal">
+        <include layout="@layout/custom_search_view"/>
+
+    </LinearLayout>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/empty_anim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:lottie_autoPlay="true"
         android:layout_centerVertical="true"
-        android:layout_below="@id/topbarLayout"
+        android:layout_below="@id/search_layout"
         android:layout_centerHorizontal="true"
         app:lottie_loop="true"
         android:visibility="gone"
@@ -94,7 +105,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_below="@id/search_layout"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bloodRecyclearId"

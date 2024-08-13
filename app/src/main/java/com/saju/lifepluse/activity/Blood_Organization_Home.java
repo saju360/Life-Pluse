@@ -1,11 +1,18 @@
 package com.saju.lifepluse.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +40,7 @@ import com.saju.lifepluse.adapter.Blood_Organization_Adapter;
 import com.saju.lifepluse.adapter.DonerListAdapter;
 import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
 import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
+import com.saju.lifepluse.modelclass.HospitalModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -47,6 +55,10 @@ public class Blood_Organization_Home extends AppCompatActivity {
     FirebaseFirestore db;
     Blood_Organization_Adapter adapter;
     ArrayList<BloodOrganizationAddModel> orgallDataList;
+    EditText searchEditText;
+    private ArrayList<BloodOrganizationAddModel> originalDataList;
+
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -89,8 +101,42 @@ public class Blood_Organization_Home extends AppCompatActivity {
             }
         });
 
+        searchEditText.setHint("Search by address...");
+
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    // Perform the search operation here
+                    String query = searchEditText.getText().toString();
+                    filterData(query);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            // Your existing TextWatcher implementation
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Filter the data based on the search query
+                filterData(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+
+        });
 
     }
+
 
 
 
@@ -100,6 +146,7 @@ public class Blood_Organization_Home extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         bloodOrgRecyclearId = findViewById(R.id.bloodRecyclearId);
         empty_anim = findViewById(R.id.empty_anim);
+        searchEditText = findViewById(R.id.searchEditText);
         db = FirebaseFirestore.getInstance();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -204,7 +251,7 @@ public class Blood_Organization_Home extends AppCompatActivity {
                                 // Convert the document to BloodDonerRequestModel and add to allDataList
                                 BloodOrganizationAddModel orgmodel = document.toObject(BloodOrganizationAddModel.class);
                                 orgallDataList.add(orgmodel);
-
+                                originalDataList = new ArrayList<>(orgallDataList);
                                 // Log the size of the list
                                 Log.d("DataRetrieved", "Size of allDataList: " + orgallDataList.size());
 
@@ -232,4 +279,28 @@ public class Blood_Organization_Home extends AppCompatActivity {
     }
 
 
+    private void filterData(String query) {
+        ArrayList<BloodOrganizationAddModel> filteredList = new ArrayList<>();
+
+        for (BloodOrganizationAddModel model : originalDataList) {
+            String address;
+            if (isBanglaLanguage()) {
+                address = model.getOrgaddress_Ed().toLowerCase();
+            } else {
+                address = model.getOrgaddress_Ed().toLowerCase();
+            }
+
+            if (address.contains(query.toLowerCase())) {
+                filteredList.add(model);
+            }
+        }
+
+        adapter.filterList(filteredList);
+    }
+
+    private boolean isBanglaLanguage() {
+        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_Lang", "");
+        return language.equals("bn");
+    }
 }

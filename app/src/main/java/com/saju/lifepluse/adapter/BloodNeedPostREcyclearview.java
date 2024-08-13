@@ -30,6 +30,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.DrawerLayout;
+import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
 import com.saju.lifepluse.modelclass.BloodNeedPostModel;
 
 import java.text.ParseException;
@@ -43,10 +44,12 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
 
     Context getcontext;
     ArrayList<BloodNeedPostModel> bloodpostData;
+    ArrayList<BloodNeedPostModel> originalDataList;
 
 
-    public BloodNeedPostREcyclearview(Context context, ArrayList<BloodNeedPostModel> bloodpostData) {
+    public BloodNeedPostREcyclearview(Context context, ArrayList<BloodNeedPostModel> bloodpostData, ArrayList<BloodNeedPostModel> originalDataList) {
         this.bloodpostData = bloodpostData;
+        this.originalDataList = originalDataList;
         this.getcontext = context;
     }
 
@@ -64,6 +67,51 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
     @Override
     public int getItemCount() {
         return bloodpostData.size();
+    }
+
+    public void filterByBloodGroups(ArrayList<String> selectedBloodGroups) {
+        // Check if the originalDataList has data
+        if (originalDataList == null || originalDataList.isEmpty()) {
+            Log.d("Filter", "originalDataList is empty or null.");
+            return;
+        }
+
+        ArrayList<BloodNeedPostModel> filteredList = new ArrayList<>();
+
+        for (BloodNeedPostModel model : originalDataList) {
+            String modelBloodGroup = model.getBloodgroup() != null ? model.getBloodgroup().trim() : "";
+
+            Log.d("Filter", "Model Blood Group: " + modelBloodGroup);
+            Log.d("Filter", "Selected Blood Groups: " + selectedBloodGroups.toString());
+
+            if (!modelBloodGroup.isEmpty() && selectedBloodGroups.contains(modelBloodGroup)) {
+                filteredList.add(model);
+            }
+        }
+
+
+        bloodpostData.clear();
+        bloodpostData.addAll(filteredList);
+
+        if (filteredList.isEmpty()) {
+            Log.d("Filter", "No results match the filter criteria.");
+            // Optionally, show a "No Results" message or similar
+        }
+
+
+        Log.d("Filter", "Filtered list size: " + filteredList.size());
+
+        notifyDataSetChanged();
+    }
+
+
+
+
+    public void resetFilter() {
+        bloodpostData.clear();
+        bloodpostData.addAll(originalDataList); // Reset to original data
+        Log.d("Filter", "Resetting filter, original list size: " + bloodpostData.size());
+        notifyDataSetChanged();
     }
 
     public class BloodNeedHolder extends RecyclerView.ViewHolder {
@@ -86,6 +134,11 @@ public class BloodNeedPostREcyclearview extends RecyclerView.Adapter<BloodNeedPo
         public void bindData(int position) {
             BloodNeedPostModel model = bloodpostData.get(position);
             String donationDate = model.getDate();
+
+            Log.d("BindData", "Binding item at position: " + position);
+            Log.d("BindData", "Donation Date: " + model.getDate());
+            Log.d("BindData", "Visibility: " + itemView.getVisibility());
+
 
             if (isDonationDateWithinLastTwoDays(donationDate)) {
                 title.setText(model.getBloodNeed());
