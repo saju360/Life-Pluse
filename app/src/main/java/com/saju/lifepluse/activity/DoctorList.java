@@ -1,30 +1,32 @@
 package com.saju.lifepluse.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -36,7 +38,6 @@ import com.saju.lifepluse.R;
 import com.saju.lifepluse.adapter.DoctorListAdapter;
 import com.saju.lifepluse.adapter.HorizontalAdapter;
 import com.saju.lifepluse.modelclass.DoctorListModel;
-import com.saju.lifepluse.modelclass.DoctorSpecialityModel;
 import com.saju.lifepluse.modelclass.HorizontalItemModel;
 
 import java.util.ArrayList;
@@ -74,11 +75,32 @@ public class DoctorList extends AppCompatActivity implements HorizontalAdapter.O
         setupToolbar();
         fetchDoctorSpecialties();
         doctorDataRetrieve();
+        retrivealldoctorlist();
 
         filterIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFilterBottomSheet();
+            }
+        });
+    }
+
+    private void retrivealldoctorlist() {
+
+        db.collectionGroup("Doctor_list").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if (e == null) {
+                    originalDataList = new ArrayList<>();
+
+                    List<DoctorListModel> data = queryDocumentSnapshots.toObjects(DoctorListModel.class);
+                    originalDataList.addAll(data);
+
+                    extractHospitalAndSpeciality();
+                } else {
+                    Log.d("data", e.getLocalizedMessage());
+                }
             }
         });
     }
@@ -92,18 +114,31 @@ public class DoctorList extends AppCompatActivity implements HorizontalAdapter.O
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error == null) {
                     doctorlList.clear();
-                    originalDataList = new ArrayList<>();
+                    //originalDataList = new ArrayList<>();
 
                     List<DoctorListModel> data = value.toObjects(DoctorListModel.class);
                     doctorlList.addAll(data);
-                    originalDataList.addAll(data);
+                    //originalDataList.addAll(data);
 
-                    extractHospitalAndSpeciality();
+                    //extractHospitalAndSpeciality();
 
                     doctorListAdapter = new DoctorListAdapter(DoctorList.this, doctorlList);
                     doctorRecyclearviewId.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     doctorRecyclearviewId.setAdapter(doctorListAdapter);
                 }
+            }
+        });
+
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    // Perform the search operation here
+                    String query = searchEditText.getText().toString();
+                    filterDoctorList(query);
+                    return true;
+                }
+                return false;
             }
         });
 

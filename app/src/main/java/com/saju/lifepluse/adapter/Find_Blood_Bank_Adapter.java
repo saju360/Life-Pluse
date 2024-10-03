@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.modelclass.BloodOrganizationAddModel;
 import com.saju.lifepluse.modelclass.FindBloodBankAddModel;
 import com.saju.lifepluse.utils.AndroidUtil;
 
@@ -28,10 +29,16 @@ public class Find_Blood_Bank_Adapter extends RecyclerView.Adapter<Find_Blood_Ban
 
     Context context;
     ArrayList<FindBloodBankAddModel> orgallDataList;
-
+    private ArrayList<FindBloodBankAddModel> originalDataList;
     public Find_Blood_Bank_Adapter(Context context, ArrayList<FindBloodBankAddModel> orgallDataList) {
         this.context = context;
         this.orgallDataList = orgallDataList;
+        this.originalDataList = new ArrayList<>(orgallDataList);
+    }
+
+    public void filterList(ArrayList<FindBloodBankAddModel> filteredList) {
+        orgallDataList = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

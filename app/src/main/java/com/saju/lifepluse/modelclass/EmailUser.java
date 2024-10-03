@@ -13,11 +13,15 @@ public class EmailUser {
     boolean isorgnotadd ;
     boolean isfindbbankadd;
     boolean isfindbbanknotadd;
+    boolean ishospitaladd;
+    boolean ishospitalnotadd;
+    boolean ispharmacyadd ;
+    boolean ispharmacynotadd;
+    boolean isambulanceadd;
+    boolean isambulancenotadd;
 
 
-
-
-    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd) {
+    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd, boolean ishospitaladd, boolean ishospitalnotadd, boolean ispharmacyadd, boolean ispharmacynotadd, boolean isambulanceadd, boolean isambulancenotadd, boolean b) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -29,6 +33,12 @@ public class EmailUser {
         this.isorgnotadd = isorgnotadd;
         this.isfindbbankadd = isfindbbankadd;
         this.isfindbbanknotadd = isfindbbanknotadd;
+        this.ishospitaladd = ishospitaladd;
+        this.ishospitalnotadd = ishospitalnotadd;
+        this.ispharmacyadd = ispharmacyadd;
+        this.ispharmacynotadd = ispharmacynotadd;
+        this.isambulanceadd = isambulanceadd;
+        this.isambulancenotadd = isambulancenotadd;
     }
 
     public EmailUser() {
@@ -120,5 +130,53 @@ public class EmailUser {
 
     public void setIsfindbbanknotadd(boolean isfindbbanknotadd) {
         this.isfindbbanknotadd = isfindbbanknotadd;
+    }
+
+    public boolean isIshospitaladd() {
+        return ishospitaladd;
+    }
+
+    public void setIshospitaladd(boolean ishospitaladd) {
+        this.ishospitaladd = ishospitaladd;
+    }
+
+    public boolean isIshospitalnotadd() {
+        return ishospitalnotadd;
+    }
+
+    public void setIshospitalnotadd(boolean ishospitalnotadd) {
+        this.ishospitalnotadd = ishospitalnotadd;
+    }
+
+    public boolean isIspharmacyadd() {
+        return ispharmacyadd;
+    }
+
+    public void setIspharmacyadd(boolean ispharmacyadd) {
+        this.ispharmacyadd = ispharmacyadd;
+    }
+
+    public boolean isIspharmacynotadd() {
+        return ispharmacynotadd;
+    }
+
+    public void setIspharmacynotadd(boolean ispharmacynotadd) {
+        this.ispharmacynotadd = ispharmacynotadd;
+    }
+
+    public boolean isIsambulanceadd() {
+        return isambulanceadd;
+    }
+
+    public void setIsambulanceadd(boolean isambulanceadd) {
+        this.isambulanceadd = isambulanceadd;
+    }
+
+    public boolean isIsambulancenotadd() {
+        return isambulancenotadd;
+    }
+
+    public void setIsambulancenotadd(boolean isambulancenotadd) {
+        this.isambulancenotadd = isambulancenotadd;
     }
 }

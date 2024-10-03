@@ -49,7 +49,12 @@ public class SignUp extends AppCompatActivity {
     boolean isorgnotadd = true;
     boolean isfindbbankadd = false;
     boolean isfindbbanknotadd = true;
-
+    boolean ishospitaladd = false;
+    boolean ishospitalnotadd = true;
+    boolean ispharmacyadd = false;
+    boolean ispharmacynotadd = true;
+    boolean isambulanceadd = false;
+    boolean isambulancenotadd = true;
 
 
     @Override
@@ -99,9 +104,6 @@ public class SignUp extends AppCompatActivity {
         createAccountInFirebase(email, password);
 
 
-
-
-
     }
 
     void createAccountInFirebase(String email, String password) {
@@ -116,10 +118,9 @@ public class SignUp extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
 
-
                             uid = task.getResult().getUser().getUid();
 
-                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd,isorgnotadd, isfindbbankadd, isfindbbanknotadd);
+                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd);
                             database.collection("users").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

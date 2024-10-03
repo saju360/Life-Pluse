@@ -358,6 +358,8 @@ public class BloodNeed_Post extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String token = document.getString("fcmToken");
 
+                        Log.d("fcmtoken", "token is: "+token.toString());
+
                         if (token != null) {
                             tokens.add(token);
                         }
@@ -376,7 +378,7 @@ public class BloodNeed_Post extends AppCompatActivity {
     }
 
     private void sendTokensToServer(List<String> tokens, BloodDonationPostModel bloodPost) {
-        String url = "https://apps.androidcodingbd.com/Apps/android/smsbot/sendnotification.php?";
+        String url = "https://apps.parrotfashionbd.com/apps_notification/sendnotification.php?";
         for (String token : tokens) {
             url += "token[]=" + token + "&"; // Add each token to the URL query parameter
         }

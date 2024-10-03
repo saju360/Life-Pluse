@@ -19,99 +19,83 @@ import com.bumptech.glide.Glide;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.DoctorProfileview;
 import com.saju.lifepluse.modelclass.DoctorListModel;
-import com.saju.lifepluse.modelclass.HorizontalItemModel;
+import com.saju.lifepluse.modelclass.HospitalwiseDoctorListModel;
 
 import java.util.ArrayList;
 
-public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.doctorListViewHolder> {
+public class HospitalwiseDoctorListAdapter extends RecyclerView.Adapter<HospitalwiseDoctorListAdapter.DoctorListViewHolder> {
 
+    private Context mContext;
+    private ArrayList<HospitalwiseDoctorListModel> doctorList;
 
-    private Activity mActivity;
-    ArrayList<DoctorListModel> doctorlList;
-    private ArrayList<DoctorListModel> originalDataList;
-
-    public DoctorListAdapter(Activity mActivity, ArrayList<DoctorListModel> doctorlList) {
-
-        this.mActivity = mActivity;
-        this.doctorlList = doctorlList;
-        this.originalDataList = new ArrayList<>(doctorlList);
-
-
+    public HospitalwiseDoctorListAdapter(Context mContext, ArrayList<HospitalwiseDoctorListModel> doctorList) {
+        this.mContext = mContext;
+        this.doctorList = doctorList;
     }
-
-    public void filterList(ArrayList<DoctorListModel> filteredList) {
-        doctorlList = filteredList;
-        notifyDataSetChanged();
-    }
-
 
     @NonNull
     @Override
-    public doctorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View myview = inflater.inflate(R.layout.doctorlist_sample_layout, parent, false);
-
-        return new doctorListViewHolder(myview);
+    public DoctorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.doctorlist_sample_layout, parent, false);
+        return new DoctorListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull doctorListViewHolder holder, int position) {
-        DoctorListModel item = doctorlList.get(position);
+    public void onBindViewHolder(@NonNull DoctorListViewHolder holder, int position) {
+        HospitalwiseDoctorListModel item = doctorList.get(position);
 
-        String imgurl = item.getDoc_image();
-
-        Glide.with(mActivity).load(imgurl).placeholder(R.drawable.baseline_add_photo_alternate).into(holder.doctorImage);
+        String imgUrl = item.getDoc_image();
+        Glide.with(mContext).load(imgUrl).placeholder(R.drawable.baseline_add_photo_alternate).into(holder.doctorImage);
 
         // Update views with data
-        SharedPreferences prefs = mActivity.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        SharedPreferences prefs = mContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("My_Lang", "");
-        if (language.equals("bn")) {
+
+        if ("bn".equals(language)) {
             holder.docSNameTextId.setText(item.getDocnameBangla());
             holder.docShpAddressId.setText(item.getDoc_hpnameBangla());
             holder.docShospitalnameId.setText(item.getDoc_hpnameBangla());
             holder.docSptextId.setText(item.getDoc_spBangla());
+
+            Log.d("hospitalname", item.getDoc_hpnameBangla());
         } else {
             holder.docSNameTextId.setText(item.getDocnameEnglish());
             holder.docShpAddressId.setText(item.getDoc_hpAddressEnglish());
             holder.docShospitalnameId.setText(item.getDoc_hpnameEnglish());
             holder.docSptextId.setText(item.getDoc_spEnglish());
+            Log.d("hospitalname", item.getDoc_hpnameEnglish());
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DoctorListModel clickedDoctor = doctorlList.get(holder.getAdapterPosition());
-                Intent myintent = new Intent(mActivity, DoctorProfileview.class);
-                myintent.putExtra("selectedDoctorType", "DoctorList");
-                myintent.putExtra("selectedDoctor", (Parcelable) clickedDoctor);
-                mActivity.startActivity(myintent);
+                Intent myIntent = new Intent(mContext, DoctorProfileview.class);
+                myIntent.putExtra("selectedDoctorType", "Hospitalwise");
+                myIntent.putExtra("selectedDoctor", item);  // Pass the Parcelable object
+                mContext.startActivity(myIntent);
             }
         });
+
     }
+
     @Override
     public int getItemCount() {
-        return doctorlList.size();
+        return doctorList.size();
     }
 
-    public class doctorListViewHolder extends RecyclerView.ViewHolder {
-
+    public static class DoctorListViewHolder extends RecyclerView.ViewHolder {
 
         TextView docSNameTextId, docSqualificationTextId, docSptextId, docShospitalnameId, docShpAddressId;
         ImageView doctorImage;
 
-
-        public doctorListViewHolder(@NonNull View itemView) {
+        public DoctorListViewHolder(@NonNull View itemView) {
             super(itemView);
-
             docSNameTextId = itemView.findViewById(R.id.docSNameTextId);
             docSqualificationTextId = itemView.findViewById(R.id.docSqualificationTextId);
             docSptextId = itemView.findViewById(R.id.docSptextId);
             docShospitalnameId = itemView.findViewById(R.id.docShospitalnameId);
             docShpAddressId = itemView.findViewById(R.id.docShpAddressId);
             doctorImage = itemView.findViewById(R.id.doctorImage);
-
-
         }
     }
 }

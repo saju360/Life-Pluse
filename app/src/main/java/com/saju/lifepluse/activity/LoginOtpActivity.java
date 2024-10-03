@@ -56,6 +56,13 @@ public class LoginOtpActivity extends AppCompatActivity {
     boolean isfindbbankadd = false;
     boolean isfindbbanknotadd = true;
 
+    boolean ishospitaladd = false;
+    boolean ishospitalnotadd = true;
+    boolean ispharmacyadd = false;
+    boolean ispharmacynotadd = true;
+    boolean isambulanceadd = false;
+    boolean isambulancenotadd = true;
+
     FirebaseFirestore db;
 
     @Override
@@ -143,7 +150,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         //login and go to next activity
         setInProgress(true);
 
-        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd );
+        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd );
         mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

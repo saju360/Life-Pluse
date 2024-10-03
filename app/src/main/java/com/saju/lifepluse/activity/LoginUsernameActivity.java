@@ -32,6 +32,12 @@ public class LoginUsernameActivity extends AppCompatActivity {
     boolean isorgnotadd = true;
     boolean isfindbbankadd = false;
     boolean isfindbbanknotadd = true;
+    boolean ishospitaladd = false;
+    boolean ishospitalnotadd = true;
+    boolean ispharmacyadd = false;
+    boolean ispharmacynotadd = true;
+    boolean isambulanceadd = false;
+    boolean isambulancenotadd = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +74,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
             phoneAuthModel.setUsername(username);
         }else{
 
-            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd);
+            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd);
         }
 
         FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {

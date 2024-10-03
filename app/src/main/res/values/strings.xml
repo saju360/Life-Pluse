@@ -333,8 +333,6 @@
     <string name="ab_positive">AB positive</string>
     <string name="ab_negative">AB negative</string>
     <string name="unknow">Unknown</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
 
 </resources>

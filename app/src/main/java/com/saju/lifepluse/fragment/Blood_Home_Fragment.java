@@ -89,8 +89,8 @@ public class Blood_Home_Fragment extends Fragment {
     FirebaseUser currentUser;
     public static LottieAnimationView empty_anim;
     ArrayList<BloodDonerRequestModel> allDataList;
+    
 
-    CountdownView countdownView;
 
 
     @SuppressLint("MissingInflatedId")
@@ -140,10 +140,10 @@ public class Blood_Home_Fragment extends Fragment {
         // Display current division data by default in the chart
         if (current_division != null && !current_division.isEmpty()) {
             selecteddivision = current_division;
-            addEntriesForSelectedDivision();
+
             updateChartWithData();
         } else {
-            addEntriesForDhakaDivision();
+
             updateChartWithData();
         }
 
@@ -184,15 +184,10 @@ public class Blood_Home_Fragment extends Fragment {
             // Clear existing entries
             entries.clear();
 
-            // Add entries based on the selected division
-            if (selecteddivision.equals("Dhaka Division") || selecteddivision.equals("ঢাকা বিভাগ")) {
-                addEntriesForDhakaDivision();
-            } else if (selecteddivision.equals("Chattogram Division") || selecteddivision.equals("চট্টগ্রাম বিভাগ")) {
-                addEntriesForChattogramDivision();
-            }
+            Log.d("divison", selecteddivision);
 
             // Update the chart with the new data
-            updateChartWithData();
+
         });
 
 
@@ -343,6 +338,7 @@ public class Blood_Home_Fragment extends Fragment {
 
     }
 
+
     private void barChartMethod() {
 
         // Customize the chart appearance
@@ -367,16 +363,6 @@ public class Blood_Home_Fragment extends Fragment {
         Legend legend = barChart.getLegend();
         legend.setTextColor(Color.BLACK);
 
-        // Add data to the chart
-        /*ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, new float[]{40f}));
-        entries.add(new BarEntry(1, new float[]{15f}));
-        entries.add(new BarEntry(2, new float[]{25f}));
-        entries.add(new BarEntry(3, new float[]{30f}));
-        entries.add(new BarEntry(4, new float[]{10f}));
-        entries.add(new BarEntry(5, new float[]{18f}));
-        entries.add(new BarEntry(6, new float[]{12f}));
-        entries.add(new BarEntry(7, new float[]{22f}));*/
 
         Log.d("Blood_Home_Fragment", "Bar chart setup completed");
 
@@ -393,18 +379,69 @@ public class Blood_Home_Fragment extends Fragment {
 
     }
 
+
+
+
     private void updateChartWithData() {
-        BarDataSet dataSet = new BarDataSet(entries, "Blood Stock");
-        dataSet.setColors(getColors()); // Custom colors for each blood group
-        dataSet.setStackLabels(getLabels().toArray(new String[0]));
+        if (isAdded()) {  // Checks if the fragment is attached to its activity
+            BarDataSet dataSet = new BarDataSet(entries, "Blood Stock");
+            dataSet.setColors(getColors()); // Custom colors for each blood group
+            dataSet.setStackLabels(getLabels().toArray(new String[0]));
 
-        BarData barData = new BarData(dataSet);
-        barChart.setData(barData);
+            BarData barData = new BarData(dataSet);
+            barChart.setData(barData);
 
-        // Refresh the chart
-        barChart.invalidate();
-        Log.d("Blood_Home_Fragment", "Chart data updated"); // Debugging statement
+            // Refresh the chart
+            barChart.invalidate();
+            Log.d("Blood_Home_Fragment", "Chart data updated");
+        } else {
+            Log.d("Blood_Home_Fragment", "Fragment not attached, skipping chart update");
+        }
     }
+
+
+
+    private ArrayList<String> getLabels() {
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("A+");
+        labels.add("B+");
+        labels.add("AB+");
+        labels.add("O+");
+        labels.add("A-");
+        labels.add("B-");
+        labels.add("AB-");
+        labels.add("O-");
+        return labels;
+    }
+
+
+    //if (!isAdded()) return new int[0];
+    private ArrayList<Integer> getColors() {
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.rgb(51, 204, 255)); // Light blue
+        colors.add(Color.rgb(255, 102, 102)); // Light red
+        colors.add(Color.rgb(255, 204, 102)); // Light orange
+        colors.add(Color.rgb(204, 255, 102)); // Light green
+        colors.add(Color.rgb(255, 102, 204)); // Light pink
+        colors.add(Color.rgb(255, 255, 102)); // Light yellow
+        colors.add(Color.rgb(204, 102, 255)); // Light purple
+        colors.add(Color.rgb(102, 255, 204)); // Light turquoise
+        return colors;
+    }
+
+
+    private void loadFragment(Fragment fragment) {
+
+        FragmentManager fm = getFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        fragmentTransaction.replace(R.id.framelayout, fragment);
+        fragmentTransaction.commit();
+    }
+
+
+    //==========================================================
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -454,87 +491,6 @@ public class Blood_Home_Fragment extends Fragment {
         return bloodpostData.get(randomIndex);
     }
 
-
-    //============================barchart code start frome here=====================//
-    private ArrayList<String> getLabels() {
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("A+");
-        labels.add("B+");
-        labels.add("AB+");
-        labels.add("O+");
-        labels.add("A-");
-        labels.add("B-");
-        labels.add("AB-");
-        labels.add("O-");
-        return labels;
-    }
-
-    // Custom method to get colors for each blood group
-    private ArrayList<Integer> getColors() {
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.rgb(51, 204, 255)); // Light blue
-        colors.add(Color.rgb(255, 102, 102)); // Light red
-        colors.add(Color.rgb(255, 204, 102)); // Light orange
-        colors.add(Color.rgb(204, 255, 102)); // Light green
-        colors.add(Color.rgb(255, 102, 204)); // Light pink
-        colors.add(Color.rgb(255, 255, 102)); // Light yellow
-        colors.add(Color.rgb(204, 102, 255)); // Light purple
-        colors.add(Color.rgb(102, 255, 204)); // Light turquoise
-        return colors;
-    }
-
-    private void addEntriesForSelectedDivision() {
-        if (selecteddivision.equals("Dhaka Division") || selecteddivision.equals("ঢাকা বিভাগ")) {
-            addEntriesForDhakaDivision();
-        } else if (selecteddivision.equals("Chattogram Division") || selecteddivision.equals("চট্টগ্রাম বিভাগ")) {
-            addEntriesForChattogramDivision();
-        }
-    }
-
-
-    // Helper method to add entries for Dhaka Division
-    private void addEntriesForDhakaDivision() {
-        // Add entries for Dhaka Division
-        entries.add(new BarEntry(0, new float[]{40f}));
-        entries.add(new BarEntry(1, new float[]{15f}));
-        entries.add(new BarEntry(2, new float[]{25f}));
-        entries.add(new BarEntry(3, new float[]{30f}));
-        entries.add(new BarEntry(4, new float[]{10f}));
-        entries.add(new BarEntry(5, new float[]{18f}));
-        entries.add(new BarEntry(6, new float[]{12f}));
-        entries.add(new BarEntry(7, new float[]{22f}));
-        // ...
-    }
-
-    // Helper method to add entries for Chattogram Division
-    private void addEntriesForChattogramDivision() {
-        // Add entries for Chattogram Division
-
-        entries.add(new BarEntry(0, new float[]{140f}));
-        entries.add(new BarEntry(1, new float[]{10f}));
-        entries.add(new BarEntry(2, new float[]{2f}));
-        entries.add(new BarEntry(3, new float[]{0f}));
-        entries.add(new BarEntry(4, new float[]{50f}));
-        entries.add(new BarEntry(5, new float[]{18f}));
-        entries.add(new BarEntry(6, new float[]{12f}));
-        entries.add(new BarEntry(7, new float[]{22f}));
-        // ...
-    }
-
-    private void loadFragment(Fragment fragment) {
-
-        FragmentManager fm = getFragmentManager();
-
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-        fragmentTransaction.replace(R.id.framelayout, fragment);
-        fragmentTransaction.commit();
-    }
-
-
-    //==========================================================
-
-
     private void DonerListDataRetrive() {
         allDataList.clear(); // Clear previous data
 
@@ -561,40 +517,92 @@ public class Blood_Home_Fragment extends Fragment {
         db.collection("users")
                 .document(userId)
                 .collection("bloodDoner")
-                .document(userId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
+
+                            // Initialize counters for each blood type
+                            int aPositiveCount = 0;
+                            int bPositiveCount = 0;
+                            int abPositiveCount = 0;
+                            int oPositiveCount = 0;
+                            int aNegativeCount = 0;
+                            int bNegativeCount = 0;
+                            int abNegativeCount = 0;
+                            int oNegativeCount = 0;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                                 String district = document.getString("district");
+                                String bloodType = document.getString("bloodType");
+
+                                Log.d("bloodType", bloodType + " division: " + district);
+
                                 if (district != null && district.equals(selecteddivision)) {
+                                    // Increment the appropriate blood type counter
+                                    switch (bloodType) {
+                                        case "A Positive":
+                                            aPositiveCount++;
+                                            break;
+                                        case "B Positive":
+                                            bPositiveCount++;
+                                            break;
+                                        case "AB Positive":
+                                            abPositiveCount++;
+                                            break;
+                                        case "O Positive":
+                                            oPositiveCount++;
+                                            break;
+                                        case "A Negative":
+                                            aNegativeCount++;
+                                            break;
+                                        case "B Negative":
+                                            bNegativeCount++;
+                                            break;
+                                        case "AB Negative":
+                                            abNegativeCount++;
+                                            break;
+                                        case "O Negative":
+                                            oNegativeCount++;
+                                            break;
+                                    }
+
+                                    // Add the document to the list if it belongs to the selected division
                                     BloodDonerRequestModel model = document.toObject(BloodDonerRequestModel.class);
                                     if (model != null) {
                                         allDataList.add(model);
-                                        adapter.notifyDataSetChanged();
-                                        // Log the size of the list
-                                        Log.d("DataRetrieved", "Size of allDataList: " + allDataList.size());
                                     }
-                                } else {
-                                    Log.d("Firestore", "Document does not belong to the selected division");
                                 }
-                            } else {
-                                Log.d("Firestore", "No such document");
                             }
 
-                            // Update UI visibility based on data availability
-                            //updateEmptyViewVisibility();
+                            // Notify the adapter that the data has changed
+                            adapter.notifyDataSetChanged();
+
+                            // Log the size of the list
+                            Log.d("DataRetrieved", "Size of allDataList: " + allDataList.size());
+
+                            // Populate the entries for the chart
+                            entries.add(new BarEntry(0, aPositiveCount));
+                            entries.add(new BarEntry(1, bPositiveCount));
+                            entries.add(new BarEntry(2, abPositiveCount));
+                            entries.add(new BarEntry(3, oPositiveCount));
+                            entries.add(new BarEntry(4, aNegativeCount));
+                            entries.add(new BarEntry(5, bNegativeCount));
+                            entries.add(new BarEntry(6, abNegativeCount));
+                            entries.add(new BarEntry(7, oNegativeCount));
+
+                            // Update the chart with the new data
+                            updateChartWithData();
 
                         } else {
                             // Handle task unsuccessful
-                            Log.e("Firestore", "Error getting document: ", task.getException());
+                            Log.e("Firestore", "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
+
 
 
 
