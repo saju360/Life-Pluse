@@ -26,40 +26,41 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.HospitalwithDoctorList;
 import com.saju.lifepluse.modelclass.HospitalModel;
+import com.saju.lifepluse.modelclass.PharmecyModel;
 
 import java.util.ArrayList;
 
-public class HPRecyclearAdapter extends RecyclerView.Adapter<HPRecyclearAdapter.hospitalviewHolder> {
+public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharmecyviewHolder> {
 
     Context applicationContext;
-    ArrayList<HospitalModel> hpitalListData;
-    private ArrayList<HospitalModel> originalDataList;
+    ArrayList<PharmecyModel> pharmecyListData;
+    private ArrayList<PharmecyModel> originalDataList;
 
-    public HPRecyclearAdapter(Context applicationContext, ArrayList<HospitalModel> hpitalListData) {
+    public PharmecyAdapter(Context applicationContext, ArrayList<PharmecyModel> pharmecyListData) {
         this.applicationContext = applicationContext;
-        this.hpitalListData = hpitalListData;
-        this.originalDataList = new ArrayList<>(hpitalListData);
+        this.pharmecyListData = pharmecyListData;
+        this.originalDataList = new ArrayList<>(pharmecyListData);
     }
 
-    public void filterList(ArrayList<HospitalModel> filteredList) {
-        hpitalListData = filteredList;
+    public void filterList(ArrayList<PharmecyModel> filteredList) {
+        pharmecyListData = filteredList;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public hospitalviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public pharmecyviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View myview = layoutInflater.inflate(R.layout.hospital_sample_layout, parent, false);
-        return new hospitalviewHolder(myview);
+        View myview = layoutInflater.inflate(R.layout.pharmecy_sample_layout, parent, false);
+        return new pharmecyviewHolder(myview);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull hospitalviewHolder holder, int position) {
-        HospitalModel hospital = hpitalListData.get(position);
+    public void onBindViewHolder(@NonNull pharmecyviewHolder holder, int position) {
+        PharmecyModel pharmecy = pharmecyListData.get(position);
 
-        if (hospital == null || hospital.getHpname_eng() == null || hospital.getHpname_eng().isEmpty()) {
-            Log.e("AdapterError", "Hospital at position " + position + " is invalid or null");
+        if (pharmecy == null || pharmecy.getPhname_bang() == null || pharmecy.getPhname_eng().isEmpty()) {
+            Log.e("AdapterError", "Pharmecy at position " + position + " is invalid or null");
             return;  // Skip binding for invalid hospital objects
         }
 
@@ -67,14 +68,14 @@ public class HPRecyclearAdapter extends RecyclerView.Adapter<HPRecyclearAdapter.
         String language = prefs.getString("My_Lang", "");
 
         if (language.equals("bn")) {
-            holder.hospitalName.setText(hospital.getHpname_bang());
+            holder.pharmecyName.setText(pharmecy.getPhname_bang());
         } else {
-            holder.hospitalName.setText(hospital.getHpname_eng());
+            holder.pharmecyName.setText(pharmecy.getPhname_eng());
         }
 
         // Check if the current user added this hospital and show delete button
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null && hospital.getAddedBy() != null && hospital.getAddedBy().equals(currentUser.getUid())) {
+        if (currentUser != null && pharmecy.getAddedBy() != null && pharmecy.getAddedBy().equals(currentUser.getUid())) {
             holder.deleteBtn.setVisibility(View.VISIBLE);
         } else {
             holder.deleteBtn.setVisibility(View.GONE);
@@ -84,19 +85,19 @@ public class HPRecyclearAdapter extends RecyclerView.Adapter<HPRecyclearAdapter.
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteHospital(hospital);  // Logic to delete the hospital
+                deleteHospital(pharmecy);  // Logic to delete the hospital
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(applicationContext, HospitalwithDoctorList.class);
-                intent.putExtra("hospitalnameEnglish", hospital.getHpname_eng());
-                intent.putExtra("hospitalnameBangla", hospital.getHpname_bang());
-                intent.putExtra("hospitaladdress", hospital.getHp_address());
-                intent.putExtra("hospitalmobile", hospital.getHpmobile());
-                intent.putExtra("hospitalfblink", hospital.getHp_fblink());
+                intent.putExtra("hospitalnameEnglish", pharmecy.getHpname_eng());
+                intent.putExtra("hospitalnameBangla", pharmecy.getHpname_bang());
+                intent.putExtra("hospitaladdress", pharmecy.getHp_address());
+                intent.putExtra("hospitalmobile", pharmecy.getHpmobile());
+                intent.putExtra("hospitalfblink", pharmecy.getHp_fblink());
 
                 if (applicationContext instanceof Activity) {
                     applicationContext.startActivity(intent);
@@ -104,63 +105,62 @@ public class HPRecyclearAdapter extends RecyclerView.Adapter<HPRecyclearAdapter.
                     Log.e("ContextError", "Context is not an Activity. Cannot start new Activity.");
                 }
 
-                Log.d("itemviewclicked", "Hospital name " + hospital.getHpname_eng() + hospital.getHp_address());
+                Log.d("itemviewclicked", "Hospital name " + pharmecy.getHpname_eng() + pharmecy.getHp_address());
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        if (hpitalListData == null || hpitalListData.isEmpty()) {
+        if (pharmecyListData == null || pharmecyListData.isEmpty()) {
             return 0;
         }
-        return hpitalListData.size();
+        return pharmecyListData.size();
     }
 
-    public class hospitalviewHolder extends RecyclerView.ViewHolder {
-        ImageView hospitalLogo, deleteBtn;
-        TextView hospitalName;
+    public class pharmecyviewHolder extends RecyclerView.ViewHolder {
+        ImageView  deleteBtn;
+        TextView pharmecyName;
         ImageButton nextImgBtn;
 
-        public hospitalviewHolder(@NonNull View itemView) {
+        public pharmecyviewHolder(@NonNull View itemView) {
             super(itemView);
-            hospitalLogo = itemView.findViewById(R.id.ShospitalImgId);
-            hospitalName = itemView.findViewById(R.id.ShoNameId);
-            nextImgBtn = itemView.findViewById(R.id.SHpimgButton);
-            deleteBtn = itemView.findViewById(R.id.ShospitaldelteBtn);
+            pharmecyName = itemView.findViewById(R.id.SphNameId);
+            nextImgBtn = itemView.findViewById(R.id.SPhimgButton);
+            deleteBtn = itemView.findViewById(R.id.SpharmecydelteBtn);
         }
     }
 
     // Method to delete hospital
-    private void deleteHospital(HospitalModel hospital) {
+    private void deleteHospital(PharmecyModel pharmecy) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String hospitalId = hospital.getAddedBy();  // Assuming HospitalModel contains a hospital ID
+        String pharmecyId = pharmecy.getAddedBy();  // Assuming HospitalModel contains a hospital ID
 
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(applicationContext);
-        dialog.setTitle("Delete Hospital");
+        dialog.setTitle("Delete Pharmecy");
         dialog.setIcon(R.drawable.alert_icon);
-        dialog.setMessage("Are you sure you want to delete this hospital?");
+        dialog.setMessage("Are you sure you want to delete this Pharmecy?");
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 db.collection("users")
-                        .document(hospital.getAddedBy())
-                        .collection("hopital_list")
-                        .document(hospitalId)
+                        .document(pharmecy.getAddedBy())
+                        .collection("pharmecy_list")
+                        .document(pharmecyId)
                         .delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(applicationContext, "Hospital deleted successfully", Toast.LENGTH_SHORT).show();
-                                hpitalListData.remove(hospital);
+                                Toast.makeText(applicationContext, "Pharmecy deleted successfully", Toast.LENGTH_SHORT).show();
+                                pharmecyListData.remove(pharmecy);
                                 notifyDataSetChanged();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.e("FirestoreDelete", "Error deleting hospital", e);
+                                Log.e("FirestoreDelete", "Error deleting pharmecy", e);
                             }
                         });
             }

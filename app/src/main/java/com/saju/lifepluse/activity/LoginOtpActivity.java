@@ -150,7 +150,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         //login and go to next activity
         setInProgress(true);
 
-        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd );
+        phoneAuthModel = new PhoneAuthModel(phoneNumber,"", Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled,isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulanceadd, isambulancenotadd );
         mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

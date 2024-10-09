@@ -23,7 +23,7 @@ public class PhoneAuthModel {
     boolean isambulancenotadd;
 
 
-    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd, boolean ishospitaladd, boolean ishospitalnotadd, boolean ispharmacyadd, boolean ispharmacynotadd, boolean isambulanceadd, boolean isambulancenotadd, boolean b) {
+    public PhoneAuthModel(String phone, String username, Timestamp createdTimestamp, String userId, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd, boolean ishospitaladd, boolean ishospitalnotadd, boolean ispharmacyadd, boolean ispharmacynotadd, boolean isambulanceadd, boolean isambulancenotadd) {
         this.phone = phone;
         this.username = username;
         this.createdTimestamp = createdTimestamp;

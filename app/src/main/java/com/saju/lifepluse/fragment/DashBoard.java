@@ -30,6 +30,7 @@ import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.BloodBank_Splash;
 import com.saju.lifepluse.activity.DoctorSpeciality;
 import com.saju.lifepluse.activity.Hospital;
+import com.saju.lifepluse.activity.Pharmecy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,12 @@ public class DashBoard extends Fragment {
                 String catNameEnglish = dataList.get(position).getNameEnglish();
                 String catNameBangla = dataList.get(position).getNameBangla();
 
-                if (position == 3) {
+                if (position == 0) {
+                    Intent myIntent = new Intent(getContext(), Pharmecy.class);
+                    myIntent.putExtra("catId", catId);
+                    startActivity(myIntent);
+                }
+               else if (position == 3) {
                     Intent myIntent = new Intent(getContext(), Hospital.class);
                     myIntent.putExtra("catId", catId);
                     startActivity(myIntent);

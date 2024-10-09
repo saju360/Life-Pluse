@@ -9,9 +9,10 @@ public class HospitalModel {
     String hp_websitelink;
     String hp_twitterlink;
     String hp_youtubelink;
+    private String addedBy;
 
 
-    public HospitalModel(String hpname_eng, String hpname_bang, String hpmobile, String hp_address, String hp_fblink, String hp_websitelink, String hp_twitterlink, String hp_youtubelink) {
+    public HospitalModel(String hpname_eng, String hpname_bang, String hpmobile, String hp_address, String hp_fblink, String hp_websitelink, String hp_twitterlink, String hp_youtubelink, String addedBy) {
         this.hpname_eng = hpname_eng;
         this.hpname_bang = hpname_bang;
         this.hpmobile = hpmobile;
@@ -20,6 +21,7 @@ public class HospitalModel {
         this.hp_websitelink = hp_websitelink;
         this.hp_twitterlink = hp_twitterlink;
         this.hp_youtubelink = hp_youtubelink;
+        this.addedBy = addedBy;
     }
 
     public HospitalModel() {
@@ -87,5 +89,13 @@ public class HospitalModel {
 
     public void setHp_youtubelink(String hp_youtubelink) {
         this.hp_youtubelink = hp_youtubelink;
+    }
+
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
     }
 }

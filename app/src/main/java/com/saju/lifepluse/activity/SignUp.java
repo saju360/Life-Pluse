@@ -120,7 +120,7 @@ public class SignUp extends AppCompatActivity {
 
                             uid = task.getResult().getUser().getUid();
 
-                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd);
+                            user = new EmailUser(name, email, password, uid, Timestamp.now(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulanceadd, isambulancenotadd);
                             database.collection("users").document(uid).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

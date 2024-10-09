@@ -231,15 +231,45 @@ public class DrawerLayout extends AppCompatActivity {
 
 
     private void updateUIAfterLogout() {
-        header_profile_layout.setVisibility(View.GONE);
-        loginBtn.setVisibility(View.VISIBLE);
-        createBtn.setVisibility(View.VISIBLE);
-        Profile_Fragment.profile_design_layout.setVisibility(View.GONE);
-        Profile_Fragment.singin_layoutforprofile.setVisibility(View.VISIBLE);
-        Profile_Fragment.logout_anim_btn.setVisibility(View.GONE);
+        // Ensure that header_profile_layout is not null
+        if (header_profile_layout != null) {
+            header_profile_layout.setVisibility(View.GONE);
+        } else {
+            Log.e("DrawerLayout", "header_profile_layout is null");
+        }
 
+        if (loginBtn != null) {
+            loginBtn.setVisibility(View.VISIBLE);
+        } else {
+            Log.e("DrawerLayout", "loginBtn is null");
+        }
 
+        if (createBtn != null) {
+            createBtn.setVisibility(View.VISIBLE);
+        } else {
+            Log.e("DrawerLayout", "createBtn is null");
+        }
+
+        // Accessing views from Profile_Fragment
+        if (Profile_Fragment.profile_design_layout != null) {
+            Profile_Fragment.profile_design_layout.setVisibility(View.GONE);
+        } else {
+            Log.e("DrawerLayout", "profile_design_layout in Profile_Fragment is null");
+        }
+
+        if (Profile_Fragment.singin_layoutforprofile != null) {
+            Profile_Fragment.singin_layoutforprofile.setVisibility(View.VISIBLE);
+        } else {
+            Log.e("DrawerLayout", "singin_layoutforprofile in Profile_Fragment is null");
+        }
+
+        if (Profile_Fragment.logout_anim_btn != null) {
+            Profile_Fragment.logout_anim_btn.setVisibility(View.GONE);
+        } else {
+            Log.e("DrawerLayout", "logout_anim_btn in Profile_Fragment is null");
+        }
     }
+
 
     private void headerlayout(NavigationView navigationView) {
 

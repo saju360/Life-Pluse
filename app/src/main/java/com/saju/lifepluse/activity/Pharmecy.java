@@ -41,48 +41,50 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.adapter.HPRecyclearAdapter;
+import com.saju.lifepluse.adapter.PharmecyAdapter;
 import com.saju.lifepluse.modelclass.HospitalModel;
+import com.saju.lifepluse.modelclass.PharmecyModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 
-public class Hospital extends AppCompatActivity {
+public class Pharmecy extends AppCompatActivity {
 
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     FirebaseFirestore db;
-    HPRecyclearAdapter adapter;
-    private ArrayList<HospitalModel> hpitalListData;
+    PharmecyAdapter adapter;
+    private ArrayList<PharmecyModel> pharmecyListData;
     EditText searchEditText;
-    private ArrayList<HospitalModel> originalDataList;
+    private ArrayList<PharmecyModel> originalDataList;
     ImageView button_back;
-    LottieAnimationView addhospitalId;
+    LottieAnimationView addpharmecyId;
     FirebaseUser currentuser;
-    HospitalModel hospitalModel;
+    PharmecyModel pharmecyModel;
 
-    boolean ishospitaladd;
-    boolean ishospitalnotadd;
+    boolean ispharmacyadd;
+    boolean ispharmacynotadd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hospital);
+        setContentView(R.layout.activity_pharmecy);
 
 
         recyclerView = findViewById(R.id.recyclearViewId);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         searchEditText = findViewById(R.id.searchEditText);
         button_back = findViewById(R.id.button_back);
-        addhospitalId = findViewById(R.id.addhospitalId);
+        addpharmecyId = findViewById(R.id.addpharmecyId);
         db = FirebaseFirestore.getInstance();
         currentuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        hpitalListData = new ArrayList<>();
+        pharmecyListData = new ArrayList<>();
 
 
         originalDataList = new ArrayList<>();
 
-        adapter = new HPRecyclearAdapter(this, hpitalListData);  // Initialize adapter
+        adapter = new PharmecyAdapter(this, pharmecyListData);  // Initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);  // Set adapter to RecyclerView
 
@@ -104,14 +106,14 @@ public class Hospital extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
 
 
-        addhospitalId.setOnClickListener(new View.OnClickListener() {
+        addpharmecyId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 if (currentuser != null) {
                     // Show "Add Hospital" dialog if not added, else show "Update Hospital" dialog
-                    if (ishospitaladd) {
+                    if (ispharmacyadd) {
                         updateHospitalDialog();  // Show Update dialog
                     } else {
                         addhospitalDialog();  // Show Add dialog
@@ -132,7 +134,7 @@ public class Hospital extends AppCompatActivity {
             }
         });
 
-        searchEditText.setHint("Search by hospital name...");
+        searchEditText.setHint("Search by pharmecy name...");
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -170,14 +172,14 @@ public class Hospital extends AppCompatActivity {
 
     private void updateHospitalDialog() {
         // Update hospital dialog code
-        AlertDialog.Builder builder = new AlertDialog.Builder(Hospital.this);
-        builder.setTitle("Update Your Hospital Info");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Pharmecy.this);
+        builder.setTitle("Update Your Pharmecy Info");
 
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_hospital, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_pharmecy, null);
         builder.setView(dialogView);
 
-        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_hospital_english);
-        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_hospital_bangla);
+        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
+        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -186,21 +188,21 @@ public class Hospital extends AppCompatActivity {
         TextInputEditText youtubelinkEd = dialogView.findViewById(R.id.edittext_youtubelink);
 
 
-        FirebaseUtil.donerUserDetails("hopital_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("pharmecy_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                 if (task.isSuccessful()){
-                    HospitalModel hospitalModel = task.getResult().toObject(HospitalModel.class);
+                    PharmecyModel pharmecyModel = task.getResult().toObject(PharmecyModel.class);
 
-                    editTextEnglish.setText(hospitalModel.getHpname_eng());
-                    editTextBangla.setText(hospitalModel.getHpname_bang());
-                    mobileEd.setText(hospitalModel.getHpmobile());
-                    addressEd.setText(hospitalModel.getHp_address());
-                    fblinkEd.setText(hospitalModel.getHp_fblink());
-                    weblinkEd.setText(hospitalModel.getHp_websitelink());
-                    twitterEd.setText(hospitalModel.getHp_twitterlink());
-                    youtubelinkEd.setText(hospitalModel.getHp_youtubelink());
+                    editTextEnglish.setText(pharmecyModel.getPhname_eng());
+                    editTextBangla.setText(pharmecyModel.getPhname_bang());
+                    mobileEd.setText(pharmecyModel.getPhmobile());
+                    addressEd.setText(pharmecyModel.getPh_address());
+                    fblinkEd.setText(pharmecyModel.getPh_fblink());
+                    weblinkEd.setText(pharmecyModel.getPh_websitelink());
+                    twitterEd.setText(pharmecyModel.getPh_twitterlink());
+                    youtubelinkEd.setText(pharmecyModel.getPh_youtubelink());
                 }
 
             }
@@ -215,21 +217,21 @@ public class Hospital extends AppCompatActivity {
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String hospitalEnglish = editTextEnglish.getText().toString().trim();
-                String hospitalBangla = editTextBangla.getText().toString().trim();
-                String hpmobile = mobileEd.getText().toString().trim();
-                String hpaddress = addressEd.getText().toString().trim();
-                String hpfblink = fblinkEd.getText().toString().trim();
-                String hpweblink = weblinkEd.getText().toString().trim();
-                String hptwiiterlink = twitterEd.getText().toString().trim();
-                String hpyoutubelink = youtubelinkEd.getText().toString().trim();
+                String pharmecyEnglish = editTextEnglish.getText().toString().trim();
+                String pharmecyBangla = editTextBangla.getText().toString().trim();
+                String phmobile = mobileEd.getText().toString().trim();
+                String phaddress = addressEd.getText().toString().trim();
+                String phfblink = fblinkEd.getText().toString().trim();
+                String phweblink = weblinkEd.getText().toString().trim();
+                String phtwiiterlink = twitterEd.getText().toString().trim();
+                String phyoutubelink = youtubelinkEd.getText().toString().trim();
 
-                if (!hospitalEnglish.isEmpty() && !hospitalBangla.isEmpty() && !hpmobile.isEmpty() && !hpfblink.isEmpty()) {
-                    updateHospital(hospitalEnglish, hospitalBangla, hpmobile, hpaddress, hpfblink, hpweblink, hptwiiterlink, hpyoutubelink);
+                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phfblink.isEmpty()) {
+                    updateHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
                     UserDataRetrive();
                     // Update hospital details
                 } else {
-                    Toast.makeText(Hospital.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Pharmecy.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -244,26 +246,26 @@ public class Hospital extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void updateHospital(String hpname_eng, String hpname_bang, String hpmobile, String hpaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
+    private void updateHospital(String phname_eng, String phname_bang, String phmobile, String phaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
         // Implement logic to update the hospital in Firestore
-        FirebaseUtil.donerUserDetails("hopital_list").update("hpname_eng", hpname_eng, "hpname_bang", hpname_bang, "hpmobile", hpmobile, "hp_address", hpaddress, "hp_fblink", fblink,"hp_websitelink", weblink,"hp_twitterlink", twitterlink, "hp_youtubelink", youtubelink)
-                .addOnSuccessListener(aVoid -> Toast.makeText(Hospital.this, "Hospital Updated Successfully", Toast.LENGTH_SHORT).show())
+        FirebaseUtil.donerUserDetails("hopital_list").update("hpname_eng", phname_eng, "hpname_bang", phname_bang, "hpmobile", phmobile, "hp_address", phaddress, "hp_fblink", fblink,"hp_websitelink", weblink,"hp_twitterlink", twitterlink, "hp_youtubelink", youtubelink)
+                .addOnSuccessListener(aVoid -> Toast.makeText(Pharmecy.this, "Hospital Updated Successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Log.e("Hospital", "Failed to update hospital", e));
     }
 
     private void addhospitalDialog() {
 
         // Create an AlertDialog Builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(Hospital.this);
-        builder.setTitle("Add Your Hospital");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Pharmecy.this);
+        builder.setTitle("Add Your Pharmecy Info");
 
         // Inflate the custom layout
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_hospital, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_pharmecy, null);
         builder.setView(dialogView);
 
         // Get the EditText fields from the custom layout
-        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_hospital_english);
-        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_hospital_bangla);
+        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
+        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -276,22 +278,22 @@ public class Hospital extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Retrieve input values from the EditText fields
-                String hospitalEnglish = editTextEnglish.getText().toString().trim();
-                String hospitalBangla = editTextBangla.getText().toString().trim();
-                String hospitalmobile = mobileEd.getText().toString().trim();
-                String hospitaladdress = addressEd.getText().toString().trim();
-                String hospitalfblink = fblinkEd.getText().toString().trim();
-                String hospitalwebsitelink = weblinkEd.getText().toString().trim();
-                String hospitaltwitterlink = twitterEd.getText().toString().trim();
-                String hospitalyoutubelink = youtubelinkEd.getText().toString().trim();
+                String pharmecyEnglish = editTextEnglish.getText().toString().trim();
+                String pharmecyBangla = editTextBangla.getText().toString().trim();
+                String phmobile = mobileEd.getText().toString().trim();
+                String phaddress = addressEd.getText().toString().trim();
+                String phfblink = fblinkEd.getText().toString().trim();
+                String phweblink = weblinkEd.getText().toString().trim();
+                String phtwiiterlink = twitterEd.getText().toString().trim();
+                String phyoutubelink = youtubelinkEd.getText().toString().trim();
 
                 // Check if fields are not empty
-                if (!hospitalEnglish.isEmpty() && !hospitalBangla.isEmpty() && !hospitalmobile.isEmpty() && !hospitaladdress.isEmpty() && !hospitalfblink.isEmpty()) {
+                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phaddress.isEmpty() && !phfblink.isEmpty()) {
                     // Add the hospital to Firestore
-                    addHospital(hospitalEnglish, hospitalBangla, hospitalmobile, hospitaladdress, hospitalfblink, hospitalwebsitelink, hospitaltwitterlink, hospitalyoutubelink);
+                    addHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
                 } else {
                     // Show a Toast message for empty fields
-                    Toast.makeText(Hospital.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Pharmecy.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -309,22 +311,22 @@ public class Hospital extends AppCompatActivity {
     }
 
 
-    private void addHospital(String hpname_eng, String hpname_bang, String hpmobile, String hp_address, String hp_fblink, String hp_websitelink, String hp_twitterlink, String hp_youtubelink) {
+    private void addHospital(String phname_eng, String phname_bang, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser !=null){
             String addedBy = currentUser.getUid();
-            hospitalModel = new HospitalModel(hpname_eng, hpname_bang, hpmobile, hp_address, hp_fblink, hp_websitelink, hp_twitterlink, hp_youtubelink, addedBy);
+            pharmecyModel = new PharmecyModel(phname_eng, phname_bang, phmobile, ph_address, ph_fblink, ph_websitelink, ph_twitterlink, ph_youtubelink, addedBy);
 
-            FirebaseUtil.donerUserDetails("hopital_list").set(hospitalModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            FirebaseUtil.donerUserDetails("pharmecy_list").set(pharmecyModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
 
-                    FirebaseUtil.currentUserDetails().update("ishospitaladd", true);
-                    FirebaseUtil.currentUserDetails().update("ishospitalnotadd", false);
+                    FirebaseUtil.currentUserDetails().update("ispharmacyadd", true);
+                    FirebaseUtil.currentUserDetails().update("ispharmacynotadd", false);
 
-                    Toast.makeText(Hospital.this, "Hospital Added Succesffully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Pharmecy.this, "Pharmecy Added Succesffully", Toast.LENGTH_SHORT).show();
                     finish();
 
                 }
@@ -358,20 +360,20 @@ public class Hospital extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
 
                     if (documentSnapshot != null) {
-                        ishospitaladd = documentSnapshot.getBoolean("ishospitaladd");
-                        ishospitalnotadd = documentSnapshot.getBoolean("ishospitalnotadd");
+                        ispharmacyadd = documentSnapshot.getBoolean("ispharmacyadd");
+                        ispharmacynotadd = documentSnapshot.getBoolean("ispharmacynotadd");
 
-                        if (ishospitaladd) {
-                            Log.d("hospitalform_status", "Hospital Form  Filled Yet");
+                        if (ispharmacyadd) {
+                            Log.d("pharmecyform_status", "Pharmecy Form  Filled Yet");
 
-                        } else if (ishospitalnotadd) {
+                        } else if (ispharmacynotadd) {
 
                         }
                     } else {
-                        Log.d("hospitalform_status", "DocumentSnapshot is null");
+                        Log.d("pharmecy_status", "DocumentSnapshot is null");
                     }
                 } else {
-                    Log.d("hospitalform_status", "Error getting document: ", task.getException());
+                    Log.d("pharmecy_status", "Error getting document: ", task.getException());
 
                 }
 
@@ -392,7 +394,7 @@ public class Hospital extends AppCompatActivity {
     }
 
     private void UserDataRetrive() {
-        hpitalListData.clear();
+        pharmecyListData.clear();
         originalDataList = new ArrayList<>();  // Ensure it's initialized
         db.collection("users")
                 .get()
@@ -414,10 +416,10 @@ public class Hospital extends AppCompatActivity {
     }
 
     private void HPDataRetrive(String userid) {
-        hpitalListData.clear();  // Clear previous data
+        pharmecyListData.clear();  // Clear previous data
 
         // Access the hospital list collection under the user's document
-        db.collection("users").document(userid).collection("hopital_list")
+        db.collection("users").document(userid).collection("pharmecy_list")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -425,26 +427,26 @@ public class Hospital extends AppCompatActivity {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             // Loop through each document in the collection
                             for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                HospitalModel hospital = document.toObject(HospitalModel.class);
+                                PharmecyModel pharmecy = document.toObject(PharmecyModel.class);
 
                                 // Ensure hospital is not null before adding
-                                if (hospital != null) {
-                                    hpitalListData.add(hospital);
-                                    originalDataList.add(hospital);
+                                if (pharmecy != null) {
+                                    pharmecyListData.add(pharmecy);
+                                    originalDataList.add(pharmecy);
                                 }
                             }
 
                             // Notify the adapter about the updated data
                             adapter.notifyDataSetChanged();
                         } else {
-                            Log.d("HPDataRetrive", "No hospitals found in the collection");
+                            Log.d("PHDataRetrive", "No pharmecy found in the collection");
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("HPDataRetrive", "Error fetching data: " + e.getLocalizedMessage());
+                        Log.d("PHDataRetrive", "Error fetching data: " + e.getLocalizedMessage());
                     }
                 });
     }
@@ -453,17 +455,17 @@ public class Hospital extends AppCompatActivity {
 
 
     private void filterData(String query) {
-        ArrayList<HospitalModel> filteredList = new ArrayList<>();
+        ArrayList<PharmecyModel> filteredList = new ArrayList<>();
 
-        for (HospitalModel model : originalDataList) {
-            String hospitalName;
+        for (PharmecyModel model : originalDataList) {
+            String pharmecyName;
             if (isBanglaLanguage()) {
-                hospitalName = model.getHpname_bang().toLowerCase();
+                pharmecyName = model.getPhname_bang().toLowerCase();
             } else {
-                hospitalName = model.getHpname_eng().toLowerCase();
+                pharmecyName = model.getPhname_eng().toLowerCase();
             }
 
-            if (hospitalName.contains(query.toLowerCase())) {
+            if (pharmecyName.contains(query.toLowerCase())) {
                 filteredList.add(model);
             }
         }

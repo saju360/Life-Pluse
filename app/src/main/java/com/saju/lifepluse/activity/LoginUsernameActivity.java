@@ -74,7 +74,7 @@ public class LoginUsernameActivity extends AppCompatActivity {
             phoneAuthModel.setUsername(username);
         }else{
 
-            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulancenotadd, isambulanceadd, isambulancenotadd);
+            phoneAuthModel = new PhoneAuthModel(phoneNumber,username, Timestamp.now(), FirebaseUtil.currentUserId(), isform_filled, isform_notfilled, isorgadd, isorgnotadd, isfindbbankadd, isfindbbanknotadd, ishospitaladd, ishospitalnotadd, ispharmacyadd, ispharmacynotadd, isambulanceadd, isambulancenotadd);
         }
 
         FirebaseUtil.currentUserDetails().set(phoneAuthModel).addOnCompleteListener(new OnCompleteListener<Void>() {

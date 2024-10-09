@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.Hospital">
+    tools:context=".activity.Pharmecy">
 
     <LinearLayout
         android:id="@+id/topbarLayout"
@@ -47,14 +47,14 @@
                 android:elevation="20sp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Hospital List"
+                android:text="Pharmecy List"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/addhospitalId"
+            android:id="@+id/addpharmecyId"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight=".5"

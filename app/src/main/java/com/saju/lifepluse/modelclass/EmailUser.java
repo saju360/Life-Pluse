@@ -21,7 +21,7 @@ public class EmailUser {
     boolean isambulancenotadd;
 
 
-    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd, boolean ishospitaladd, boolean ishospitalnotadd, boolean ispharmacyadd, boolean ispharmacynotadd, boolean isambulanceadd, boolean isambulancenotadd, boolean b) {
+    public EmailUser(String name, String email, String password, String uid, Timestamp createdTimestamp, boolean isform_filled, boolean isform_notfilled, boolean isorgadd, boolean isorgnotadd, boolean isfindbbankadd, boolean isfindbbanknotadd, boolean ishospitaladd, boolean ishospitalnotadd, boolean ispharmacyadd, boolean ispharmacynotadd, boolean isambulanceadd, boolean isambulancenotadd) {
         this.name = name;
         this.email = email;
         this.password = password;
