@@ -5,10 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -27,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.CategoryModel;
 import com.saju.lifepluse.GridviewAdapter;
 import com.saju.lifepluse.R;
+import com.saju.lifepluse.activity.Ambulance;
 import com.saju.lifepluse.activity.BloodBank_Splash;
 import com.saju.lifepluse.activity.DoctorSpeciality;
 import com.saju.lifepluse.activity.Hospital;
@@ -84,8 +84,17 @@ public class DashBoard extends Fragment {
                     Intent myIntent = new Intent(getContext(), Pharmecy.class);
                     myIntent.putExtra("catId", catId);
                     startActivity(myIntent);
-                }
-               else if (position == 3) {
+                } else if (position == 1) {
+                    Intent myIntent = new Intent(getContext(), Ambulance.class);
+                    myIntent.putExtra("catId", catId);
+                    startActivity(myIntent);
+                } else if (position == 2) {
+                    Intent myIntent = new Intent(getContext(), DoctorSpeciality.class);
+                    myIntent.putExtra("catId", catId);
+                    myIntent.putExtra("catEnglishName", catNameEnglish);
+                    myIntent.putExtra("catBanglaName", catNameBangla);
+                    startActivity(myIntent);
+                } else if (position == 3) {
                     Intent myIntent = new Intent(getContext(), Hospital.class);
                     myIntent.putExtra("catId", catId);
                     startActivity(myIntent);
@@ -93,13 +102,6 @@ public class DashBoard extends Fragment {
                     Intent myIntent = new Intent(getContext(), BloodBank_Splash.class);
                     myIntent.putExtra("catId", catId);
                     startActivity(myIntent);
-                } else {
-                    Intent myIntent = new Intent(getContext(), DoctorSpeciality.class);
-                    myIntent.putExtra("catId", catId);
-                    myIntent.putExtra("catEnglishName", catNameEnglish);
-                    myIntent.putExtra("catBanglaName", catNameBangla);
-                    startActivity(myIntent);
-
                 }
 
             }

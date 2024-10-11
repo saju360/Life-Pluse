@@ -40,51 +40,50 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.R;
-import com.saju.lifepluse.adapter.HPRecyclearAdapter;
-import com.saju.lifepluse.adapter.PharmecyAdapter;
-import com.saju.lifepluse.modelclass.HospitalModel;
+import com.saju.lifepluse.adapter.AmbulanceAdapter;
+import com.saju.lifepluse.modelclass.AmbulanceModel;
 import com.saju.lifepluse.modelclass.PharmecyModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 
-public class Pharmecy extends AppCompatActivity {
+public class Ambulance extends AppCompatActivity {
 
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     FirebaseFirestore db;
-    PharmecyAdapter adapter;
-    private ArrayList<PharmecyModel> pharmecyListData;
+    AmbulanceAdapter adapter;
+    private ArrayList<AmbulanceModel> ambulanceListData;
     EditText searchEditText;
-    private ArrayList<PharmecyModel> originalDataList;
+    private ArrayList<AmbulanceModel> originalDataList;
     ImageView button_back;
-    LottieAnimationView addpharmecyId;
+    LottieAnimationView addambulanceId;
     FirebaseUser currentuser;
-    PharmecyModel pharmecyModel;
+    AmbulanceModel ambulanceModel;
 
-    boolean ispharmacyadd;
-    boolean ispharmacynotadd;
+    boolean isambulanceadd;
+    boolean isambulancenotadd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pharmecy);
+        setContentView(R.layout.activity_ambulance);
 
 
         recyclerView = findViewById(R.id.recyclearViewId);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         searchEditText = findViewById(R.id.searchEditText);
         button_back = findViewById(R.id.button_back);
-        addpharmecyId = findViewById(R.id.addpharmecyId);
+        addambulanceId = findViewById(R.id.addambulanceId);
         db = FirebaseFirestore.getInstance();
         currentuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        pharmecyListData = new ArrayList<>();
+        ambulanceListData = new ArrayList<>();
 
 
         originalDataList = new ArrayList<>();
 
-        adapter = new PharmecyAdapter(this, pharmecyListData);  // Initialize adapter
+        adapter = new AmbulanceAdapter(this, ambulanceListData);  // Initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);  // Set adapter to RecyclerView
 
@@ -106,17 +105,17 @@ public class Pharmecy extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
 
 
-        addpharmecyId.setOnClickListener(new View.OnClickListener() {
+        addambulanceId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 if (currentuser != null) {
                     // Show "Add Hospital" dialog if not added, else show "Update Hospital" dialog
-                    if (ispharmacyadd) {
-                        updateHospitalDialog();  // Show Update dialog
+                    if (isambulanceadd) {
+                        updateAmbulanceDialog();  // Show Update dialog
                     } else {
-                        addhospitalDialog();  // Show Add dialog
+                        addambulanceDialog();  // Show Add dialog
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Please SignIn First", Toast.LENGTH_SHORT).show();
@@ -134,7 +133,7 @@ public class Pharmecy extends AppCompatActivity {
             }
         });
 
-        searchEditText.setHint("Search by pharmecy name...");
+        searchEditText.setHint("Search by ambulance name...");
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -170,16 +169,16 @@ public class Pharmecy extends AppCompatActivity {
 
     }
 
-    private void updateHospitalDialog() {
+    private void updateAmbulanceDialog() {
         // Update hospital dialog code
-        AlertDialog.Builder builder = new AlertDialog.Builder(Pharmecy.this);
-        builder.setTitle("Update Your Pharmecy Info");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Ambulance.this);
+        builder.setTitle("Update Your Ambulance Info");
 
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_pharmecy, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_ambulance, null);
         builder.setView(dialogView);
 
-        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
-        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
+        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_ambulance_english);
+        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_ambulance_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -188,21 +187,21 @@ public class Pharmecy extends AppCompatActivity {
         TextInputEditText youtubelinkEd = dialogView.findViewById(R.id.edittext_youtubelink);
 
 
-        FirebaseUtil.donerUserDetails("pharmecy_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("ambulance_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                 if (task.isSuccessful()){
-                    PharmecyModel pharmecyModel = task.getResult().toObject(PharmecyModel.class);
+                    AmbulanceModel ambulanceModel = task.getResult().toObject(AmbulanceModel.class);
 
-                    editTextEnglish.setText(pharmecyModel.getPhname_eng());
-                    editTextBangla.setText(pharmecyModel.getPhname_bang());
-                    mobileEd.setText(pharmecyModel.getPhmobile());
-                    addressEd.setText(pharmecyModel.getPh_address());
-                    fblinkEd.setText(pharmecyModel.getPh_fblink());
-                    weblinkEd.setText(pharmecyModel.getPh_websitelink());
-                    twitterEd.setText(pharmecyModel.getPh_twitterlink());
-                    youtubelinkEd.setText(pharmecyModel.getPh_youtubelink());
+                    editTextEnglish.setText(ambulanceModel.getAmbname_eng());
+                    editTextBangla.setText(ambulanceModel.getAmbname_bang());
+                    mobileEd.setText(ambulanceModel.getAmbmobile());
+                    addressEd.setText(ambulanceModel.getAmb_address());
+                    fblinkEd.setText(ambulanceModel.getAmb_fblink());
+                    weblinkEd.setText(ambulanceModel.getAmb_websitelink());
+                    twitterEd.setText(ambulanceModel.getAmb_twitterlink());
+                    youtubelinkEd.setText(ambulanceModel.getAmb_youtubelink());
                 }
 
             }
@@ -217,21 +216,21 @@ public class Pharmecy extends AppCompatActivity {
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String pharmecyEnglish = editTextEnglish.getText().toString().trim();
-                String pharmecyBangla = editTextBangla.getText().toString().trim();
-                String phmobile = mobileEd.getText().toString().trim();
-                String phaddress = addressEd.getText().toString().trim();
-                String phfblink = fblinkEd.getText().toString().trim();
-                String phweblink = weblinkEd.getText().toString().trim();
-                String phtwiiterlink = twitterEd.getText().toString().trim();
-                String phyoutubelink = youtubelinkEd.getText().toString().trim();
+                String ambulanceEnglish = editTextEnglish.getText().toString().trim();
+                String ambulanceBangla = editTextBangla.getText().toString().trim();
+                String ambmobile = mobileEd.getText().toString().trim();
+                String ambaddress = addressEd.getText().toString().trim();
+                String ambfblink = fblinkEd.getText().toString().trim();
+                String ambweblink = weblinkEd.getText().toString().trim();
+                String ambtwiiterlink = twitterEd.getText().toString().trim();
+                String ambyoutubelink = youtubelinkEd.getText().toString().trim();
 
-                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phfblink.isEmpty()) {
-                    updateHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
+                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !ambmobile.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
+                    updateAmbulance(ambulanceEnglish, ambulanceBangla, ambmobile, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
                     UserDataRetrive();
                     // Update hospital details
                 } else {
-                    Toast.makeText(Pharmecy.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Ambulance.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -246,26 +245,26 @@ public class Pharmecy extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void updateHospital(String phname_eng, String phname_bang, String phmobile, String phaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
+    private void updateAmbulance(String ambname_eng, String ambname_bang, String ambmobile, String ambaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
         // Implement logic to update the hospital in Firestore
-        FirebaseUtil.donerUserDetails("hopital_list").update("phname_eng", phname_eng, "phname_bang", phname_bang, "phmobile", phmobile, "ph_address", phaddress, "ph_fblink", fblink,"ph_websitelink", weblink,"ph_twitterlink", twitterlink, "ph_youtubelink", youtubelink)
-                .addOnSuccessListener(aVoid -> Toast.makeText(Pharmecy.this, "Hospital Updated Successfully", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Log.e("Hospital", "Failed to update hospital", e));
+        FirebaseUtil.donerUserDetails("ambulance_list").update("ambname_eng", ambname_eng, "ambname_bang", ambname_bang, "ambmobile", ambmobile, "amb_address", ambaddress, "amb_fblink", fblink,"amb_websitelink", weblink,"amb_twitterlink", twitterlink, "amb_youtubelink", youtubelink)
+                .addOnSuccessListener(aVoid -> Toast.makeText(Ambulance.this, "Ambulance Updated Successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Log.e("Ambulacne", "Failed to update ambulance", e));
     }
 
-    private void addhospitalDialog() {
+    private void addambulanceDialog() {
 
         // Create an AlertDialog Builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(Pharmecy.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Ambulance.this);
         builder.setTitle("Add Your Pharmecy Info");
 
         // Inflate the custom layout
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_pharmecy, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_ambulance, null);
         builder.setView(dialogView);
 
         // Get the EditText fields from the custom layout
-        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
-        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
+        TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_ambulance_english);
+        TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_ambulance_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -278,22 +277,22 @@ public class Pharmecy extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Retrieve input values from the EditText fields
-                String pharmecyEnglish = editTextEnglish.getText().toString().trim();
-                String pharmecyBangla = editTextBangla.getText().toString().trim();
-                String phmobile = mobileEd.getText().toString().trim();
-                String phaddress = addressEd.getText().toString().trim();
-                String phfblink = fblinkEd.getText().toString().trim();
-                String phweblink = weblinkEd.getText().toString().trim();
-                String phtwiiterlink = twitterEd.getText().toString().trim();
-                String phyoutubelink = youtubelinkEd.getText().toString().trim();
+                String ambulanceEnglish = editTextEnglish.getText().toString().trim();
+                String ambulanceBangla = editTextBangla.getText().toString().trim();
+                String ambmobile = mobileEd.getText().toString().trim();
+                String ambaddress = addressEd.getText().toString().trim();
+                String ambfblink = fblinkEd.getText().toString().trim();
+                String ambweblink = weblinkEd.getText().toString().trim();
+                String ambtwiiterlink = twitterEd.getText().toString().trim();
+                String ambyoutubelink = youtubelinkEd.getText().toString().trim();
 
                 // Check if fields are not empty
-                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phaddress.isEmpty() && !phfblink.isEmpty()) {
+                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !ambmobile.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
                     // Add the hospital to Firestore
-                    addHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
+                    addAmbulance(ambulanceEnglish, ambulanceBangla, ambmobile, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
                 } else {
                     // Show a Toast message for empty fields
-                    Toast.makeText(Pharmecy.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Ambulance.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -311,22 +310,22 @@ public class Pharmecy extends AppCompatActivity {
     }
 
 
-    private void addHospital(String phname_eng, String phname_bang, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink) {
+    private void addAmbulance(String ambname_eng, String ambname_bang, String ambmobile, String amb_address, String amb_fblink, String amb_websitelink, String amb_twitterlink, String amb_youtubelink) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser !=null){
             String addedBy = currentUser.getUid();
-            pharmecyModel = new PharmecyModel(phname_eng, phname_bang, phmobile, ph_address, ph_fblink, ph_websitelink, ph_twitterlink, ph_youtubelink, addedBy);
+            ambulanceModel = new AmbulanceModel(ambname_eng, ambname_bang, ambmobile, amb_address, amb_fblink, amb_websitelink, amb_twitterlink, amb_youtubelink, addedBy);
 
-            FirebaseUtil.donerUserDetails("pharmecy_list").set(pharmecyModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            FirebaseUtil.donerUserDetails("ambulance_list").set(ambulanceModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
 
-                    FirebaseUtil.currentUserDetails().update("ispharmacyadd", true);
-                    FirebaseUtil.currentUserDetails().update("ispharmacynotadd", false);
+                    FirebaseUtil.currentUserDetails().update("isambulanceadd", true);
+                    FirebaseUtil.currentUserDetails().update("isambulancenotadd", false);
 
-                    Toast.makeText(Pharmecy.this, "Pharmecy Added Succesffully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Ambulance.this, "Ambulance Added Succesffully", Toast.LENGTH_SHORT).show();
                     finish();
 
                 }
@@ -360,20 +359,20 @@ public class Pharmecy extends AppCompatActivity {
                     DocumentSnapshot documentSnapshot = task.getResult();
 
                     if (documentSnapshot != null) {
-                        ispharmacyadd = documentSnapshot.getBoolean("ispharmacyadd");
-                        ispharmacynotadd = documentSnapshot.getBoolean("ispharmacynotadd");
+                        isambulanceadd = documentSnapshot.getBoolean("isambulanceadd");
+                        isambulancenotadd = documentSnapshot.getBoolean("isambulancenotadd");
 
-                        if (ispharmacyadd) {
-                            Log.d("pharmecyform_status", "Pharmecy Form  Filled Yet");
+                        if (isambulanceadd) {
+                            Log.d("ambulance_status", "Ambulance Form  Filled Yet");
 
-                        } else if (ispharmacynotadd) {
+                        } else if (isambulancenotadd) {
 
                         }
                     } else {
-                        Log.d("pharmecy_status", "DocumentSnapshot is null");
+                        Log.d("ambulance_status", "DocumentSnapshot is null");
                     }
                 } else {
-                    Log.d("pharmecy_status", "Error getting document: ", task.getException());
+                    Log.d("ambulance_status", "Error getting document: ", task.getException());
 
                 }
 
@@ -394,7 +393,7 @@ public class Pharmecy extends AppCompatActivity {
     }
 
     private void UserDataRetrive() {
-        pharmecyListData.clear();
+        ambulanceListData.clear();
         originalDataList = new ArrayList<>();  // Ensure it's initialized
         db.collection("users")
                 .get()
@@ -416,10 +415,10 @@ public class Pharmecy extends AppCompatActivity {
     }
 
     private void HPDataRetrive(String userid) {
-        pharmecyListData.clear();  // Clear previous data
+        ambulanceListData.clear();  // Clear previous data
 
         // Access the hospital list collection under the user's document
-        db.collection("users").document(userid).collection("pharmecy_list")
+        db.collection("users").document(userid).collection("ambulance_list")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -427,26 +426,26 @@ public class Pharmecy extends AppCompatActivity {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             // Loop through each document in the collection
                             for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                PharmecyModel pharmecy = document.toObject(PharmecyModel.class);
+                                AmbulanceModel ambulanceModel = document.toObject(AmbulanceModel.class);
 
                                 // Ensure hospital is not null before adding
-                                if (pharmecy != null) {
-                                    pharmecyListData.add(pharmecy);
-                                    originalDataList.add(pharmecy);
+                                if (ambulanceModel != null) {
+                                    ambulanceListData.add(ambulanceModel);
+                                    originalDataList.add(ambulanceModel);
                                 }
                             }
 
                             // Notify the adapter about the updated data
                             adapter.notifyDataSetChanged();
                         } else {
-                            Log.d("PHDataRetrive", "No pharmecy found in the collection");
+                            Log.d("AMDataRetrive", "No pharmecy found in the collection");
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("PHDataRetrive", "Error fetching data: " + e.getLocalizedMessage());
+                        Log.d("AMDataRetrive", "Error fetching data: " + e.getLocalizedMessage());
                     }
                 });
     }
@@ -455,17 +454,17 @@ public class Pharmecy extends AppCompatActivity {
 
 
     private void filterData(String query) {
-        ArrayList<PharmecyModel> filteredList = new ArrayList<>();
+        ArrayList<AmbulanceModel> filteredList = new ArrayList<>();
 
-        for (PharmecyModel model : originalDataList) {
-            String pharmecyName;
+        for (AmbulanceModel model : originalDataList) {
+            String ambulanceName;
             if (isBanglaLanguage()) {
-                pharmecyName = model.getPhname_bang().toLowerCase();
+                ambulanceName = model.getAmbname_bang().toLowerCase();
             } else {
-                pharmecyName = model.getPhname_eng().toLowerCase();
+                ambulanceName = model.getAmbname_eng().toLowerCase();
             }
 
-            if (pharmecyName.contains(query.toLowerCase())) {
+            if (ambulanceName.contains(query.toLowerCase())) {
                 filteredList.add(model);
             }
         }
