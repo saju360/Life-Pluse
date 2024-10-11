@@ -133,7 +133,7 @@ public class Ambulance extends AppCompatActivity {
             }
         });
 
-        searchEditText.setHint("Search by ambulance name...");
+        searchEditText.setHint("Search by your address...");
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -256,7 +256,7 @@ public class Ambulance extends AppCompatActivity {
 
         // Create an AlertDialog Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(Ambulance.this);
-        builder.setTitle("Add Your Pharmecy Info");
+        builder.setTitle("Add Your Ambulance Info");
 
         // Inflate the custom layout
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_ambulance, null);
@@ -457,14 +457,14 @@ public class Ambulance extends AppCompatActivity {
         ArrayList<AmbulanceModel> filteredList = new ArrayList<>();
 
         for (AmbulanceModel model : originalDataList) {
-            String ambulanceName;
+            String ambulanceLocation;
             if (isBanglaLanguage()) {
-                ambulanceName = model.getAmbname_bang().toLowerCase();
+                ambulanceLocation = model.getAmb_address().toLowerCase();
             } else {
-                ambulanceName = model.getAmbname_eng().toLowerCase();
+                ambulanceLocation = model.getAmb_address().toLowerCase();
             }
 
-            if (ambulanceName.contains(query.toLowerCase())) {
+            if (ambulanceLocation.contains(query.toLowerCase())) {
                 filteredList.add(model);
             }
         }

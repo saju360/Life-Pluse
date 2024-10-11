@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,6 +112,36 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
                 Log.d("itemviewclicked", "Hospital name " + pharmecy.getHpname_eng() + pharmecy.getHp_address());
             }
         });*/
+
+
+        String phone = ambulance.getAmbmobile();
+
+        if (!phone.isEmpty() && phone !=null){
+            holder.callAnimation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(phone)) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + phone));
+                        applicationContext.startActivity(intent);
+                    } else {
+                        Toast.makeText(applicationContext, "Contact number not available", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+            String address = ambulance.getAmb_address();
+            if (!address.isEmpty() && address !=null){
+                holder.SambAddressId.setText(address);
+            }else {
+                holder.SambAddressId.setVisibility(View.GONE);
+            }
+
+        }
+
+
+
     }
 
     @Override
@@ -121,14 +154,15 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
 
     public class ambulanceviewHolder extends RecyclerView.ViewHolder {
         ImageView  deleteBtn;
-        TextView ambulanceName;
-        ImageButton nextImgBtn;
+        TextView ambulanceName, SambAddressId;
+        LottieAnimationView callAnimation;
 
         public ambulanceviewHolder(@NonNull View itemView) {
             super(itemView);
             ambulanceName = itemView.findViewById(R.id.SambNameId);
-            nextImgBtn = itemView.findViewById(R.id.SAmbimgButton);
             deleteBtn = itemView.findViewById(R.id.SambulancedelteBtn);
+            SambAddressId = itemView.findViewById(R.id.SambAddressId);
+            callAnimation = itemView.findViewById(R.id.callAnimationId);
         }
     }
 

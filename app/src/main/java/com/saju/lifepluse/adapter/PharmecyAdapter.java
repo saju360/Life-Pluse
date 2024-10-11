@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -108,6 +111,39 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
                 Log.d("itemviewclicked", "Hospital name " + pharmecy.getHpname_eng() + pharmecy.getHp_address());
             }
         });*/
+
+
+
+
+        if (pharmecy.getPhmobile() != null && !pharmecy.getPhmobile().isEmpty()) {
+            String phonenumber = pharmecy.getPhmobile();
+            holder.callAnimationId.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(phonenumber)) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:" + phonenumber));
+                        applicationContext.startActivity(intent);
+                    } else {
+                        Toast.makeText(applicationContext, "Contact number not available", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
+
+        if (pharmecy.getPh_address() !=null && !pharmecy.getPh_address().isEmpty()){
+
+            holder.SphAddressId.setText(pharmecy.getPh_address());
+
+        }else {
+            holder.SphAddressId.setVisibility(View.GONE);
+
+        }
+
+
+
+
     }
 
     @Override
@@ -120,14 +156,15 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
 
     public class pharmecyviewHolder extends RecyclerView.ViewHolder {
         ImageView  deleteBtn;
-        TextView pharmecyName;
-        ImageButton nextImgBtn;
+        TextView pharmecyName, SphAddressId;
+        LottieAnimationView callAnimationId;
 
         public pharmecyviewHolder(@NonNull View itemView) {
             super(itemView);
             pharmecyName = itemView.findViewById(R.id.SphNameId);
-            nextImgBtn = itemView.findViewById(R.id.SPhimgButton);
-            deleteBtn = itemView.findViewById(R.id.SpharmecydelteBtn);
+            deleteBtn = itemView.findViewById(R.id.SambulancedelteBtn);
+            callAnimationId = itemView.findViewById(R.id.callAnimationId);
+            SphAddressId = itemView.findViewById(R.id.SphAddressId);
         }
     }
 
