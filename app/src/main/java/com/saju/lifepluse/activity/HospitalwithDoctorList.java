@@ -1,12 +1,19 @@
 package com.saju.lifepluse.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +41,7 @@ public class HospitalwithDoctorList extends AppCompatActivity {
     private TextView hospitalName, hospitaladdress, hospitalmobile;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerViewId;
-    private ImageView hospitalLogo;
+    private ImageView hospitalLogo, hospitalfb, weblink_btn, twitter_btn, youtube_btn;
 
     private HospitalwiseDoctorListAdapter hospitalwithDoctorListAdapter;  // Correct adapter type
     private FirebaseFirestore db;
@@ -50,6 +57,10 @@ public class HospitalwithDoctorList extends AppCompatActivity {
         hospitaladdress = findViewById(R.id.hospitaladdress);
         hospitalmobile = findViewById(R.id.hospitalmobile);
         hospitalLogo = findViewById(R.id.hospital_logo);
+        hospitalfb = findViewById(R.id.hospitalfb);
+        weblink_btn = findViewById(R.id.weblink_btn);
+        twitter_btn = findViewById(R.id.twitter_btn);
+        youtube_btn = findViewById(R.id.youtube_btn);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewId = findViewById(R.id.recyclearViewId);
         materialToolbar = findViewById(R.id.toolbarId);
@@ -163,6 +174,9 @@ public class HospitalwithDoctorList extends AppCompatActivity {
         String hpaddress = getIntent().getStringExtra("hospitaladdress");
         String hpmobile = getIntent().getStringExtra("hospitalmobile");
         String hpfblink = getIntent().getStringExtra("hospitalfblink");
+        String hpweblink = getIntent().getStringExtra("hospitalweblink");
+        String hpttwitterlink = getIntent().getStringExtra("hospitaltwitterlink");
+        String hptyoutubelink = getIntent().getStringExtra("hospitalyoutubelink");
         //String hospitalLogoUrl = getIntent().getStringExtra("hospitallogo");
 
 
@@ -175,6 +189,52 @@ public class HospitalwithDoctorList extends AppCompatActivity {
                     .placeholder(R.drawable.baseline_add_photo_alternate)
                     .into(hospitalLogo);
         }*/
+
+
+        hospitalfb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hpfblink !=null && !hpfblink.isEmpty()){
+                    Log.d("hpfblink", hpfblink);
+                    openLinkInAppOrBrowser(hpfblink);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Not Have Facebook Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        weblink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hpweblink !=null && !hpweblink.isEmpty()){
+                    openLinkInAppOrBrowser(hpweblink);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Not Have Website", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        twitter_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hpttwitterlink !=null && !hpttwitterlink.isEmpty()){
+                    openLinkInAppOrBrowser(hpttwitterlink);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Not Have Twitter Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        youtube_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hptyoutubelink !=null && !hptyoutubelink.isEmpty()){
+                    openLinkInAppOrBrowser(hptyoutubelink);
+                }else {
+                    Toast.makeText(getApplicationContext(), "Not Have Youtube Channel", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         // Set hospital name based on language preference
         SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
@@ -189,7 +249,63 @@ public class HospitalwithDoctorList extends AppCompatActivity {
             hospitaladdress.setText(hpaddress);
             hospitalmobile.setText(hpmobile);
         }
+
+
+
+
     }
+
+    // Method to open a link in a web browser
+    private void openLinkInBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line if using ApplicationContext
+        try {
+            startActivity(intent); // Use `this` or `HospitalwithDoctorList.this` for Activity context
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "No application can handle this request. Please install a web browser.", Toast.LENGTH_LONG).show();
+            Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+        }
+    }
+
+
+
+    private String ensureValidUrl(String url) {
+        if (url != null && !(url.startsWith("http://") || url.startsWith("https://"))) {
+            return "http://" + url; // Prepend default scheme if missing
+        }
+        return url;
+    }
+
+
+    // Method to open a link in the corresponding app if installed, or fallback to the web browser
+    private void openLinkInAppOrBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line if using ApplicationContext
+        PackageManager packageManager = getPackageManager(); // Use `this` for Activity context
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (activities.size() > 0) {
+            try {
+                startActivity(intent); // Use `this` or `HospitalwithDoctorList.this`
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(getApplicationContext(), "No application can handle this request.", Toast.LENGTH_LONG).show();
+                Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+            }
+        } else {
+            openLinkInBrowser(url); // Fallback to browser
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

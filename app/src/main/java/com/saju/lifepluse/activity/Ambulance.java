@@ -180,7 +180,10 @@ public class Ambulance extends AppCompatActivity {
         TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_ambulance_english);
         TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_ambulance_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
+        TextInputEditText providerEd = dialogView.findViewById(R.id.edittext_providername);
+        TextInputEditText regnumberEd = dialogView.findViewById(R.id.edittext_regnumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
+
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
         TextInputEditText weblinkEd = dialogView.findViewById(R.id.edittext_weblink);
         TextInputEditText twitterEd = dialogView.findViewById(R.id.edittext_twitterlink);
@@ -218,15 +221,17 @@ public class Ambulance extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String ambulanceEnglish = editTextEnglish.getText().toString().trim();
                 String ambulanceBangla = editTextBangla.getText().toString().trim();
+                String regnumber = regnumberEd.getText().toString().trim();
                 String ambmobile = mobileEd.getText().toString().trim();
+                String ambprovider = providerEd.getText().toString().trim();
                 String ambaddress = addressEd.getText().toString().trim();
                 String ambfblink = fblinkEd.getText().toString().trim();
                 String ambweblink = weblinkEd.getText().toString().trim();
                 String ambtwiiterlink = twitterEd.getText().toString().trim();
                 String ambyoutubelink = youtubelinkEd.getText().toString().trim();
 
-                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !ambmobile.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
-                    updateAmbulance(ambulanceEnglish, ambulanceBangla, ambmobile, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
+                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !regnumber.isEmpty() && !ambmobile.isEmpty() && !ambprovider.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
+                    updateAmbulance(ambulanceEnglish, ambulanceBangla, regnumber, ambmobile, ambprovider, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
                     UserDataRetrive();
                     // Update hospital details
                 } else {
@@ -245,9 +250,9 @@ public class Ambulance extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void updateAmbulance(String ambname_eng, String ambname_bang, String ambmobile, String ambaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
+    private void updateAmbulance(String ambname_eng, String ambname_bang, String ambregnumber, String ambmobile, String ambprovider, String ambaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
         // Implement logic to update the hospital in Firestore
-        FirebaseUtil.donerUserDetails("ambulance_list").update("ambname_eng", ambname_eng, "ambname_bang", ambname_bang, "ambmobile", ambmobile, "amb_address", ambaddress, "amb_fblink", fblink,"amb_websitelink", weblink,"amb_twitterlink", twitterlink, "amb_youtubelink", youtubelink)
+        FirebaseUtil.donerUserDetails("ambulance_list").update("ambname_eng", ambname_eng, "ambname_bang", ambname_bang, "ambregnumber", ambregnumber, "ambmobile", ambmobile, "ambprovider", ambprovider, "amb_address", ambaddress, "amb_fblink", fblink,"amb_websitelink", weblink,"amb_twitterlink", twitterlink, "amb_youtubelink", youtubelink)
                 .addOnSuccessListener(aVoid -> Toast.makeText(Ambulance.this, "Ambulance Updated Successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Log.e("Ambulacne", "Failed to update ambulance", e));
     }
@@ -266,6 +271,9 @@ public class Ambulance extends AppCompatActivity {
         TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_ambulance_english);
         TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_ambulance_bangla);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
+        TextInputEditText providerEd = dialogView.findViewById(R.id.edittext_providername);
+        TextInputEditText regnumberEd = dialogView.findViewById(R.id.edittext_regnumber);
+
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
         TextInputEditText weblinkEd = dialogView.findViewById(R.id.edittext_weblink);
@@ -280,6 +288,8 @@ public class Ambulance extends AppCompatActivity {
                 String ambulanceEnglish = editTextEnglish.getText().toString().trim();
                 String ambulanceBangla = editTextBangla.getText().toString().trim();
                 String ambmobile = mobileEd.getText().toString().trim();
+                String ambprovider = providerEd.getText().toString().trim();
+                String ambregnumber = regnumberEd.getText().toString().trim();
                 String ambaddress = addressEd.getText().toString().trim();
                 String ambfblink = fblinkEd.getText().toString().trim();
                 String ambweblink = weblinkEd.getText().toString().trim();
@@ -287,9 +297,9 @@ public class Ambulance extends AppCompatActivity {
                 String ambyoutubelink = youtubelinkEd.getText().toString().trim();
 
                 // Check if fields are not empty
-                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !ambmobile.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
+                if (!ambulanceEnglish.isEmpty() && !ambulanceBangla.isEmpty() && !ambregnumber.isEmpty() && !ambmobile.isEmpty() && !ambprovider.isEmpty() && !ambaddress.isEmpty() && !ambfblink.isEmpty()) {
                     // Add the hospital to Firestore
-                    addAmbulance(ambulanceEnglish, ambulanceBangla, ambmobile, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
+                    addAmbulance(ambulanceEnglish, ambulanceBangla, ambregnumber ,ambmobile, ambprovider, ambaddress, ambfblink, ambweblink, ambtwiiterlink, ambyoutubelink);
                 } else {
                     // Show a Toast message for empty fields
                     Toast.makeText(Ambulance.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
@@ -310,13 +320,13 @@ public class Ambulance extends AppCompatActivity {
     }
 
 
-    private void addAmbulance(String ambname_eng, String ambname_bang, String ambmobile, String amb_address, String amb_fblink, String amb_websitelink, String amb_twitterlink, String amb_youtubelink) {
+    private void addAmbulance(String ambname_eng, String ambname_bang, String ambregnumber, String ambmobile, String ambprovider, String amb_address, String amb_fblink, String amb_websitelink, String amb_twitterlink, String amb_youtubelink) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser !=null){
             String addedBy = currentUser.getUid();
-            ambulanceModel = new AmbulanceModel(ambname_eng, ambname_bang, ambmobile, amb_address, amb_fblink, amb_websitelink, amb_twitterlink, amb_youtubelink, addedBy);
+            ambulanceModel = new AmbulanceModel(ambname_eng, ambname_bang, ambregnumber, ambmobile, ambprovider, amb_address, amb_fblink, amb_websitelink, amb_twitterlink, amb_youtubelink, addedBy);
 
             FirebaseUtil.donerUserDetails("ambulance_list").set(ambulanceModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

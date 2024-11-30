@@ -1,0 +1,88 @@
+<!-- ambulance_bottom_sheet.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/ambulanceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ambulance Name"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/ambulanceAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/ambulanceMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact Number"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/ambulanceproviderId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Provider"
+        android:paddingBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/weblink_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/icon_website"
+            />
+
+
+        <ImageView
+            android:id="@+id/fblink_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_fb"
+            android:layout_margin="8dp"
+            />
+
+        <ImageView
+            android:id="@+id/instalink_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_insta"
+            android:layout_margin="8dp"
+            />
+
+        <ImageView
+            android:id="@+id/youtlink_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_youtube"
+            android:layout_margin="8dp"
+            />
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/callAmbulanceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Call Ambulance"
+        android:backgroundTint="@color/button_bg"
+        android:textColor="@android:color/white" />
+</LinearLayout>

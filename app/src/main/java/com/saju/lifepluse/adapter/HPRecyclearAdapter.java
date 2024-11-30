@@ -97,6 +97,9 @@ public class HPRecyclearAdapter extends RecyclerView.Adapter<HPRecyclearAdapter.
                 intent.putExtra("hospitaladdress", hospital.getHp_address());
                 intent.putExtra("hospitalmobile", hospital.getHpmobile());
                 intent.putExtra("hospitalfblink", hospital.getHp_fblink());
+                intent.putExtra("hospitalweblink", hospital.getHp_websitelink());
+                intent.putExtra("hospitaltwitterlink", hospital.getHp_twitterlink());
+                intent.putExtra("hospitalyoutubelink", hospital.getHp_youtubelink());
 
                 if (applicationContext instanceof Activity) {
                     applicationContext.startActivity(intent);

@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/SpharmecyImgId"
@@ -31,6 +31,56 @@
                     android:layout_margin="5dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/pharmecy_icon" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/SphNameId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Lab Aid"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/text_color"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/regNoId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/autour_one"
+                        android:text="Reg. No: 123456789"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/SphAddressId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Lab Aid"
+                        android:textColor="#767272"
+                        android:textSize="12sp"
+                        android:maxLines="2"
+                        android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:textStyle="italic" />
+
+                </LinearLayout>
+
+
+                .
             </LinearLayout>
 
 
@@ -38,11 +88,10 @@
                 android:id="@+id/callAnimationId"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                app:lottie_rawRes="@raw/call_us_animation"
+                android:layout_gravity="center"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                android:layout_gravity="center" />
-
+                app:lottie_rawRes="@raw/call_us_animation" />
 
 
         </LinearLayout>
@@ -50,50 +99,64 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
-            <TextView
-                android:id="@+id/SphNameId"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Lab Aid"
-                android:textColor="@color/text_color"
-                android:layout_centerVertical="true"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/weblink_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/icon_website"
+                    />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_margin="5dp"
-            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/SphAddressId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Lab Aid"
-                android:textStyle="italic"
-                android:layout_centerVertical="true"
-                android:textColor="#767272"
-                android:textSize="16sp" />
+                <ImageView
+                    android:id="@+id/fblink_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_fb"
+                    android:layout_margin="8dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/instalink_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_insta"
+                    android:layout_margin="8dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/youtlink_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/icon_youtube"
+                    android:layout_margin="8dp"
+                    />
+
+
+
+            </LinearLayout>
+
+
 
             <ImageView
                 android:id="@+id/SambulancedelteBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="25sp"
                 android:scaleType="fitCenter"
-                android:layout_alignParentRight="true"
                 android:src="@drawable/delete_icon"
+                android:layout_centerVertical="true"
                 app:tint="@color/red" />
 
 

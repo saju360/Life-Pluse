@@ -1,5 +1,6 @@
 package com.saju.lifepluse.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -180,6 +181,7 @@ public class Pharmecy extends AppCompatActivity {
 
         TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
         TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextInputEditText regNoId = dialogView.findViewById(R.id.edittext_pharmecy_regNoId);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -197,6 +199,7 @@ public class Pharmecy extends AppCompatActivity {
 
                     editTextEnglish.setText(pharmecyModel.getPhname_eng());
                     editTextBangla.setText(pharmecyModel.getPhname_bang());
+                    regNoId.setText(pharmecyModel.getPhregno());
                     mobileEd.setText(pharmecyModel.getPhmobile());
                     addressEd.setText(pharmecyModel.getPh_address());
                     fblinkEd.setText(pharmecyModel.getPh_fblink());
@@ -219,6 +222,7 @@ public class Pharmecy extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String pharmecyEnglish = editTextEnglish.getText().toString().trim();
                 String pharmecyBangla = editTextBangla.getText().toString().trim();
+                String phregno = regNoId.getText().toString().trim();
                 String phmobile = mobileEd.getText().toString().trim();
                 String phaddress = addressEd.getText().toString().trim();
                 String phfblink = fblinkEd.getText().toString().trim();
@@ -226,8 +230,8 @@ public class Pharmecy extends AppCompatActivity {
                 String phtwiiterlink = twitterEd.getText().toString().trim();
                 String phyoutubelink = youtubelinkEd.getText().toString().trim();
 
-                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phfblink.isEmpty()) {
-                    updateHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
+                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phregno.isEmpty() && !phmobile.isEmpty() && !phfblink.isEmpty()) {
+                    updateHospital(pharmecyEnglish, pharmecyBangla, phregno, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
                     UserDataRetrive();
                     // Update hospital details
                 } else {
@@ -246,9 +250,9 @@ public class Pharmecy extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void updateHospital(String phname_eng, String phname_bang, String phmobile, String phaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
+    private void updateHospital(String phname_eng, String phname_bang, String phregno, String phmobile, String phaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
         // Implement logic to update the hospital in Firestore
-        FirebaseUtil.donerUserDetails("hopital_list").update("phname_eng", phname_eng, "phname_bang", phname_bang, "phmobile", phmobile, "ph_address", phaddress, "ph_fblink", fblink,"ph_websitelink", weblink,"ph_twitterlink", twitterlink, "ph_youtubelink", youtubelink)
+        FirebaseUtil.donerUserDetails("hopital_list").update("phname_eng", phname_eng, "phregno", phregno, "phname_bang", phname_bang, "phmobile", phmobile, "ph_address", phaddress, "ph_fblink", fblink,"ph_websitelink", weblink,"ph_twitterlink", twitterlink, "ph_youtubelink", youtubelink)
                 .addOnSuccessListener(aVoid -> Toast.makeText(Pharmecy.this, "Hospital Updated Successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Log.e("Hospital", "Failed to update hospital", e));
     }
@@ -266,6 +270,7 @@ public class Pharmecy extends AppCompatActivity {
         // Get the EditText fields from the custom layout
         TextInputEditText editTextEnglish = dialogView.findViewById(R.id.edittext_pharmecy_english);
         TextInputEditText editTextBangla = dialogView.findViewById(R.id.edittext_pharmecy_bangla);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextInputEditText regNoId = dialogView.findViewById(R.id.edittext_pharmecy_regNoId);
         TextInputEditText mobileEd = dialogView.findViewById(R.id.edittext_phonenumber);
         TextInputEditText addressEd = dialogView.findViewById(R.id.edittext_address);
         TextInputEditText fblinkEd = dialogView.findViewById(R.id.edittext_fblink);
@@ -280,6 +285,7 @@ public class Pharmecy extends AppCompatActivity {
                 // Retrieve input values from the EditText fields
                 String pharmecyEnglish = editTextEnglish.getText().toString().trim();
                 String pharmecyBangla = editTextBangla.getText().toString().trim();
+                String phregno = regNoId.getText().toString().trim();
                 String phmobile = mobileEd.getText().toString().trim();
                 String phaddress = addressEd.getText().toString().trim();
                 String phfblink = fblinkEd.getText().toString().trim();
@@ -288,9 +294,9 @@ public class Pharmecy extends AppCompatActivity {
                 String phyoutubelink = youtubelinkEd.getText().toString().trim();
 
                 // Check if fields are not empty
-                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phmobile.isEmpty() && !phaddress.isEmpty() && !phfblink.isEmpty()) {
+                if (!pharmecyEnglish.isEmpty() && !pharmecyBangla.isEmpty() && !phregno.isEmpty() && !phmobile.isEmpty() && !phaddress.isEmpty() && !phfblink.isEmpty()) {
                     // Add the hospital to Firestore
-                    addHospital(pharmecyEnglish, pharmecyBangla, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
+                    addHospital(pharmecyEnglish, pharmecyBangla, phregno, phmobile, phaddress, phfblink, phweblink, phtwiiterlink, phyoutubelink);
                 } else {
                     // Show a Toast message for empty fields
                     Toast.makeText(Pharmecy.this, "Please fill both fields", Toast.LENGTH_SHORT).show();
@@ -311,13 +317,13 @@ public class Pharmecy extends AppCompatActivity {
     }
 
 
-    private void addHospital(String phname_eng, String phname_bang, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink) {
+    private void addHospital(String phname_eng, String phname_bang, String phregno, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser !=null){
             String addedBy = currentUser.getUid();
-            pharmecyModel = new PharmecyModel(phname_eng, phname_bang, phmobile, ph_address, ph_fblink, ph_websitelink, ph_twitterlink, ph_youtubelink, addedBy);
+            pharmecyModel = new PharmecyModel(phname_eng, phname_bang, phregno, phmobile, ph_address, ph_fblink, ph_websitelink, ph_twitterlink, ph_youtubelink, addedBy);
 
             FirebaseUtil.donerUserDetails("pharmecy_list").set(pharmecyModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

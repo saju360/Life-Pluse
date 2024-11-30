@@ -57,6 +57,30 @@
             android:padding="12dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxStrokeColor="@color/colorPrimary"
+        app:hintTextColor="@color/colorPrimary">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittext_pharmecy_regNoId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Reg. No*"
+            android:inputType="text"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:padding="12dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
     <!-- Hospital Name (Bangla) Input Field -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

@@ -2,16 +2,20 @@ package com.saju.lifepluse.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +38,7 @@ import com.saju.lifepluse.modelclass.HospitalModel;
 import com.saju.lifepluse.modelclass.PharmecyModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambulanceviewHolder> {
 
@@ -67,7 +73,7 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
             Log.e("AdapterError", "Ambulance at position " + position + " is invalid or null");
             return;  // Skip binding for invalid hospital objects
         }
-
+        holder.regNoId.setText("Reg. No: "+ambulance.getAmbregnumber());
         SharedPreferences prefs = applicationContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = prefs.getString("My_Lang", "");
 
@@ -93,25 +99,12 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
             }
         });
 
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(applicationContext, HospitalwithDoctorList.class);
-                intent.putExtra("hospitalnameEnglish", pharmecy.getHpname_eng());
-                intent.putExtra("hospitalnameBangla", pharmecy.getHpname_bang());
-                intent.putExtra("hospitaladdress", pharmecy.getHp_address());
-                intent.putExtra("hospitalmobile", pharmecy.getHpmobile());
-                intent.putExtra("hospitalfblink", pharmecy.getHp_fblink());
-
-                if (applicationContext instanceof Activity) {
-                    applicationContext.startActivity(intent);
-                } else {
-                    Log.e("ContextError", "Context is not an Activity. Cannot start new Activity.");
-                }
-
-                Log.d("itemviewclicked", "Hospital name " + pharmecy.getHpname_eng() + pharmecy.getHp_address());
+                showAmbulanceBottomSheet(ambulance); // Show BottomSheetDialog
             }
-        });*/
+        });
 
 
         String phone = ambulance.getAmbmobile();
@@ -154,12 +147,13 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
 
     public class ambulanceviewHolder extends RecyclerView.ViewHolder {
         ImageView  deleteBtn;
-        TextView ambulanceName, SambAddressId;
+        TextView ambulanceName, SambAddressId, regNoId;
         LottieAnimationView callAnimation;
 
         public ambulanceviewHolder(@NonNull View itemView) {
             super(itemView);
             ambulanceName = itemView.findViewById(R.id.SambNameId);
+            regNoId = itemView.findViewById(R.id.regNoId);
             deleteBtn = itemView.findViewById(R.id.SambulancedelteBtn);
             SambAddressId = itemView.findViewById(R.id.SambAddressId);
             callAnimation = itemView.findViewById(R.id.callAnimationId);
@@ -213,5 +207,147 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ambu
 
 
 
+    }
+
+    private void showAmbulanceBottomSheet(AmbulanceModel ambulance) {
+        View bottomSheetView = LayoutInflater.from(applicationContext).inflate(R.layout.ambulance_bottom_sheet, null);
+
+        // Initialize views in the BottomSheetDialog
+        TextView nameTextView = bottomSheetView.findViewById(R.id.ambulanceName);
+        TextView addressTextView = bottomSheetView.findViewById(R.id.ambulanceAddress);
+        TextView mobileTextView = bottomSheetView.findViewById(R.id.ambulanceMobile);
+        TextView ambulanceproviderId = bottomSheetView.findViewById(R.id.ambulanceproviderId);
+        ImageView weblink_btn = bottomSheetView.findViewById(R.id.weblink_btn);
+        ImageView fblink_btn = bottomSheetView.findViewById(R.id.fblink_btn);
+        ImageView instalink_btn = bottomSheetView.findViewById(R.id.instalink_btn);
+        ImageView youtlink_btn = bottomSheetView.findViewById(R.id.youtlink_btn);
+        Button callButton = bottomSheetView.findViewById(R.id.callAmbulanceBtn);
+
+        // Set ambulance details
+        SharedPreferences prefs = applicationContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_Lang", "");
+        nameTextView.setText(language.equals("bn") ? ambulance.getAmbname_bang() : ambulance.getAmbname_eng());
+        addressTextView.setText(ambulance.getAmb_address());
+        mobileTextView.setText(ambulance.getAmbmobile());
+        ambulanceproviderId.setText("Provider: "+ambulance.getAmbprovider());
+
+
+        // Handle call button click
+        callButton.setOnClickListener(v -> {
+            String phone = ambulance.getAmbmobile();
+            if (!TextUtils.isEmpty(phone)) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phone));
+                applicationContext.startActivity(intent);
+            } else {
+                Toast.makeText(applicationContext, "Contact number not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+        fblink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String fbLink = ambulance.getAmb_fblink();
+                if (fbLink !=null && !fbLink.isEmpty()){
+                    openLinkInAppOrBrowser(fbLink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Facebook Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        instalink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String instalink = ambulance.getAmb_twitterlink();
+
+                if (instalink !=null && !instalink.isEmpty()){
+                    openLinkInAppOrBrowser(instalink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Instagram Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        youtlink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String youtlink = ambulance.getAmb_youtubelink();
+
+                if (youtlink !=null && !youtlink.isEmpty()){
+                    openLinkInAppOrBrowser(youtlink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Youtube Channel", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        weblink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String weblink = ambulance.getAmb_websitelink();
+
+                if (weblink != null && !weblink.isEmpty()){
+                    openLinkInBrowser(weblink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Website", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        // Create and show the BottomSheetDialog
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(applicationContext);
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
+    // Method to open a link in a web browser
+    private void openLinkInBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        try {
+            applicationContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(applicationContext, "No application can handle this request. Please install a web browser.", Toast.LENGTH_LONG).show();
+            Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+        }
+    }
+
+
+    private String ensureValidUrl(String url) {
+        if (url != null && !(url.startsWith("http://") || url.startsWith("https://"))) {
+            return "http://" + url; // Prepend default scheme if missing
+        }
+        return url;
+    }
+
+
+    // Method to open a link in the corresponding app if installed, or fallback to the web browser
+    private void openLinkInAppOrBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        PackageManager packageManager = applicationContext.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (activities.size() > 0) {
+            try {
+                applicationContext.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(applicationContext, "No application can handle this request.", Toast.LENGTH_LONG).show();
+                Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+            }
+        } else {
+            openLinkInBrowser(url); // Fallback to browser
+        }
     }
 }

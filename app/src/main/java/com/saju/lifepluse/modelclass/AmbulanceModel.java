@@ -3,7 +3,9 @@ package com.saju.lifepluse.modelclass;
 public class AmbulanceModel {
     String ambname_eng;
     String ambname_bang;
+    String ambregnumber;
     String ambmobile;
+    String ambprovider;
     String amb_address;
     String amb_fblink;
     String amb_websitelink;
@@ -11,10 +13,12 @@ public class AmbulanceModel {
     String amb_youtubelink;
     private String addedBy;
 
-    public AmbulanceModel(String ambname_eng, String ambname_bang, String ambmobile, String amb_address, String amb_fblink, String amb_websitelink, String amb_twitterlink, String amb_youtubelink, String addedBy) {
+    public AmbulanceModel(String ambname_eng, String ambname_bang, String ambregnumber, String ambmobile, String ambprovider, String amb_address, String amb_fblink, String amb_websitelink, String amb_twitterlink, String amb_youtubelink, String addedBy) {
         this.ambname_eng = ambname_eng;
         this.ambname_bang = ambname_bang;
+        this.ambregnumber = ambregnumber;
         this.ambmobile = ambmobile;
+        this.ambprovider = ambprovider;
         this.amb_address = amb_address;
         this.amb_fblink = amb_fblink;
         this.amb_websitelink = amb_websitelink;
@@ -42,12 +46,28 @@ public class AmbulanceModel {
         this.ambname_bang = ambname_bang;
     }
 
+    public String getAmbregnumber() {
+        return ambregnumber;
+    }
+
+    public void setAmbregnumber(String ambregnumber) {
+        this.ambregnumber = ambregnumber;
+    }
+
     public String getAmbmobile() {
         return ambmobile;
     }
 
     public void setAmbmobile(String ambmobile) {
         this.ambmobile = ambmobile;
+    }
+
+    public String getAmbprovider() {
+        return ambprovider;
+    }
+
+    public void setAmbprovider(String ambprovider) {
+        this.ambprovider = ambprovider;
     }
 
     public String getAmb_address() {

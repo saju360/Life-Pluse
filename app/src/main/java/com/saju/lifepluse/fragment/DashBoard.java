@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.saju.lifepluse.activity.BloodBank_Splash;
 import com.saju.lifepluse.activity.DoctorSpeciality;
 import com.saju.lifepluse.activity.Hospital;
 import com.saju.lifepluse.activity.Pharmecy;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +169,9 @@ public class DashBoard extends Fragment {
         //=============================Marquee code here end==============//
 
     }
+
+
+
 
 
 }

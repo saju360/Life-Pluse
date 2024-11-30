@@ -2,10 +2,13 @@ package com.saju.lifepluse.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,8 +33,10 @@ import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.HospitalwithDoctorList;
 import com.saju.lifepluse.modelclass.HospitalModel;
 import com.saju.lifepluse.modelclass.PharmecyModel;
+import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharmecyviewHolder> {
 
@@ -62,9 +67,26 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
     public void onBindViewHolder(@NonNull pharmecyviewHolder holder, int position) {
         PharmecyModel pharmecy = pharmecyListData.get(position);
 
-        if (pharmecy == null || pharmecy.getPhname_bang() == null || pharmecy.getPhname_eng().isEmpty()) {
+        String weblink = pharmecy.getPh_websitelink();
+        String fblink = pharmecy.getPh_fblink();
+        String instalink = pharmecy.getPh_twitterlink();
+        String youtlink = pharmecy.getPh_youtubelink();
+        String regno = pharmecy.getPhregno();
+
+
+        if (regno.isEmpty() && regno==null){
+            holder.regNoId.setVisibility(View.GONE);
+        }
+        else {
+            holder.regNoId.setText("Reg. No: "+regno);
+        }
+
+
+        // Check for null or invalid pharmacy object
+        if (pharmecy == null || pharmecy.getPhname_bang() == null || pharmecy.getPhname_eng() == null || pharmecy.getPhname_eng().isEmpty()) {
             Log.e("AdapterError", "Pharmecy at position " + position + " is invalid or null");
-            return;  // Skip binding for invalid hospital objects
+
+            return;  // Skip further binding for this item
         }
 
         SharedPreferences prefs = applicationContext.getSharedPreferences("Settings", Activity.MODE_PRIVATE);
@@ -89,6 +111,50 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
             @Override
             public void onClick(View v) {
                 deleteHospital(pharmecy);  // Logic to delete the hospital
+            }
+        });
+        holder.weblink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (weblink != null && !weblink.isEmpty()){
+                    openLinkInBrowser(weblink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Website", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        holder.fblink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fblink !=null && !fblink.isEmpty()){
+                    openLinkInAppOrBrowser(fblink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Facebook Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        holder.instalink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (instalink !=null && !instalink.isEmpty()){
+                    openLinkInAppOrBrowser(instalink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Instagram Account", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        holder.youtlink_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (youtlink !=null && !youtlink.isEmpty()){
+                    openLinkInAppOrBrowser(youtlink);
+                }else {
+                    Toast.makeText(applicationContext, "Not Have Youtube Channel", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -155,8 +221,8 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
     }
 
     public class pharmecyviewHolder extends RecyclerView.ViewHolder {
-        ImageView  deleteBtn;
-        TextView pharmecyName, SphAddressId;
+        ImageView  deleteBtn, weblink_btn, fblink_btn, instalink_btn, youtlink_btn;
+        TextView pharmecyName, SphAddressId, regNoId;
         LottieAnimationView callAnimationId;
 
         public pharmecyviewHolder(@NonNull View itemView) {
@@ -165,6 +231,11 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
             deleteBtn = itemView.findViewById(R.id.SambulancedelteBtn);
             callAnimationId = itemView.findViewById(R.id.callAnimationId);
             SphAddressId = itemView.findViewById(R.id.SphAddressId);
+            weblink_btn = itemView.findViewById(R.id.weblink_btn);
+            fblink_btn = itemView.findViewById(R.id.fblink_btn);
+            instalink_btn = itemView.findViewById(R.id.instalink_btn);
+            youtlink_btn = itemView.findViewById(R.id.youtlink_btn);
+            regNoId = itemView.findViewById(R.id.regNoId);
         }
     }
 
@@ -189,6 +260,8 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                FirebaseUtil.currentUserDetails().update("ispharmacyadd", false);
+                                FirebaseUtil.currentUserDetails().update("ispharmacynotadd", true);
                                 Toast.makeText(applicationContext, "Pharmecy deleted successfully", Toast.LENGTH_SHORT).show();
                                 pharmecyListData.remove(pharmecy);
                                 notifyDataSetChanged();
@@ -216,4 +289,53 @@ public class PharmecyAdapter extends RecyclerView.Adapter<PharmecyAdapter.pharme
 
 
     }
+
+    // Method to open a link in a web browser
+    private void openLinkInBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        try {
+            applicationContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(applicationContext, "No application can handle this request. Please install a web browser.", Toast.LENGTH_LONG).show();
+            Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+        }
+    }
+
+
+    private String ensureValidUrl(String url) {
+        if (url != null && !(url.startsWith("http://") || url.startsWith("https://"))) {
+            return "http://" + url; // Prepend default scheme if missing
+        }
+        return url;
+    }
+
+
+    // Method to open a link in the corresponding app if installed, or fallback to the web browser
+    private void openLinkInAppOrBrowser(String url) {
+        url = ensureValidUrl(url);
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid URL", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        PackageManager packageManager = applicationContext.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (activities.size() > 0) {
+            try {
+                applicationContext.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(applicationContext, "No application can handle this request.", Toast.LENGTH_LONG).show();
+                Log.e("LinkError", "ActivityNotFoundException: " + e.getMessage());
+            }
+        } else {
+            openLinkInBrowser(url); // Fallback to browser
+        }
+    }
+
 }

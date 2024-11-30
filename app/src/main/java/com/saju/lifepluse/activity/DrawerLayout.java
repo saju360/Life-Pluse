@@ -173,7 +173,7 @@ public class DrawerLayout extends AppCompatActivity {
                 if (item.getItemId() == R.id.profileId) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.framelayout, new DashBoard());
+                    fragmentTransaction.replace(R.id.framelayout, new Profile_Fragment());
                     fragmentTransaction.commit();
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;

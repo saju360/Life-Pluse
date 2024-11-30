@@ -3,6 +3,7 @@ package com.saju.lifepluse.modelclass;
 public class PharmecyModel {
     String phname_eng;
     String phname_bang;
+    String phregno;
     String phmobile;
     String ph_address;
     String ph_fblink;
@@ -12,9 +13,10 @@ public class PharmecyModel {
     private String addedBy;
 
 
-    public PharmecyModel(String phname_eng, String phname_bang, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink, String addedBy) {
+    public PharmecyModel(String phname_eng, String phname_bang, String phregno, String phmobile, String ph_address, String ph_fblink, String ph_websitelink, String ph_twitterlink, String ph_youtubelink, String addedBy) {
         this.phname_eng = phname_eng;
         this.phname_bang = phname_bang;
+        this.phregno = phregno;
         this.phmobile = phmobile;
         this.ph_address = ph_address;
         this.ph_fblink = ph_fblink;
@@ -41,6 +43,14 @@ public class PharmecyModel {
 
     public void setPhname_bang(String phname_bang) {
         this.phname_bang = phname_bang;
+    }
+
+    public String getPhregno() {
+        return phregno;
+    }
+
+    public void setPhregno(String phregno) {
+        this.phregno = phregno;
     }
 
     public String getPhmobile() {

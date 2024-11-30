@@ -19,7 +19,7 @@
             android:id="@+id/hospital_logo"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_weight=".5"
             android:src="@drawable/hospital_icon" />
 
 
@@ -31,9 +31,10 @@
             android:layout_weight="4"
             android:ellipsize="end"
             android:fontFamily="@font/aclonica"
-            android:gravity="center"
+            android:gravity="left"
             android:maxLines="1"
-            android:text="Shefa Digital Diagnostic center and Hospital (Private) Limited"
+            android:layout_marginLeft="2dp"
+            android:text="Central Hospital Ltd"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -56,6 +57,7 @@
             android:layout_weight=".2"
             android:scaleType="fitXY"
             android:src="@drawable/location_icon"
+            android:layout_marginLeft="6dp"
             app:tint="@color/white" />
 
 
@@ -64,15 +66,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="2.8"
             android:ellipsize="end"
             android:fontFamily="@font/alata"
-            android:gravity="center"
+            android:gravity="left"
             android:maxLines="2"
-            android:text="Bepari bhavan (ground floor), south-west area located in veterinary hospital, Barguna."
+            android:text="Dhaka, Bangladesh"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
@@ -107,6 +109,7 @@
             android:fontFamily="@font/aclonica"
             android:text="01797-385419"
             android:textColor="@color/white"
+            android:layout_marginLeft="5dp"
             android:textSize="10sp" />
 
         <LinearLayout
@@ -117,6 +120,7 @@
             android:weightSum="4">
 
             <ImageView
+                android:id="@+id/weblink_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -130,12 +134,14 @@
                 android:src="@drawable/fb" />
 
             <ImageView
+                android:id="@+id/twitter_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/twitter" />
 
             <ImageView
+                android:id="@+id/youtube_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
