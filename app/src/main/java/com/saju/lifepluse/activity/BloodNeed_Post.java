@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,9 +40,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.modelclass.BloodDonationPostModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,6 +126,26 @@ public class BloodNeed_Post extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("myfcmtoken", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("myfcmtoken", token);
+
+                    }
+                });
+
 
     }
 
@@ -235,7 +263,10 @@ public class BloodNeed_Post extends AppCompatActivity {
         alertDialog.show();
     }
 
+
+
     private void postBloodNeed(){
+
 
 
     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -376,34 +407,72 @@ public class BloodNeed_Post extends AppCompatActivity {
         });
 
     }
-
     private void sendTokensToServer(List<String> tokens, BloodDonationPostModel bloodPost) {
+        // Construct the base URL
         String url = "https://apps.parrotfashionbd.com/apps_notification/sendnotification.php?";
+
+        // Add each token to the URL query parameter
         for (String token : tokens) {
-            url += "token[]=" + token + "&"; // Add each token to the URL query parameter
+            try {
+                url += "token[]=" + URLEncoder.encode(token, "UTF-8") + "&"; // Encode the token
+            } catch (Exception e) {
+                Log.e("Volley", "Error encoding token: " + e.getMessage());
+            }
         }
 
         // Add the SMS message to the URL query parameter
-        url += "sms=" +bloodPost.getBloodNeed()+" Blood Group: "+ bloodPost.getBloodgroup()+" Blood Qty: " + bloodPost.getBloodQty()+" Bag, Hospital: "+bloodPost.getHospital()+", Mobile: "+bloodPost.getContact();
+        String message = bloodPost.getBloodNeed() + " Blood Group: " + bloodPost.getBloodgroup() + " Blood Qty: "
+                + bloodPost.getBloodQty() + " Bag, Hospital: " + bloodPost.getHospital() + ", Mobile: "
+                + bloodPost.getContact();
+        try {
+            url += "sms=" + URLEncoder.encode(message, "UTF-8");
+        } catch (Exception e) {
+            Log.e("Volley", "Error encoding message: " + e.getMessage());
+        }
 
+        // Create a StringRequest to send the request to the server
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
+                Log.d("Volley", "Raw Response: " + response);
 
-
-
-                Log.d("volley", s);
+                // Check if the response is valid JSON
+                try {
+                    if (isValidJson(response)) {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        Log.d("Volley", "JSON Response: " + jsonResponse.toString());
+                        // Handle the response here (e.g., display a success message)
+                    } else {
+                        Log.e("Volley", "Response is not valid JSON: " + response);
+                    }
+                } catch (JSONException e) {
+                    Log.e("Volley", "Error parsing JSON response: " + e.getMessage());
+                }
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("volley", "Error: " + volleyError.getLocalizedMessage());
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley", "Error: " + error.getLocalizedMessage());
+                // Handle the error (e.g., show a failure message)
             }
         });
 
+        // Add the request to the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
-
+    // Function to check if the response is a valid JSON
+    private boolean isValidJson(String str) {
+        try {
+            new JSONObject(str); // Try to parse the string as JSON object
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(str); // Try to parse the string as JSON array
+            } catch (JSONException ex1) {
+                return false; // Neither a valid object nor an array
+            }
+        }
+        return true; // Valid JSON string
+    }
 }

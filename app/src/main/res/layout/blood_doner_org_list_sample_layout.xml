@@ -32,17 +32,37 @@
                 android:textColor="#000"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/org_acc_datetvId"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_horizontal"
-                android:text="Joined: 07/03/2024"
-                android:textColor="#D32F2F"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/org_Regtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/almendra"
+                    android:gravity="center_horizontal"
+                    android:text="Reg. No: MSB857950"
+                    android:textColor="#3E3939"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/org_acc_datetvId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Joined: 07/03/2024"
+                    android:textColor="#D32F2F"
+                    android:textSize="9sp"
+                    android:gravity="center_horizontal"
+                    android:textStyle="italic" />
+
+
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -76,50 +96,43 @@
                         android:textSize="14sp" />
 
 
-
                     <LinearLayout
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="left"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/weblink_btn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_margin="8dp"
-                            android:src="@drawable/icon_website"
-                            />
+                            android:src="@drawable/icon_website" />
 
 
                         <ImageView
                             android:id="@+id/fblink_btn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/icon_fb"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_margin="8dp"
-                            />
+                            android:src="@drawable/icon_fb" />
 
                         <ImageView
                             android:id="@+id/instalink_btn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/icon_insta"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_margin="8dp"
-                            />
+                            android:src="@drawable/icon_insta" />
 
                         <ImageView
                             android:id="@+id/youtlink_btn"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/icon_youtube"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_margin="8dp"
-                            />
+                            android:src="@drawable/icon_youtube" />
 
                     </LinearLayout>
-
-
 
 
                 </LinearLayout>
@@ -135,13 +148,22 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/org_callAnimationId"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        app:lottie_rawRes="@raw/call_us_animation"
+                        android:layout_width="65dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
-                        android:layout_gravity="center" />
+                        app:lottie_rawRes="@raw/call_us_animation" />
 
+                    <TextView
+                        android:id="@+id/donercount_tvDisplay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/bakbak_one"
+                        android:text="Doner: 50000"
+                        android:textColor="#E64A19"
+                        android:textSize="12sp" />
 
 
 
@@ -154,9 +176,6 @@
 
 
     </com.google.android.material.card.MaterialCardView>
-
-
-
 
 
 </LinearLayout>

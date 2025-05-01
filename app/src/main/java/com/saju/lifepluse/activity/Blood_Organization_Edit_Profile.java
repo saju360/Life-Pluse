@@ -167,6 +167,8 @@ public class Blood_Organization_Edit_Profile extends AppCompatActivity {
                     orgAddress_tv.setText(model.getOrgaddress_Ed());
 
                     String name = model.getOrgname_Ed();
+                    String reg = model.getOrgreg_Ed();
+                    String member = model.getOrgMember_Ed();
                     String address = model.getOrgaddress_Ed();
                     String acc_createdate = AndroidUtil.timestampToString(model.getAddedtime());
                     String fb_link = model.getOrgfb_Ed();
@@ -185,6 +187,8 @@ public class Blood_Organization_Edit_Profile extends AppCompatActivity {
 
                             Intent intent = new Intent(getApplicationContext(), Blood_Organization_Post.class);
                             intent.putExtra("org_name", name);
+                            intent.putExtra("org_Reg", reg);
+                            intent.putExtra("org_member", member);
                             intent.putExtra("org_address", address);
                             intent.putExtra("org_phone", phone);
                             intent.putExtra("org_email", email);

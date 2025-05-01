@@ -35,7 +35,7 @@ import java.util.Map;
 public class Blood_Organization_Post extends AppCompatActivity {
 
 
-    EditText orgname_Ed, orgaddress_Ed, orgphone_Ed, orgemail_Ed, orgfb_Ed, orginsta_Ed, orgyout_Ed, orgweb_Ed;
+    EditText orgname_Ed,orgReg_Ed, orgMember_Ed, orgaddress_Ed, orgphone_Ed, orgemail_Ed, orgfb_Ed, orginsta_Ed, orgyout_Ed, orgweb_Ed;
     Button orgcancelButton, orgAddButton;
     ProgressBar progressBar;
     String uid;
@@ -130,6 +130,8 @@ public class Blood_Organization_Post extends AppCompatActivity {
 
 
         String org_name = getIntent().getStringExtra("org_name");
+        String org_Reg = getIntent().getStringExtra("org_Reg");
+        String org_member = getIntent().getStringExtra("org_member");
         String org_address = getIntent().getStringExtra("org_address");
         String org_phone = getIntent().getStringExtra("org_phone");
         String org_email = getIntent().getStringExtra("org_email");
@@ -143,6 +145,8 @@ public class Blood_Organization_Post extends AppCompatActivity {
             org_title.setText("Update Your Org Info");
             orgAddButton.setText("Update Now");
             orgname_Ed.setText(org_name);
+            orgReg_Ed.setText(org_Reg);
+            orgMember_Ed.setText(org_member);
             orgaddress_Ed.setText(org_address);
             orgphone_Ed.setText(org_phone);
             orgemail_Ed.setText(org_email);
@@ -157,6 +161,8 @@ public class Blood_Organization_Post extends AppCompatActivity {
 
     private void validatycheck() {
         String orgname = orgname_Ed.getText().toString();
+        String orgreg = orgReg_Ed.getText().toString();
+        String orgmember = orgMember_Ed.getText().toString();
         String orgaddress = orgaddress_Ed.getText().toString();
         String orgphone = orgphone_Ed.getText().toString();
         String orgemail = orgemail_Ed.getText().toString();
@@ -165,7 +171,7 @@ public class Blood_Organization_Post extends AppCompatActivity {
         String orgyoutlink = orgyout_Ed.getText().toString();
         String orgweblink = orgweb_Ed.getText().toString();
 
-        if (TextUtils.isEmpty(orgname) || TextUtils.isEmpty(orgaddress) || TextUtils.isEmpty(orgphone) ||
+        if (TextUtils.isEmpty(orgname) || TextUtils.isEmpty(orgreg) || TextUtils.isEmpty(orgmember) || TextUtils.isEmpty(orgaddress) || TextUtils.isEmpty(orgphone) ||
                 TextUtils.isEmpty(orgemail) || (TextUtils.isEmpty(orgfblink) && TextUtils.isEmpty(orginstalink) &&
                 TextUtils.isEmpty(orgyoutlink) && TextUtils.isEmpty(orgweblink))) {
             Toast.makeText(getApplicationContext(), "Please fill in all the required fields", Toast.LENGTH_SHORT).show();
@@ -205,18 +211,18 @@ public class Blood_Organization_Post extends AppCompatActivity {
             return;
         }
 
-        orgDataAdd(orgname, orgaddress, orgphone, orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink);
+        orgDataAdd(orgname, orgreg, orgmember, orgaddress, orgphone, orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink);
 
         // Proceed with further actions if all validations pass
     }
 
-    private void orgDataAdd(String orgname, String orgaddress, String orgphone, String orgemail, String orgfblink, String orginstalink, String orgyoutlink, String orgweblink) {
+    private void orgDataAdd(String orgname, String orgreg, String orgmember, String orgaddress, String orgphone, String orgemail, String orgfblink, String orginstalink, String orgyoutlink, String orgweblink) {
 
 
         uid = FirebaseAuth.getInstance().getUid();
 
 
-        bloodOrganizationAddModel = new BloodOrganizationAddModel(uid, orgname, orgaddress, orgphone, orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink, Timestamp.now());
+        bloodOrganizationAddModel = new BloodOrganizationAddModel(uid, orgname, orgreg, orgmember, orgaddress, orgphone, orgemail, orgfblink, orginstalink, orgyoutlink, orgweblink, Timestamp.now());
 
         setInProgress(true);
 
@@ -225,6 +231,8 @@ public class Blood_Organization_Post extends AppCompatActivity {
 
             Map<String, Object> map = new HashMap<>();
             map.put("orgname_Ed", orgname); // Add your key-value pair here
+            map.put("orgReg_Ed", orgreg);
+            map.put("orgMember_Ed", orgmember);
             map.put("orgaddress_Ed", orgaddress);
             map.put("orgphone_Ed", orgphone);
             map.put("orgemail_Ed", orgemail);
@@ -278,6 +286,8 @@ public class Blood_Organization_Post extends AppCompatActivity {
     private void initial() {
 
         orgname_Ed = findViewById(R.id.orgname_Ed);
+        orgReg_Ed = findViewById(R.id.orgReg_Ed);
+        orgMember_Ed = findViewById(R.id.orgMember_Ed);
         orgaddress_Ed = findViewById(R.id.orgaddress_Ed);
         orgphone_Ed = findViewById(R.id.orgphone_Ed);
         orgemail_Ed = findViewById(R.id.orgemail_Ed);

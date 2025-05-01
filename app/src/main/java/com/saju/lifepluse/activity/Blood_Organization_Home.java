@@ -257,6 +257,7 @@ public class Blood_Organization_Home extends AppCompatActivity {
 
                                 // Notify adapter about the data change
                                 adapter.notifyDataSetChanged();
+
                             } else {
                                 Log.d("Firestore", "No such document");
                             }

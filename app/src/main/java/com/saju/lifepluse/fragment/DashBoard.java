@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -57,6 +58,14 @@ public class DashBoard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myview = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+
+        // Set the status bar title
+        if (getActivity() != null) {
+            // Access the ActionBar from the hosting activity
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
+        }
+
 
 
         db = FirebaseFirestore.getInstance();

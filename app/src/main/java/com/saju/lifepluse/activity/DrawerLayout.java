@@ -51,6 +51,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -58,7 +59,6 @@ import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -67,9 +67,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.saju.lifepluse.R;
-import com.saju.lifepluse.fragment.BloodNeed_Fragment;
 import com.saju.lifepluse.fragment.DashBoard;
+import com.saju.lifepluse.fragment.Health_tips;
 import com.saju.lifepluse.fragment.Profile_Fragment;
+import com.saju.lifepluse.modelclass.BloodDonerRequestModel;
 import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.io.IOException;
@@ -77,7 +78,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 public class DrawerLayout extends AppCompatActivity {
 
@@ -86,7 +86,7 @@ public class DrawerLayout extends AppCompatActivity {
     NavigationView navigationView;
     Drawable navigationIcon;
     public static Button loginBtn, createBtn;
-    public static TextView headernameId, headeremailTv;
+    public static TextView headernameId, headerBloodType;
     public static LinearLayout header_profile_layout;
 
     private AppUpdateManager appUpdateManager;
@@ -107,8 +107,9 @@ public class DrawerLayout extends AppCompatActivity {
     public static String userDivision;
     private LocationCallback locationCallback;
 
-    FirebaseFirestore db;
 
+    FirebaseFirestore db;
+    BloodDonerRequestModel bloodDonerRequestModel;
 
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
@@ -153,9 +154,6 @@ public class DrawerLayout extends AppCompatActivity {
         //init Mobile Ads
 
 
-
-
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayout, new DashBoard());
@@ -170,25 +168,38 @@ public class DrawerLayout extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.profileId) {
+                if (item.getItemId() == R.id.homeId) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framelayout, new DashBoard());
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+                }else if (item.getItemId() == R.id.profileId) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.framelayout, new Profile_Fragment());
                     fragmentTransaction.commit();
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return true;
+                } else if (item.getItemId() == R.id.healthId) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framelayout, new Health_tips());
+                    fragmentTransaction.commit();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return true;
+
                 } else if (item.getItemId() == R.id.logout_Id) {
 
-                    if (FirebaseUtil.currentuser()!=null){
+                    if (FirebaseUtil.currentuser() != null) {
                         FirebaseAuth.getInstance().signOut();
                         updateUIAfterLogout();
                         drawerLayout.closeDrawer(GravityCompat.START);
-                    }else {
+                    } else {
                         Toast.makeText(DrawerLayout.this, "Please SignIn First", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DrawerLayout.this, SignIn.class ));
+                        startActivity(new Intent(DrawerLayout.this, SignIn.class));
                     }
-
-
 
 
                 } else if (item.getItemId() == R.id.rateBtnId) {
@@ -277,13 +288,12 @@ public class DrawerLayout extends AppCompatActivity {
         loginBtn = headerview.findViewById(R.id.headerlogintBtn);
         createBtn = headerview.findViewById(R.id.headercreataccountBtn);
         headernameId = headerview.findViewById(R.id.headernameId);
-        headeremailTv = headerview.findViewById(R.id.headeremailTv);
-        header_profile_layout  = headerview.findViewById(R.id.header_profile_layout);
-
+        headerBloodType = headerview.findViewById(R.id.headerBloodTypeTv);
+        header_profile_layout = headerview.findViewById(R.id.header_profile_layout);
 
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser==null){
+        if (currentUser == null) {
 
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -301,16 +311,16 @@ public class DrawerLayout extends AppCompatActivity {
             });
 
 
-        }else{
+        } else {
+
+            profiledata_retrive();
 
             loginBtn.setVisibility(View.GONE);
             createBtn.setVisibility(View.GONE);
             header_profile_layout.setVisibility(View.VISIBLE);
 
 
-
         }
-
 
 
     }
@@ -405,7 +415,7 @@ public class DrawerLayout extends AppCompatActivity {
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 String district = address.getSubAdminArea();
-                 userDivision = address.getAdminArea();
+                userDivision = address.getAdminArea();
 
                 locationText = district + ", " + userDivision;
             } else {
@@ -627,6 +637,7 @@ public class DrawerLayout extends AppCompatActivity {
                     // TODO: Inform user that that your app will not show notifications.
                 }
             });
+
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -725,5 +736,45 @@ public class DrawerLayout extends AppCompatActivity {
     }
 
 
+    private void profiledata_retrive() {
+        FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        bloodDonerRequestModel = document.toObject(BloodDonerRequestModel.class);
+                        if (bloodDonerRequestModel != null) {
+                            // Safely update UI with user data
+                            if (headernameId != null) {
+                                headernameId.setText(bloodDonerRequestModel.getName());
+                            }
+                            if (headerBloodType != null) {
+                                headerBloodType.setText("Blood: " + bloodDonerRequestModel.getBloodType());
+                            }
+                        } else {
+                            Log.e(TAG, "BloodDonerRequestModel is null after conversion");
+                            setDefaultHeaderValues();
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setDefaultHeaderValues();
+                    }
+                } else {
+                    Log.e(TAG, "Error getting document: ", task.getException());
+                    setDefaultHeaderValues();
+                }
+            }
+        });
+    }
+
+    private void setDefaultHeaderValues() {
+        if (headernameId != null) {
+            headernameId.setText("User");
+        }
+        if (headerBloodType != null) {
+            headerBloodType.setText("Blood: Unknown");
+        }
+    }
 
 }

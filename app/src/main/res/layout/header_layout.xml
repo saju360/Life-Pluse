@@ -68,13 +68,13 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/headeremailTv"
+                android:id="@+id/headerBloodTypeTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/aclonica"
-                android:gravity="center"
-                android:text="developer.bdboy"
+                android:gravity="left"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

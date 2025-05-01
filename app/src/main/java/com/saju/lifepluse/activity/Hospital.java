@@ -186,7 +186,7 @@ public class Hospital extends AppCompatActivity {
         TextInputEditText youtubelinkEd = dialogView.findViewById(R.id.edittext_youtubelink);
 
 
-        FirebaseUtil.donerUserDetails("hopital_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("hospital_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -246,7 +246,7 @@ public class Hospital extends AppCompatActivity {
 
     private void updateHospital(String hpname_eng, String hpname_bang, String hpmobile, String hpaddress, String fblink, String weblink, String twitterlink, String youtubelink) {
         // Implement logic to update the hospital in Firestore
-        FirebaseUtil.donerUserDetails("hopital_list").update("hpname_eng", hpname_eng, "hpname_bang", hpname_bang, "hpmobile", hpmobile, "hp_address", hpaddress, "hp_fblink", fblink,"hp_websitelink", weblink,"hp_twitterlink", twitterlink, "hp_youtubelink", youtubelink)
+        FirebaseUtil.donerUserDetails("hospital_list").update("hpname_eng", hpname_eng, "hpname_bang", hpname_bang, "hpmobile", hpmobile, "hp_address", hpaddress, "hp_fblink", fblink,"hp_websitelink", weblink,"hp_twitterlink", twitterlink, "hp_youtubelink", youtubelink)
                 .addOnSuccessListener(aVoid -> Toast.makeText(Hospital.this, "Hospital Updated Successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Log.e("Hospital", "Failed to update hospital", e));
     }
@@ -317,7 +317,7 @@ public class Hospital extends AppCompatActivity {
             String addedBy = currentUser.getUid();
             hospitalModel = new HospitalModel(hpname_eng, hpname_bang, hpmobile, hp_address, hp_fblink, hp_websitelink, hp_twitterlink, hp_youtubelink, addedBy);
 
-            FirebaseUtil.donerUserDetails("hopital_list").set(hospitalModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            FirebaseUtil.donerUserDetails("hospital_list").set(hospitalModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
 
@@ -417,7 +417,7 @@ public class Hospital extends AppCompatActivity {
         hpitalListData.clear();  // Clear previous data
 
         // Access the hospital list collection under the user's document
-        db.collection("users").document(userid).collection("hopital_list")
+        db.collection("users").document(userid).collection("hospital_list")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

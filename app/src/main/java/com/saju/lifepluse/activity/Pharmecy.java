@@ -190,7 +190,7 @@ public class Pharmecy extends AppCompatActivity {
         TextInputEditText youtubelinkEd = dialogView.findViewById(R.id.edittext_youtubelink);
 
 
-        FirebaseUtil.donerUserDetails("pharmecy_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseUtil.donerUserDetails("pharmacy_list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -325,7 +325,7 @@ public class Pharmecy extends AppCompatActivity {
             String addedBy = currentUser.getUid();
             pharmecyModel = new PharmecyModel(phname_eng, phname_bang, phregno, phmobile, ph_address, ph_fblink, ph_websitelink, ph_twitterlink, ph_youtubelink, addedBy);
 
-            FirebaseUtil.donerUserDetails("pharmecy_list").set(pharmecyModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            FirebaseUtil.donerUserDetails("pharmacy_list").set(pharmecyModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
 
@@ -425,7 +425,7 @@ public class Pharmecy extends AppCompatActivity {
         pharmecyListData.clear();  // Clear previous data
 
         // Access the hospital list collection under the user's document
-        db.collection("users").document(userid).collection("pharmecy_list")
+        db.collection("users").document(userid).collection("pharmacy_list")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

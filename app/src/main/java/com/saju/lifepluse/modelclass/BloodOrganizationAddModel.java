@@ -5,16 +5,18 @@ import com.google.firebase.Timestamp;
 public class BloodOrganizationAddModel {
 
     String uid;
-    String orgname_Ed, orgaddress_Ed, orgphone_Ed, orgemail_Ed, orgfb_Ed, orginsta_Ed, orgyout_Ed, orgweb_Ed;
+    String orgname_Ed, orgreg_Ed, orgMember_Ed, orgaddress_Ed, orgphone_Ed, orgemail_Ed, orgfb_Ed, orginsta_Ed, orgyout_Ed, orgweb_Ed;
     Timestamp addedtime;
 
 
     public BloodOrganizationAddModel() {
     }
 
-    public BloodOrganizationAddModel(String uid, String orgname_Ed, String orgaddress_Ed, String orgphone_Ed, String orgemail_Ed, String orgfb_Ed, String orginsta_Ed, String orgyout_Ed, String orgweb_Ed, Timestamp addedtime) {
+    public BloodOrganizationAddModel(String uid, String orgname_Ed, String orgreg_Ed, String orgMember_Ed, String orgaddress_Ed, String orgphone_Ed, String orgemail_Ed, String orgfb_Ed, String orginsta_Ed, String orgyout_Ed, String orgweb_Ed, Timestamp addedtime) {
         this.uid = uid;
         this.orgname_Ed = orgname_Ed;
+        this.orgreg_Ed = orgreg_Ed;
+        this.orgMember_Ed = orgMember_Ed;
         this.orgaddress_Ed = orgaddress_Ed;
         this.orgphone_Ed = orgphone_Ed;
         this.orgemail_Ed = orgemail_Ed;
@@ -39,6 +41,22 @@ public class BloodOrganizationAddModel {
 
     public void setOrgname_Ed(String orgname_Ed) {
         this.orgname_Ed = orgname_Ed;
+    }
+
+    public String getOrgreg_Ed() {
+        return orgreg_Ed;
+    }
+
+    public void setOrgreg_Ed(String orgreg_Ed) {
+        this.orgreg_Ed = orgreg_Ed;
+    }
+
+    public String getOrgMember_Ed() {
+        return orgMember_Ed;
+    }
+
+    public void setOrgMember_Ed(String orgMember_Ed) {
+        this.orgMember_Ed = orgMember_Ed;
     }
 
     public String getOrgaddress_Ed() {

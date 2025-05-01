@@ -2,6 +2,7 @@ package com.saju.lifepluse.adapter;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -57,6 +58,7 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
         BloodOrganizationAddModel orgmodel = orgallDataList.get(position);
 
         holder.org_name.setText(orgmodel.getOrgname_Ed());
+        holder.org_Regtv.setText("Reg. No: "+orgmodel.getOrgreg_Ed());
         holder.org_address.setText(orgmodel.getOrgaddress_Ed());
         holder.org_adddate.setText("Joined: "+ AndroidUtil.timestampToString(orgmodel.getAddedtime()));
         String weblink = orgmodel.getOrgweb_Ed();
@@ -64,7 +66,10 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
         String instalink = orgmodel.getOrginsta_Ed();
         String youtlink = orgmodel.getOrgyout_Ed();
         String contactNumber = orgmodel.getOrgphone_Ed();
+        int orgmember_count = Integer.parseInt(orgmodel.getOrgMember_Ed());
 
+        // Animate the donor count
+        animateDonorCount(holder.donercount_tvDisplay, orgmember_count);
         holder.org_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +126,14 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
 
     }
 
+    // Method to animate donor count
+    private void animateDonorCount(TextView textView, int targetCount) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, targetCount);
+        animator.setDuration(2000); // Animation duration in milliseconds
+        animator.addUpdateListener(animation -> textView.setText("Doner: +"+String.valueOf(animation.getAnimatedValue())));
+        animator.start();
+    }
+
     @Override
     public int getItemCount() {
         return orgallDataList.size();
@@ -129,7 +142,7 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
     public class viewholder extends RecyclerView.ViewHolder{
 
 
-        TextView org_name, org_address, org_adddate;
+        TextView org_name,org_Regtv,  org_address, org_adddate,donercount_tvDisplay;
         LottieAnimationView org_phone;
         ImageView fb_btn, insta_btn, yout_btn, web_btn;
 
@@ -138,8 +151,10 @@ public class Blood_Organization_Adapter extends RecyclerView.Adapter<Blood_Organ
 
 
             org_name = itemView.findViewById(R.id.org_name_tv_textview);
+            org_Regtv = itemView.findViewById(R.id.org_Regtv);
             org_address = itemView.findViewById(R.id.orgAddress_tv_textview);
             org_adddate = itemView.findViewById(R.id.org_acc_datetvId);
+            donercount_tvDisplay = itemView.findViewById(R.id.donercount_tvDisplay);
             org_phone = itemView.findViewById(R.id.org_callAnimationId);
             fb_btn = itemView.findViewById(R.id.fblink_btn);
             insta_btn = itemView.findViewById(R.id.instalink_btn);

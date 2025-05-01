@@ -89,6 +89,45 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/orgRegnumberinputlayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:elevation="20dp"
+                android:hint="Enter Organization Reg. Number*"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/orgReg_Ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/orgMemberinputlayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:elevation="20dp"
+                android:hint="How much doner in your Organization*"
+                android:textColorHint="@color/black"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Large">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/orgMember_Ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/orgaddressinputlayoutId"
@@ -151,6 +190,7 @@
 
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
 
             <TextView
