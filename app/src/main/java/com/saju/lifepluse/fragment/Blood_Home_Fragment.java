@@ -63,6 +63,7 @@ import com.saju.lifepluse.utils.FirebaseUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -132,9 +133,9 @@ public class Blood_Home_Fragment extends Fragment {
 
         handler = new Handler(Looper.getMainLooper());
 
-        barChartMethod();
+        barChartMethod(); // Initialize chart settings
         checkuserAuth();
-        DonerListDataRetrive();
+        DonerListDataRetrive(); // This will now handle both data retrieval and chart updates
         locationData();
 
         // Display current division data by default in the chart
@@ -173,22 +174,24 @@ public class Blood_Home_Fragment extends Fragment {
             }
         });
 
-        // Auto-select division in AutoCompleteTextView
-        if (current_division != null && !current_division.isEmpty()) {
-            selectDivisionLayout.setHint(current_division);
-        }
 
+        // Modified division selection handler
         division.setOnItemClickListener((parent, view, position, id) -> {
             selecteddivision = ((TextView) view).getText().toString();
+            selectDivisionLayout.setHint(selecteddivision);
 
-            // Clear existing entries
+            // Clear old data and refresh chart
+            allDataList.clear();
             entries.clear();
-
-            Log.d("divison", selecteddivision);
-
-            // Update the chart with the new data
-
+            DonerListDataRetrive(); // Refresh data for new division
         });
+
+        // Set initial division
+        if (current_division != null && !current_division.isEmpty()) {
+            selecteddivision = current_division;
+            division.setText(selecteddivision, false);
+            updateChartWithData();
+        }
 
 
         signup_bloodBtn.setOnClickListener(new View.OnClickListener() {
@@ -272,131 +275,121 @@ public class Blood_Home_Fragment extends Fragment {
     }
 
     private void approval_status() {
-
         FirebaseUtil.donerUserDetails("bloodDoner").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-
                 if (task.isSuccessful()) {
-
                     DocumentSnapshot snapshot = task.getResult();
-
                     boolean isApproved = snapshot.getBoolean("approved");
                     boolean isDeclined = snapshot.getBoolean("declined");
                     String bloodtype = snapshot.getString("bloodType");
                     String lastdonateDate = snapshot.getString("donateType");
-                    if (isApproved) {
 
+                    if (isApproved) {
                         userbloodaccountstatus.setVisibility(View.VISIBLE);
                         bloodtype_status_tv.setText(bloodtype);
-                        if (lastdonateDate.contains("First time donate")){
+
+                        if (lastdonateDate.contains("First time donate")) {
                             bloodDonatstatus_tv.setText("Donate Now");
                             countdownview.setVisibility(View.GONE);
                         } else {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                             try {
                                 Date lastDonate = dateFormat.parse(lastdonateDate);
+                                Calendar endDateCal = Calendar.getInstance();
+                                endDateCal.setTime(lastDonate);
+                                endDateCal.add(Calendar.DAY_OF_YEAR, 120); // Add 120 days
+                                Date endDate = endDateCal.getTime();
                                 Date currentDate = new Date();
-                                long diffInMillis = currentDate.getTime() - lastDonate.getTime();
-                                long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
 
-                                if (diffInDays > 120) {
+                                long remainingMillis = endDate.getTime() - currentDate.getTime();
+
+                                if (remainingMillis <= 0) {
                                     bloodDonatstatus_tv.setText("Donate Now");
+                                    countdownview.setVisibility(View.GONE);
                                 } else {
-                                    long daysRemaining = 120 - diffInDays;
-                                    long daysreminingInMillis = daysRemaining * 24 * 60 * 60 * 1000;
-
                                     countdownview.setVisibility(View.VISIBLE);
+                                    long daysRemaining = TimeUnit.MILLISECONDS.toDays(remainingMillis);
                                     bloodDonatstatus_tv.setText("You can donate in " + daysRemaining + " days");
-                                    countdownview.start(daysreminingInMillis);
-
+                                    countdownview.start(remainingMillis); // Start with exact remaining time
                                 }
                             } catch (ParseException e) {
                                 e.printStackTrace();
                                 bloodDonatstatus_tv.setText("Error parsing date");
                             }
                         }
-
-
-
                     } else if (isDeclined) {
                         userbloodaccountstatus.setVisibility(View.GONE);
-
                     } else {
                         userbloodaccountstatus.setVisibility(View.GONE);
-
                     }
-
-
                 }
-
-
             }
         });
-
-
     }
 
 
     private void barChartMethod() {
-
         // Customize the chart appearance
         barChart.getDescription().setEnabled(false);
         barChart.setDrawGridBackground(false);
         barChart.setDrawBarShadow(false);
         barChart.setDrawBorders(false);
+        barChart.setFitBars(true); // Add this to make bars fit nicely
+        barChart.setExtraBottomOffset(10f); // Add some padding at bottom
 
         // Customize X-axis
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(getLabels())); // Custom labels for blood groups
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(getLabels()));
+        xAxis.setLabelCount(getLabels().size());
+        xAxis.setLabelRotationAngle(-45);
 
         // Customize Y-axis
         YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
         leftAxis.setAxisLineColor(Color.BLACK);
         leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setAxisMinimum(0f); // Start at 0
+        leftAxis.setGranularity(1f); // Interval of 1
+
+        // Disable right axis
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false);
 
         // Customize Legend
         Legend legend = barChart.getLegend();
         legend.setTextColor(Color.BLACK);
-
-
-        Log.d("Blood_Home_Fragment", "Bar chart setup completed");
-
-        //BarDataSet dataSet = new BarDataSet(entries, "Blood Stock");
-        //dataSet.setColors(getColors()); // Custom colors for each blood group
-        //dataSet.setStackLabels(getLabels().toArray(new String[0])); // Custom stack labels for each blood group
-
-        //BarData barData = new BarData(dataSet);
-        //barChart.setData(barData);
-
-        // Animation
-        barChart.animateY(1500, Easing.EaseInOutExpo);
-        //barChart.invalidate(); // refresh
-
+        legend.setForm(Legend.LegendForm.SQUARE);
+        legend.setFormSize(10f);
+        legend.setTextSize(12f);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(false);
     }
 
-
-
-
     private void updateChartWithData() {
-        if (isAdded()) {  // Checks if the fragment is attached to its activity
-            BarDataSet dataSet = new BarDataSet(entries, "Blood Stock");
-            dataSet.setColors(getColors()); // Custom colors for each blood group
-            dataSet.setStackLabels(getLabels().toArray(new String[0]));
-
-            BarData barData = new BarData(dataSet);
-            barChart.setData(barData);
-
-            // Refresh the chart
-            barChart.invalidate();
-            Log.d("Blood_Home_Fragment", "Chart data updated");
-        } else {
-            Log.d("Blood_Home_Fragment", "Fragment not attached, skipping chart update");
+        if (!isAdded() || entries == null || entries.isEmpty()) {
+            return;
         }
+
+        BarDataSet dataSet = new BarDataSet(entries, "Blood Donors Available");
+        dataSet.setColors(getColors());
+        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextSize(10f);
+        dataSet.setHighlightEnabled(false);
+
+        BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.8f); // Set custom bar width
+        barChart.setData(barData);
+
+        // Refresh the chart with animation
+        barChart.animateY(1000, Easing.EaseInOutQuad);
+        barChart.invalidate();
     }
 
 
@@ -492,113 +485,72 @@ public class Blood_Home_Fragment extends Fragment {
     }
 
     private void DonerListDataRetrive() {
-        allDataList.clear(); // Clear previous data
+        if (!isAdded() || getActivity() == null) return;
+
+        allDataList.clear();
+        entries.clear();
 
         db.collection("users")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String userId = document.getId();
-                                retrieveBloodDonorRequests(userId);
-                                Log.d("userId", userId);
-                            }
-                        } else {
-                            // Handle task unsuccessful
-                            Log.e("Firestore", "Error getting documents: ", task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && isAdded()) {
+                        // Initialize counters for each blood type
+                        int[] bloodTypeCounts = new int[8];
+
+                        for (QueryDocumentSnapshot userDoc : task.getResult()) {
+                            String userId = userDoc.getId();
+                            retrieveBloodDonorRequests(userId, bloodTypeCounts);
                         }
+                    } else {
+                        Log.e("Firestore", "Error getting users: ", task.getException());
                     }
                 });
     }
 
-    private void retrieveBloodDonorRequests(String userId) {
+    private void retrieveBloodDonorRequests(String userId, int[] bloodTypeCounts) {
         db.collection("users")
                 .document(userId)
                 .collection("bloodDoner")
+                .whereEqualTo("district", selecteddivision)
+                .whereEqualTo("approved", true)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot donorDoc : task.getResult()) {
+                            String bloodType = donorDoc.getString("bloodType");
 
-                            // Initialize counters for each blood type
-                            int aPositiveCount = 0;
-                            int bPositiveCount = 0;
-                            int abPositiveCount = 0;
-                            int oPositiveCount = 0;
-                            int aNegativeCount = 0;
-                            int bNegativeCount = 0;
-                            int abNegativeCount = 0;
-                            int oNegativeCount = 0;
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String district = document.getString("district");
-                                String bloodType = document.getString("bloodType");
-
-                                Log.d("bloodType", bloodType + " division: " + district);
-
-                                if (district != null && district.equals(selecteddivision)) {
-                                    // Increment the appropriate blood type counter
-                                    switch (bloodType) {
-                                        case "A Positive":
-                                            aPositiveCount++;
-                                            break;
-                                        case "B Positive":
-                                            bPositiveCount++;
-                                            break;
-                                        case "AB Positive":
-                                            abPositiveCount++;
-                                            break;
-                                        case "O Positive":
-                                            oPositiveCount++;
-                                            break;
-                                        case "A Negative":
-                                            aNegativeCount++;
-                                            break;
-                                        case "B Negative":
-                                            bNegativeCount++;
-                                            break;
-                                        case "AB Negative":
-                                            abNegativeCount++;
-                                            break;
-                                        case "O Negative":
-                                            oNegativeCount++;
-                                            break;
-                                    }
-
-                                    // Add the document to the list if it belongs to the selected division
-                                    BloodDonerRequestModel model = document.toObject(BloodDonerRequestModel.class);
-                                    if (model != null) {
-                                        allDataList.add(model);
-                                    }
-                                }
+                            // Update counts based on blood type
+                            switch (bloodType) {
+                                case "A Positive": bloodTypeCounts[0]++; break;
+                                case "B Positive": bloodTypeCounts[1]++; break;
+                                case "AB Positive": bloodTypeCounts[2]++; break;
+                                case "O Positive": bloodTypeCounts[3]++; break;
+                                case "A Negative": bloodTypeCounts[4]++; break;
+                                case "B Negative": bloodTypeCounts[5]++; break;
+                                case "AB Negative": bloodTypeCounts[6]++; break;
+                                case "O Negative": bloodTypeCounts[7]++; break;
                             }
-
-                            // Notify the adapter that the data has changed
-                            adapter.notifyDataSetChanged();
-
-                            // Log the size of the list
-                            Log.d("DataRetrieved", "Size of allDataList: " + allDataList.size());
-
-                            // Populate the entries for the chart
-                            entries.add(new BarEntry(0, aPositiveCount));
-                            entries.add(new BarEntry(1, bPositiveCount));
-                            entries.add(new BarEntry(2, abPositiveCount));
-                            entries.add(new BarEntry(3, oPositiveCount));
-                            entries.add(new BarEntry(4, aNegativeCount));
-                            entries.add(new BarEntry(5, bNegativeCount));
-                            entries.add(new BarEntry(6, abNegativeCount));
-                            entries.add(new BarEntry(7, oNegativeCount));
-
-                            // Update the chart with the new data
-                            updateChartWithData();
-
-                        } else {
-                            // Handle task unsuccessful
-                            Log.e("Firestore", "Error getting documents: ", task.getException());
                         }
+
+                        // Update chart entries after processing all documents
+                        entries.clear();
+                        for (int i = 0; i < bloodTypeCounts.length; i++) {
+                            entries.add(new BarEntry(i, bloodTypeCounts[i]));
+                        }
+
+                        // Update UI only if fragment is attached
+                        if (isAdded() && getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                entries.clear();
+                                for (int i = 0; i < bloodTypeCounts.length; i++) {
+                                    entries.add(new BarEntry(i, bloodTypeCounts[i]));
+                                }
+                                updateChartWithData();
+                                adapter.notifyDataSetChanged();
+                            });
+                        }
+                    } else {
+                        Log.e("Firestore", "Error getting donor data: ", task.getException());
                     }
                 });
     }

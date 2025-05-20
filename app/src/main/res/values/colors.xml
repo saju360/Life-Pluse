@@ -28,4 +28,13 @@
 
 
 
+    <color name="deep_red">#B71C1C</color>
+    <color name="dark_red">#880E4F</color>
+    <color name="deep_blue">#0D47A1</color>
+    <color name="teal_700">#00796B</color>
+    <color name="primary">#007BFF</color>
+    <color name="primary_dark">#1976D2</color>
+
+
+
 </resources>

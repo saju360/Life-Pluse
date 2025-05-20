@@ -1,7 +1,6 @@
 package com.saju.lifepluse.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import androidx.annotation.Nullable;
 
@@ -17,34 +16,35 @@ public class IntroActivity extends MaterialIntroActivity {
         super.onCreate(savedInstanceState);
 
         addSlide(new SlideFragmentBuilder()
-                .title("247 HOUR Service")
-                .description("An ambulance is a critical emergency vehicle equipped with life-saving equipment and trained personnel to provide rapid transportation and medical assistance to those in urgent need.")
-                .image(R.drawable.onboarding_1)
+                .title("24/7 Emergency Service")
+                .description("Get immediate medical help with our always-available ambulance service.")
+                .image(R.drawable.onboarding_1) // Replace with a more stylized ambulance image if available
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.red)
+                .backgroundColor(R.color.deep_red) // e.g., #B71C1C
                 .build());
 
         addSlide(new SlideFragmentBuilder()
                 .title("Blood Bank")
-                .image(R.drawable.blood_white_icon)
+                .description("Locate nearby blood banks and ensure availability in real-time.")
+                .image(R.drawable.blood_white_icon) // You can update this to a modern flat icon
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.red)
+                .backgroundColor(R.color.dark_red) // e.g., #880E4F
                 .build());
 
         addSlide(new SlideFragmentBuilder()
                 .title("Find Your Doctor")
-                .image(R.drawable.ic_launcher_background)
+                .description("Search for the right doctor near you and book appointments easily.")
+                .image(R.drawable.blood_white_icon) // Replace with a vector or custom doctor icon
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.colorPrimary)
+                .backgroundColor(R.color.deep_blue) // e.g., #0D47A1
                 .build());
 
         addSlide(new SlideFragmentBuilder()
-                .title("title 4")
-                .image(R.drawable.ic_launcher_background)
+                .title("Health Tips & Updates")
+                .description("Stay informed with regular health tips, news, and emergency alerts.")
+                .image(R.drawable.blood_white_icon) // Add a health tips icon or image
                 .buttonsColor(R.color.black)
-                .backgroundColor(R.color.colorPrimary)
+                .backgroundColor(R.color.teal_700) // e.g., #00796B
                 .build());
-
-
     }
 }

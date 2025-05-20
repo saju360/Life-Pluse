@@ -20,4 +20,5 @@
     <color name="text_secondary">#666666</color>
     <color name="card_background_color">#FEF7FF</color>
     <color name="singinsignup_bg">#303841</color>
+    <color name="primary">#007BFF</color>
 </resources>

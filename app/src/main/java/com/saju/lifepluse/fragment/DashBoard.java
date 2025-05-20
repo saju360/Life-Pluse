@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,23 +20,24 @@ import androidx.fragment.app.Fragment;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.saju.lifepluse.CategoryModel;
 import com.saju.lifepluse.GridviewAdapter;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.Ambulance;
 import com.saju.lifepluse.activity.BloodBank_Splash;
+import com.saju.lifepluse.activity.Contact_US;
 import com.saju.lifepluse.activity.DoctorSpeciality;
 import com.saju.lifepluse.activity.Hospital;
 import com.saju.lifepluse.activity.Pharmecy;
-import com.saju.lifepluse.utils.FirebaseUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class DashBoard extends Fragment {
 
@@ -48,25 +48,16 @@ public class DashBoard extends Fragment {
     GridviewAdapter adapter;
     private ArrayList<CategoryModel> dataList;
     TextView marqueeText, noticeText;
-    private String[] marqueeTextsEnglish = {"54 ballots cancelled in Nalchity due to irregularities", "Speaker Shirin Sharmin wins from Rangpur-6", "Prime Minister Sheikh Hasina will hold a post-election press conference at the Gono Bhaban at 3:00pm tomorrow"};
-    private String[] marqueeTextsBangla = {"নলছিটিতে অনিয়মের কারণে ৫৪টি ব্যালট বাতিল হয়েছে", "রংপুর-৬ থেকে বিজয়ী হয়েছেন স্পিকার শিরীন শারমিন", "আগামীকাল বিকাল ৩টায় গণভবনে নির্বাচন-পরবর্তী সংবাদ সম্মেলন করবেন প্রধানমন্ত্রী শেখ হাসিনা।"};
-
     ArrayList<SlideModel> imageList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View myview = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
-        // Set the status bar title
         if (getActivity() != null) {
-            // Access the ActionBar from the hosting activity
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
         }
-
-
 
         db = FirebaseFirestore.getInstance();
         imageSlider = myview.findViewById(R.id.image_slider);
@@ -75,14 +66,7 @@ public class DashBoard extends Fragment {
         noticeText = myview.findViewById(R.id.noticeText);
         dataList = new ArrayList<>();
 
-
-        marqueetext();
-
-        //=============================slide code here start==============//
-
-
-        //=============================slide code here end==============//
-
+        loadMarqueeAndSlides();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,95 +76,69 @@ public class DashBoard extends Fragment {
                 String catNameBangla = dataList.get(position).getNameBangla();
 
                 if (position == 0) {
-                    Intent myIntent = new Intent(getContext(), Pharmecy.class);
-                    myIntent.putExtra("catId", catId);
-                    startActivity(myIntent);
+                    startActivity(new Intent(getContext(), Pharmecy.class).putExtra("catId", catId));
                 } else if (position == 1) {
-                    Intent myIntent = new Intent(getContext(), Ambulance.class);
-                    myIntent.putExtra("catId", catId);
-                    startActivity(myIntent);
+                    startActivity(new Intent(getContext(), Ambulance.class).putExtra("catId", catId));
                 } else if (position == 2) {
-                    Intent myIntent = new Intent(getContext(), DoctorSpeciality.class);
-                    myIntent.putExtra("catId", catId);
-                    myIntent.putExtra("catEnglishName", catNameEnglish);
-                    myIntent.putExtra("catBanglaName", catNameBangla);
-                    startActivity(myIntent);
+                    Intent intent = new Intent(getContext(), DoctorSpeciality.class);
+                    intent.putExtra("catId", catId);
+                    intent.putExtra("catEnglishName", catNameEnglish);
+                    intent.putExtra("catBanglaName", catNameBangla);
+                    startActivity(intent);
                 } else if (position == 3) {
-                    Intent myIntent = new Intent(getContext(), Hospital.class);
-                    myIntent.putExtra("catId", catId);
-                    startActivity(myIntent);
+                    startActivity(new Intent(getContext(), Hospital.class).putExtra("catId", catId));
+                }else if (position == 4) {
+                    startActivity(new Intent(getContext(), Contact_US.class));
                 } else if (position == 5) {
-                    Intent myIntent = new Intent(getContext(), BloodBank_Splash.class);
-                    myIntent.putExtra("catId", catId);
-                    startActivity(myIntent);
+                    startActivity(new Intent(getContext(), BloodBank_Splash.class).putExtra("catId", catId));
                 }
-
             }
         });
-
-        dataList.clear();
 
         db.collection("Category").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
-
-                if (error == null) {
+                if (error == null && value != null) {
                     dataList.clear();
                     List<CategoryModel> data = value.toObjects(CategoryModel.class);
                     dataList.addAll(data);
-
                     adapter = new GridviewAdapter(getContext(), dataList);
                     gridView.setAdapter(adapter);
                 }
-
             }
         });
-
 
         return myview;
     }
 
-    private void marqueetext() {
-        //=============================Marquee text code here start==============//
-
-
+    private void loadMarqueeAndSlides() {
         SharedPreferences prefs = getActivity().getSharedPreferences("Settings", Activity.MODE_PRIVATE);
-        String language = prefs.getString("My_Lang", "");
-        if (language.equals("bn")) {
+        String language = prefs.getString("My_Lang", "en");
 
-            noticeText.setText("বিজ্ঞপ্তি");
-            String joinedText = TextUtils.join(" । ", marqueeTextsBangla);
-            marqueeText.setText(joinedText);
-            marqueeText.setSelected(true);
+        // Load marquee texts
+        db.collection("MarqueeTexts").document("latest").get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> marqueeTexts = (List<String>) documentSnapshot.get(language.equals("bn") ? "textBangla" : "textEnglish");
+                String noticeLabel = language.equals("bn") ? "বিজ্ঞপ্তি" : "Notice";
+                noticeText.setText(noticeLabel);
+                String joined = TextUtils.join(language.equals("bn") ? " । " : " • ", marqueeTexts);
+                marqueeText.setText(joined);
+                marqueeText.setSelected(true);
+            }
+        });
 
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "নলছিটিতে অনিয়মের কারণে ৫৪টি ব্যালট বাতিল হয়েছে", ScaleTypes.FIT));
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "নলছিটিতে অনিয়মের কারণে ৫৪টি ব্যালট বাতিল হয়েছে", ScaleTypes.FIT));
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "নলছিটিতে অনিয়মের কারণে ৫৪টি ব্যালট বাতিল হয়েছে", ScaleTypes.FIT));
+        // Load slider images
+        db.collection("SliderImages").get().addOnSuccessListener(querySnapshot -> {
+            imageList.clear();
+            for (QueryDocumentSnapshot doc : querySnapshot) {
+                String imageUrl = doc.getString("imageUrl");
+                String caption = language.equals("bn") ? doc.getString("captionBangla") : doc.getString("captionEnglish");
 
+                if (imageUrl != null && caption != null) {
+                    imageList.add(new SlideModel(imageUrl, caption, ScaleTypes.FIT));
+                }
+            }
             imageSlider.setImageList(imageList);
-
-        } else {
-
-            noticeText.setText("Notice");
-            String joinedText = TextUtils.join(" • ", marqueeTextsEnglish);
-            marqueeText.setText(joinedText);
-            marqueeText.setSelected(true);
-
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "The animal population decreased by 58 percent in 42 years.", ScaleTypes.FIT));
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "The animal population decreased by 58 percent in 42 years.", ScaleTypes.FIT));
-            imageList.add(new SlideModel(R.drawable.onboarding_1, "The animal population decreased by 58 percent in 42 years.", ScaleTypes.FIT));
-
-            imageSlider.setImageList(imageList);
-
-        }
-
-        //=============================Marquee code here end==============//
-
+        });
     }
-
-
-
-
-
 }

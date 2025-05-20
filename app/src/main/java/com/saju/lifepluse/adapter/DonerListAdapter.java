@@ -1,11 +1,14 @@
 package com.saju.lifepluse.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +55,9 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
         } else {
             viewHolder.blood_org_tv.setText(model.getSelectedorg());
         }
+
+
+
     }
 
     @Override
@@ -96,7 +102,7 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name_tv_textview, acc_datetvId, bloodType_tv_textview, lastdonationId, dateofbirth_tv, gender_tv, marital_status_tv, district_tv, blood_org_tv, totalDonateId;
+        TextView name_tv_textview, acc_datetvId, bloodType_tv_textview, lastdonationId, dateofbirth_tv, gender_tv, marital_status_tv, district_tv, blood_org_tv, totalDonateId, request_for_donateBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +117,7 @@ public class DonerListAdapter extends RecyclerView.Adapter<DonerListAdapter.View
             district_tv = itemView.findViewById(R.id.district_tv);
             blood_org_tv = itemView.findViewById(R.id.blood_org_tv);
             totalDonateId = itemView.findViewById(R.id.totalDonateId);
+            request_for_donateBtn = itemView.findViewById(R.id.request_for_donateBtn);
         }
     }
 }
