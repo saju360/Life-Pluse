@@ -1,0 +1,29 @@
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Normal state -->
+    <item android:id="@+id/normal" android:drawable="@drawable/chatbot_normal" />
+
+    <!-- Active state -->
+    <item android:id="@+id/active" android:drawable="@drawable/chatbot_active" />
+
+    <!-- Transition from normal to active -->
+    <transition
+        android:fromId="@id/normal"
+        android:toId="@id/active">
+        <animation-list android:oneshot="false">
+            <item android:drawable="@drawable/chatbot_frame1" android:duration="100" />
+            <item android:drawable="@drawable/chatbot_frame2" android:duration="100" />
+            <item android:drawable="@drawable/chatbot_frame3" android:duration="100" />
+        </animation-list>
+    </transition>
+
+    <!-- Transition from active to normal -->
+    <transition
+        android:fromId="@id/active"
+        android:toId="@id/normal">
+        <animation-list android:oneshot="false">
+            <item android:drawable="@drawable/chatbot_frame3" android:duration="100" />
+            <item android:drawable="@drawable/chatbot_frame2" android:duration="100" />
+            <item android:drawable="@drawable/chatbot_frame1" android:duration="100" />
+        </animation-list>
+    </transition>
+</animated-selector>

@@ -1,5 +1,6 @@
 package com.saju.lifepluse.fragment;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -7,11 +8,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +36,11 @@ import com.saju.lifepluse.GridviewAdapter;
 import com.saju.lifepluse.R;
 import com.saju.lifepluse.activity.Ambulance;
 import com.saju.lifepluse.activity.BloodBank_Splash;
+import com.saju.lifepluse.activity.ChatbotActivity;
 import com.saju.lifepluse.activity.Contact_US;
 import com.saju.lifepluse.activity.DoctorSpeciality;
 import com.saju.lifepluse.activity.Hospital;
+import com.saju.lifepluse.activity.MainActivity;
 import com.saju.lifepluse.activity.Pharmecy;
 
 import java.util.ArrayList;
@@ -49,6 +56,7 @@ public class DashBoard extends Fragment {
     private ArrayList<CategoryModel> dataList;
     TextView marqueeText, noticeText;
     ArrayList<SlideModel> imageList = new ArrayList<>();
+    RelativeLayout chatbot_btn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -64,6 +72,10 @@ public class DashBoard extends Fragment {
         gridView = myview.findViewById(R.id.gridviewId);
         marqueeText = myview.findViewById(R.id.marqueeTextView);
         noticeText = myview.findViewById(R.id.noticeText);
+        chatbot_btn = myview.findViewById(R.id.chatbot_btn);
+        ImageView chatbotIcon = myview.findViewById(R.id.chatbot_icon);
+        View pulseCircle = myview.findViewById(R.id.pulse_circle);
+        RelativeLayout chatbotBtn = myview.findViewById(R.id.chatbot_btn);
         dataList = new ArrayList<>();
 
         loadMarqueeAndSlides();
@@ -88,8 +100,10 @@ public class DashBoard extends Fragment {
                 } else if (position == 3) {
                     startActivity(new Intent(getContext(), Hospital.class).putExtra("catId", catId));
                 }else if (position == 4) {
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                }else if (position == 5){
                     startActivity(new Intent(getContext(), Contact_US.class));
-                } else if (position == 5) {
+                }else if (position == 6) {
                     startActivity(new Intent(getContext(), BloodBank_Splash.class).putExtra("catId", catId));
                 }
             }
@@ -107,6 +121,51 @@ public class DashBoard extends Fragment {
                 }
             }
         });
+
+
+        ValueAnimator pulseAnimator = ValueAnimator.ofFloat(0f, 1f);
+        pulseAnimator.setDuration(1000);
+        pulseAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        pulseAnimator.setRepeatMode(ValueAnimator.RESTART);
+        pulseAnimator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            pulseCircle.setScaleX(0.8f + 0.4f * value);
+            pulseCircle.setScaleY(0.8f + 0.4f * value);
+            pulseCircle.setAlpha(1f - value);
+        });
+
+        chatbotBtn.setOnClickListener(v -> {
+            // Handle click
+            startActivity(new Intent(getContext(), ChatbotActivity.class));
+        });
+
+// Start animation when visible
+        chatbotBtn.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    pulseCircle.setVisibility(View.VISIBLE);
+                    pulseAnimator.start();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    pulseCircle.setVisibility(View.INVISIBLE);
+                    pulseAnimator.cancel();
+                    break;
+            }
+            return false;
+        });
+
+// Add idle animation (breathing effect)
+        ValueAnimator breathAnimator = ValueAnimator.ofFloat(0.9f, 1.1f);
+        breathAnimator.setDuration(2000);
+        breathAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        breathAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        breathAnimator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            chatbotIcon.setScaleX(value);
+            chatbotIcon.setScaleY(value);
+        });
+        breathAnimator.start();
 
         return myview;
     }

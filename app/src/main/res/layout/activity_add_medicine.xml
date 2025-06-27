@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".AddMedicineActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Screen Title -->
+        <TextView
+            android:id="@+id/tvAddMedicineTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Reminder"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Medicine Name Input using Material Components -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutMedicineName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="Medicine Name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddMedicineTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMedicineName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Dosage Input using Material Components -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutDosage"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Dosage (e.g., 200mg)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutMedicineName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDosage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Schedule Section Header -->
+        <TextView
+            android:id="@+id/tvScheduleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Schedule"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutDosage" />
+
+        <!-- Improved Time Picker: A clickable TextView with an icon -->
+        <TextView
+            android:id="@+id/tvSelectedTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:text="Select Time"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="?attr/colorPrimary"
+            app:drawableEndCompat="@drawable/ic_time"
+            app:drawableTint="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvScheduleLabel" />
+
+        <!-- Day of Week Label -->
+        <TextView
+            android:id="@+id/tvDaysLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Repeat on"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSelectedTime" />
+
+        <!-- Modern ChipGroup for selecting days -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDays"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:chipSpacingHorizontal="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDaysLabel"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMonday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mon" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTuesday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Tue" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWednesday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Wed" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipThursday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Thu" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFriday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Fri" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSaturday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Sat" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSunday" style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Sun" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveMedicine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="12dp"
+            android:text="Save Medicine"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroupDays" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

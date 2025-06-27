@@ -5,6 +5,24 @@
          <item name="colorPrimary">@color/status_bar</item>
         <item name="android:windowIsTranslucent">true</item>
 
+        <!-- Add these attributes for the chip style -->
+        <item name="chipStyle">@style/Widget.ChipStyle</item>
+
+    </style>
+
+    <style name="DayIndicator" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:background">@drawable/day_indicator_inactive</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelMedium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="DayIndicator.Active">
+        <item name="android:background">@drawable/day_indicator_active</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
 
@@ -23,4 +41,53 @@
         <item name="cornerSizeBottomLeft">50dp</item>
 
     </style>
+
+    <!-- Add to your styles.xml -->
+    <style name="BloodTypeChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/blood_red</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">16dp</item>
+        <item name="android:textColor">@color/blood_red</item>
+        <item name="android:textSize">14sp</item>
+        <item name="chipBackgroundColor">@android:color/white</item>
+        <item name="chipMinHeight">40dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="checkedIcon">@null</item>
+        <item name="checkedIconEnabled">false</item>
+        <item name="chipStartPadding">12dp</item>
+        <item name="chipEndPadding">12dp</item>
+    </style>
+
+    <!-- Add to your colors.xml -->
+    <color name="blood_red">#D32F2F</color>
+    <color name="blood_red_light">#FFCDD2</color>
+
+    <!-- Chat option button style -->
+    <style name="ChatOptionButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="strokeColor">@color/primary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconTint">@color/primary</item>
+        <item name="iconPadding">4dp</item>
+    </style>
+
+    <!-- Chip style for blood type options -->
+    <style name="Widget.ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStrokeColor">@color/primary</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">16dp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
 </resources>

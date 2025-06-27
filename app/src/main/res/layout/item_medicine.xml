@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Medicine Name (Primary Info) -->
+        <TextView
+            android:id="@+id/tvMedicineName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constraintEnd_toStartOf="@+id/tvTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Ibuprofen" />
+
+        <!-- Dosage (Secondary Info) -->
+        <TextView
+            android:id="@+id/tvDosage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintEnd_toEndOf="@+id/tvMedicineName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMedicineName"
+            tools:text="200mg Tablet" />
+
+        <!-- Time with Icon -->
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="?attr/colorPrimary"
+            android:drawablePadding="4dp"
+            app:drawableStartCompat="@drawable/ic_time"
+            app:drawableTint="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8:30 AM" />
+
+        <!-- "Taken" Checkbox -->
+        <CheckBox
+            android:id="@+id/cbTaken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="Taken"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+        <!-- Divider Line -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDosage" />
+
+        <!-- Days of the Week Indicator -->
+        <LinearLayout
+            android:id="@+id/daysOfWeekContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider">
+            <!-- Day indicators will be added here dynamically from code -->
+            <!-- Example for preview: -->
+            <TextView style="@style/DayIndicator.Active" tools:text="M" />
+            <TextView style="@style/DayIndicator" tools:text="T" />
+            <TextView style="@style/DayIndicator.Active" tools:text="W" />
+            <TextView style="@style/DayIndicator" tools:text="T" />
+            <TextView style="@style/DayIndicator.Active" tools:text="F" />
+            <TextView style="@style/DayIndicator" tools:text="S" />
+            <TextView style="@style/DayIndicator" tools:text="S" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

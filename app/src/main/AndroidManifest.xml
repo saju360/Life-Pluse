@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NOTIFICATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- For Android 14 (API 34) and higher, this is also often needed -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +25,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LifePluse"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AddMedicineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChatbotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.RecentBloodNeedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.NotificationActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.Contact_US"
             android:exported="false" />
@@ -130,6 +148,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".activity.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

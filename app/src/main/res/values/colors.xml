@@ -25,6 +25,8 @@
     <color name="arrow_bg">#0B76BE</color>
     <color name="blood_splashbg">#FD4934</color>
     <color name="singinsignup_bg">#303841</color>
+    <color name="chip_background">#ffffff</color>
+
 
 
 
@@ -35,6 +37,10 @@
     <color name="primary">#007BFF</color>
     <color name="primary_dark">#1976D2</color>
 
+    <!-- Chat specific colors -->
+    <color name="bot_bubble">#F0F0F0</color>
+    <color name="user_bubble">#2196F3</color>
+    <color name="option_border">#2196F3</color>
 
 
 </resources>

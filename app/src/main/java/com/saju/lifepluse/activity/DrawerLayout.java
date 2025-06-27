@@ -562,7 +562,6 @@ public class DrawerLayout extends AppCompatActivity {
 
             return true;
         } else if (id == R.id.action_notificaton) {
-
         }
 
         return super.onOptionsItemSelected(item);
