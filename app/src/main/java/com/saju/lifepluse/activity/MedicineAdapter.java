@@ -1,24 +1,22 @@
 package com.saju.lifepluse.activity;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.saju.lifepluse.R; // Assuming R is in this package
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.saju.lifepluse.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -35,68 +33,73 @@ public class MedicineAdapter extends FirestoreRecyclerAdapter<Medicine, Medicine
         holder.tvMedicineName.setText(model.getName());
         holder.tvDosage.setText(model.getDosage());
 
-        // IMPROVED: Use SimpleDateFormat for robust time formatting
-        if (model.getTime() != null && !model.getTime().isEmpty()) {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm", Locale.US);
-            SimpleDateFormat outputFormat = new SimpleDateFormat("h:mm a", Locale.US);
-            try {
-                Date date = inputFormat.parse(model.getTime());
-                holder.tvTime.setText(outputFormat.format(date));
-            } catch (ParseException e) {
-                holder.tvTime.setText(model.getTime()); // Fallback to raw time
-            }
-        } else {
-            holder.tvTime.setText("N/A");
-        }
-
-        // Update checkbox without firing the listener
+        // Update checkbox
         holder.cbTaken.setOnCheckedChangeListener(null);
         holder.cbTaken.setChecked(model.isTakenToday());
         holder.cbTaken.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Check isPressed to ensure the change is from a user click
             if (buttonView.isPressed()) {
                 getSnapshots().getSnapshot(holder.getAdapterPosition()).getReference().update("takenToday", isChecked);
             }
         });
 
-        // Populate the days of the week
+        // NEW: Populate the time chips
+        updateTimeChips(holder.timeChipGroupItem, model.getReminderTimes());
+
+        // Populate the days of the week indicators
         updateDaysOfWeek(holder.daysOfWeekContainer, model.getDaysOfWeek());
     }
 
-    private void updateDaysOfWeek(LinearLayout container, Map<String, Boolean> days) {
-        container.removeAllViews(); // Clear previous views for simplicity
-        if (days == null || days.isEmpty()) return;
+    private void updateTimeChips(ChipGroup chipGroup, List<String> times) {
+        chipGroup.removeAllViews();
+        if (times == null || times.isEmpty()) return;
 
-        Context context = container.getContext();
-        // Use a consistent order for displaying days
-        String[] dayOrder = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
-
-        for (String day : dayOrder) {
-            TextView dayView = new TextView(context);
-            dayView.setText(day.substring(0, 1).toUpperCase());
-
-            // Apply the correct style based on whether the day is active
-            if (days.getOrDefault(day, false)) {
-                dayView.setTextAppearance(R.style.DayIndicator_Active);
-                dayView.setBackgroundResource(R.drawable.day_indicator_active);
-            } else {
-                dayView.setTextAppearance(R.style.DayIndicator);
-                dayView.setBackgroundResource(R.drawable.day_indicator_inactive);
-            }
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    dpToPx(context, 28), dpToPx(context, 28)
-            );
-            params.setMarginEnd(dpToPx(context, 6));
-            dayView.setLayoutParams(params);
-            dayView.setGravity(android.view.Gravity.CENTER);
-
-            container.addView(dayView);
+        Context context = chipGroup.getContext();
+        for (String time24h : times) {
+            Chip chip = new Chip(context);
+            chip.setText(formatToAmPm(time24h));
+            chip.setChipIcon(ContextCompat.getDrawable(context, R.drawable.ic_time));
+            chip.setChipIconTintResource(R.color.status_bar); // Or your primary color
+            // Optional: style the chip to be smaller/less prominent
+            // chip.setChipMinHeight(dpToPx(context, 28));
+            // chip.setTextAppearance(...)
+            chipGroup.addView(chip);
         }
     }
 
-    private int dpToPx(Context context, int dp) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    private String formatToAmPm(String time24h) {
+        try {
+            String[] parts = time24h.split(":");
+            int hour = Integer.parseInt(parts[0]);
+            int minute = Integer.parseInt(parts[1]);
+            String amPm = (hour < 12) ? "AM" : "PM";
+            int displayHour = (hour == 0 || hour == 12) ? 12 : hour % 12;
+            return String.format(Locale.getDefault(), "%d:%02d %s", displayHour, minute, amPm);
+        } catch (Exception e) {
+            return time24h;
+        }
+    }
+
+
+    private void updateDaysOfWeek(LinearLayout container, Map<String, Boolean> days) {
+        container.removeAllViews();
+        if (days == null || days.isEmpty()) return;
+
+        Context context = container.getContext();
+        String[] dayOrder = {"M", "T", "W", "T", "F", "S", "S"};
+        String[] dayKeys = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
+        for (int i = 0; i < dayOrder.length; i++) {
+            TextView dayView = (TextView) LayoutInflater.from(context).inflate(R.layout.day_indicator, container, false);
+            dayView.setText(dayOrder[i]);
+            if (days.getOrDefault(dayKeys[i], false)) {
+                dayView.setBackgroundResource(R.drawable.day_indicator_active);
+                dayView.setTextColor(ContextCompat.getColor(context, android.R.color.white));
+            } else {
+                dayView.setBackgroundResource(R.drawable.day_indicator_inactive);
+                dayView.setTextColor(ContextCompat.getColor(context, android.R.color.darker_gray));
+            }
+            container.addView(dayView);
+        }
     }
 
     @NonNull
@@ -106,25 +109,19 @@ public class MedicineAdapter extends FirestoreRecyclerAdapter<Medicine, Medicine
         return new MedicineViewHolder(view);
     }
 
-    @Override
-    public void onDataChanged() {
-        super.onDataChanged();
-        Log.d("MedicineAdapter", "Data changed. New item count: " + getItemCount());
-        // Logic to show/hide an empty list view can go here
-    }
-
     static class MedicineViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMedicineName, tvDosage, tvTime;
+        TextView tvMedicineName, tvDosage;
         CheckBox cbTaken;
         LinearLayout daysOfWeekContainer;
+        ChipGroup timeChipGroupItem; // MODIFIED
 
         public MedicineViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMedicineName = itemView.findViewById(R.id.tvMedicineName);
             tvDosage = itemView.findViewById(R.id.tvDosage);
-            tvTime = itemView.findViewById(R.id.tvTime);
             cbTaken = itemView.findViewById(R.id.cbTaken);
             daysOfWeekContainer = itemView.findViewById(R.id.daysOfWeekContainer);
+            timeChipGroupItem = itemView.findViewById(R.id.timeChipGroupItem); // MODIFIED
         }
     }
 }

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         // --- Initialize Firebase and Views ---
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance(); // <-- FIX: Initialize mAuth only once here
+        mAuth = FirebaseAuth.getInstance();
 
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recyclerView);
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.emptyView);
 
         statusbar();
-
 
         // --- Setup UI Components ---
         setSupportActionBar(toolbar);
@@ -81,22 +80,19 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
-            // This should be handled in onStart, but as a safeguard:
-            startActivity(new Intent(this, SignIn.class));
+            startActivity(new Intent(this, SignIn.class)); // Make sure LoginActivity exists
             finish();
             return;
         }
 
         String userId = user.getUid();
         Query query = db.collection("users").document(userId)
-                .collection("medicines").orderBy("time", Query.Direction.ASCENDING);
+                .collection("medicines").orderBy("name", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                 .setQuery(query, Medicine.class)
                 .build();
 
-        // --- FIX: THIS IS THE CORRECT WAY TO INITIALIZE THE ADAPTER ONCE ---
-        // Create the adapter with the onDataChanged override to handle the empty view
         adapter = new MedicineAdapter(options) {
             @Override
             public void onDataChanged() {
@@ -110,10 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        // --- END OF FIX ---
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(null); // Correctly disables buggy animations
+
+        // *** THE FIX: Disable buggy animations that conflict with Firestore ***
+        recyclerView.setItemAnimator(null);
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -127,29 +125,47 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (position == RecyclerView.NO_POSITION) return; // Safeguard against race conditions
+                if (position == RecyclerView.NO_POSITION) return;
                 Medicine medicineToDelete = adapter.getItem(position);
-                cancelAlarm(medicineToDelete);
+                cancelAllAlarmsForMedicine(medicineToDelete);
                 adapter.getSnapshots().getSnapshot(position).getReference().delete()
-                        .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Medicine deleted", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Error deleting medicine", Toast.LENGTH_SHORT).show());
+                        .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Reminder deleted", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Error deleting", Toast.LENGTH_SHORT).show());
             }
         }).attachToRecyclerView(recyclerView);
     }
 
-    private void cancelAlarm(Medicine medicine) {
+    private void cancelAllAlarmsForMedicine(Medicine medicine) {
+        if (medicine.getReminderTimes() == null || medicine.getReminderTimes().isEmpty()) {
+            return;
+        }
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        int pendingIntentId = (int) medicine.getNotificationId();
-        // Use FLAG_NO_CREATE to check if an alarm exists before trying to cancel it.
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, pendingIntentId, intent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE);
+        long baseId = medicine.getNotificationId();
 
-        if (pendingIntent != null) {
-            alarmManager.cancel(pendingIntent);
-            pendingIntent.cancel();
-            Toast.makeText(this, "Reminder for " + medicine.getName() + " cancelled.", Toast.LENGTH_SHORT).show();
+        for (String timeString : medicine.getReminderTimes()) {
+            String[] parts = timeString.split(":");
+            int hour = Integer.parseInt(parts[0]);
+            int minute = Integer.parseInt(parts[1]);
+
+            int pendingIntentId = (int) baseId + hour * 100 + minute;
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    pendingIntentId,
+                    intent,
+                    PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            if (pendingIntent != null) {
+                alarmManager.cancel(pendingIntent);
+                pendingIntent.cancel();
+            }
         }
+        Toast.makeText(this, "All reminders for " + medicine.getName() + " cancelled.", Toast.LENGTH_SHORT).show();
     }
+
 
     private void askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -161,26 +177,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void statusbar() {
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Change the status bar color programmatically
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.status_bar));
+            window.setStatusBarColor(getResources().getColor(R.color.status_bar)); // Make sure you have this color defined
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu); // Make sure you have this menu file
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
+        if (item.getItemId() == R.id.action_logout) { // Make sure this ID exists in your menu
             mAuth.signOut();
             startActivity(new Intent(this, SignIn.class));
             finish();
@@ -204,25 +216,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // --- FIX: Use onStop() for stopListening(), which is the pair to onStart() ---
     @Override
     protected void onStop() {
         super.onStop();
         if (adapter != null) {
             adapter.stopListening();
         }
-    }
-
-    // --- FIX: Remove redundant onResume and onPause for adapter listening ---
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // No need to call startListening() here, it's handled in onStart()
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // No need to call stopListening() here, it's handled in onStop()
     }
 }
